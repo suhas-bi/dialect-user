@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="procurement-accnt-ico" opacity="0.6">
+    <rect id="Boundary" width="24" height="24" opacity="0"/>
+    <path id="Path_account-check-outline" data-name="Path / account-check-outline" d="M21.1,12.5l1.4,1.41L15.97,20.5,12.5,17l1.4-1.41,2.07,2.08L21.1,12.5M11,4A4,4,0,1,1,7,8a4,4,0,0,1,4-4m0,2a2,2,0,1,0,2,2,2,2,0,0,0-2-2m0,7a13.516,13.516,0,0,1,2.41.26l-1.67,1.67L11,14.9c-2.97,0-6.1,1.46-6.1,2.1v1.1h6.2L13,20H3V17C3,14.34,8.33,13,11,13Z" transform="translate(-1 0)"/>
+  </g>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="sales-accnt-ico" transform="translate(0)" opacity="0.6">
+    <rect id="Boundary" width="24" height="24" opacity="0"/>
+    <path id="Path_account-cash-outline" data-name="Path / account-cash-outline" d="M16,11.5A2.5,2.5,0,1,1,18.5,14,2.5,2.5,0,0,1,16,11.5M13,3V20H24V3H13m9,13a2.006,2.006,0,0,0-2,2H17a2,2,0,0,0-2-2V7a1.993,1.993,0,0,0,2-2h3a2,2,0,0,0,2,2v9M7,6A2,2,0,1,1,5,8,2.006,2.006,0,0,1,7,6M7,4a4,4,0,1,0,4,4A4,4,0,0,0,7,4M7,14c-3.87,0-7,1.79-7,4v2H11V18H2c0-.58,1.75-2,5-2a7.8,7.8,0,0,1,4,.95V14.72A10.9,10.9,0,0,0,7,14Z" transform="translate(0 1)"/>
+  </g>
+</svg>

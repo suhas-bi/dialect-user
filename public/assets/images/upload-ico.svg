@@ -1,0 +1,7 @@
+<svg id="upload-ico" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <g id="Boundary" fill="#0089d1" stroke="rgba(0,0,0,0)" stroke-width="1" opacity="0">
+    <rect width="32" height="32" stroke="none"/>
+    <rect x="0.5" y="0.5" width="31" height="31" fill="none"/>
+  </g>
+  <path id="Path_cloud-upload-outline" data-name="Path / cloud-upload-outline" d="M25.8,12.053A9.99,9.99,0,0,0,7.133,9.387,8,8,0,0,0,8,25.333H25.333a6.648,6.648,0,0,0,.467-13.28m-.467,10.613H8A5.329,5.329,0,0,1,7.413,12.04l1.427-.147.667-1.267a7.316,7.316,0,0,1,13.68,1.947l.4,2,2.04.147a3.978,3.978,0,0,1-.293,7.947M10.667,16h3.4v4h3.867V16h3.4L16,10.667Z" transform="translate(0 1.333)" fill="#0089d1"/>
+</svg>
