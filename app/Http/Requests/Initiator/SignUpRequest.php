@@ -25,7 +25,7 @@ class SignUpRequest extends FormRequest
             'name' => ['required',],
             'email' => ['required','email'],
             'country_code' => ['required'],
-            'phone' => ['required'],
+            'mobile' => ['required'],
             'country_id' => ['required'],
             'pobox' => ['required'],
         ];

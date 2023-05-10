@@ -53,18 +53,19 @@
                         <div class="signup-fields d-flex justify-content-center">
                             <div class="email-otp">
                                 <h3>An OTP has been sent to your email.<br> Please enter the OTP below.</h3>
-                                <span>We've sent you the verification code on<a href="#"> email@miracle.com</a></span>
+                                <span>We've sent you the verification code on<a href="#" id="email"></a></span>
 
                                 <form method="get" class="digit-group d-flex justify-content-center " data-group-name="digits" data-autosubmit="false" autocomplete="off">
-                                    <input type="text" id="digit-1" name="digit-1" data-next="digit-2" />
-                                    <input type="text" id="digit-2" name="digit-2" data-next="digit-3" data-previous="digit-1" />
-                                    <input type="text" id="digit-3" name="digit-3" data-next="digit-4" data-previous="digit-2" />
-                                    <input type="text" id="digit-4" name="digit-4" data-next="digit-5" data-previous="digit-3" />
-                                    <input type="text" id="digit-5" name="digit-5" data-next="digit-6" data-previous="digit-4" />
-                                    <input type="text" id="digit-6" name="digit-6" data-previous="digit-5" />
+                                    <input type="text" id="digit-1" name="digit-1" data-next="digit-2" class="input-key" maxlength="1" autofocus/>
+                                    <input type="text" id="digit-2" name="digit-2" data-next="digit-3" data-previous="digit-1" class="input-key" maxlength="1"/>
+                                    <input type="text" id="digit-3" name="digit-3" data-next="digit-4" data-previous="digit-2" class="input-key" maxlength="1"/>
+                                    <input type="text" id="digit-4" name="digit-4" data-next="digit-5" data-previous="digit-3" class="input-key" maxlength="1"/>
+                                    <input type="text" id="digit-5" name="digit-5" data-next="digit-6" data-previous="digit-4" class="input-key" maxlength="1"/>
+                                    <input type="text" id="digit-6" name="digit-6" data-previous="digit-5" class="input-key" maxlength="1"/>
                                 </form>
 
-                                <span> Resend OTP in 01:28</span>
+                                <span id="timer-zone"> Resend OTP in <span id="timer"></span></span>
+                                <div id="resend-zone"><a href="#" id="resend-otp">Click here</a> to resend OTP</div>
 
                             </div>
                         </div>
@@ -75,7 +76,10 @@
                             </div>
 
                             <div class="form-group proceed-btn">
-                                <input type="submit" value="Proceed" class="btn btn-secondary" onclick="window.location.href = 'company-info';">
+                                <button id="proceed" type="button" class="btn btn-secondary">
+                                    <i class="fa fa-repeat fa-spin text-white loader"></i>
+                                    <span class="text-white">Proceed</span>
+                                </button>
                             </div>
 
                         </div>
@@ -86,4 +90,125 @@
         </section>
     </div>
     <!--Sign Up OTP Section Ends -->
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('.loader').hide();
+        $('#resend-zone').hide();
+        var data = JSON.parse(localStorage.getItem('data'));
+        var resend_url = '';
+        $('#email').text(data.email);
+     
+        $('#resend-otp').on('click',function(){
+            $.ajax({
+                url: resend_url,
+                type: "POST",
+                data: { mobile:data.mobile },
+                beforeSend: function() {
+                    $('#resend-zone').hide();
+                },
+                success: function(data) {
+                    if(data.status === true){
+                         
+                    }
+                    else{
+                        alert('Something went wrong! Try Again');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    var response = JSON.parse(xhr.responseText);                   
+                },
+                complete: function(data) {
+                    
+                }
+            });
+        });
+
+        $('#proceed').on('click',function(e){
+            e.preventDefault();
+            var form = $('#otp-form'); 
+            var formData = form.serialize(); 
+            var action = form.attr('action');
+            $.ajax({
+                url: action,
+                type: "POST",
+                data: formData,
+                beforeSend: function() {
+                    $('.loader').show();
+                },
+                success: function(data) {
+                    if(data.status === true){
+                        window.location.href = '/sign-up/verify';
+                    }
+                    else{
+                        alert('Something went wrong! Try Again');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    var response = JSON.parse(xhr.responseText);
+                   
+                },
+                complete: function(data) {
+                    $('.loader').hide();
+                }
+            });
+        });
+
+        const $inp = $(".input-key");
+
+        $inp.on({
+            paste(ev) { // Handle Pasting
+                const clip = ev.originalEvent.clipboardData.getData('text').trim();
+                // Allow numbers only
+                if (!/\d{6}/.test(clip)) return ev.preventDefault(); // Invalid. Exit here
+                // Split string to Array or characters
+                const s = [...clip];
+                // Populate inputs. Focus last input.
+                $inp.val(i => s[i]).eq(5).focus(); 
+            },
+            input(ev) { // Handle typing
+                const i = $inp.index(this);
+                if (this.value) $inp.eq(i + 1).focus();
+            },
+            keydown(ev) { // Handle Deleting
+                const i = $inp.index(this);
+                if (!this.value && ev.key === "Backspace" && i) $inp.eq(i - 1).focus();
+            }
+        });
+
+        timer(90);
+
+    });
+
+
+    let timerOn = true;
+
+    function timer(remaining) {
+        var m = Math.floor(remaining / 60);
+        var s = remaining % 60;
+        
+        m = m < 10 ? '0' + m : m;
+        s = s < 10 ? '0' + s : s;
+        document.getElementById('timer').innerHTML = m + ':' + s;
+        remaining -= 1;
+        
+        if(remaining >= 0 && timerOn) {
+            setTimeout(function() {
+                timer(remaining);
+            }, 1000);
+            return;
+        }
+
+        if(!timerOn) {
+            // Do validate stuff here
+            return;
+        }
+        
+        // Do timeout stuff here
+        $('#timer-zone').hide();
+        $('#resend-zone').show();
+    }
+
+</script>
+@endpush
 @endsection
