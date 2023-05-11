@@ -26,6 +26,8 @@ Route::get('/', [WebsiteController::class,'index']);
 Route::get('/sign-up', [SignUpController::class,'index'])->name('sign-up');
 Route::post('/sign-up/store', [SignUpController::class,'storeAndVerify'])->name('sign-up.store');
 Route::get('/sign-up/verify', [SignUpController::class,'verify'])->name('sign-up.verify');
+Route::post('/sign-up/resend-otp', [SignUpController::class,'resendOtp'])->name('sign-up.resend-otp');
+Route::post('/sign-up/verify-otp', [SignUpController::class,'verifyOtp'])->name('sign-up.verify-otp');
 
 Route::get('/sign-up/company-info', [CompanyInfoController::class,'index'])->name('sign-up.company-info');
 

@@ -55,7 +55,8 @@
                                 <h3>An OTP has been sent to your email.<br> Please enter the OTP below.</h3>
                                 <span>We've sent you the verification code on<a href="#" id="email"></a></span>
 
-                                <form method="get" class="digit-group d-flex justify-content-center " data-group-name="digits" data-autosubmit="false" autocomplete="off">
+                                <form id="otp-form" action="{{ route('sign-up.verify-otp') }}" method="post" class="digit-group d-flex justify-content-center " data-group-name="digits" data-autosubmit="false" autocomplete="off">
+                                    @csrf
                                     <input type="text" id="digit-1" name="digit-1" data-next="digit-2" class="input-key" maxlength="1" autofocus/>
                                     <input type="text" id="digit-2" name="digit-2" data-next="digit-3" data-previous="digit-1" class="input-key" maxlength="1"/>
                                     <input type="text" id="digit-3" name="digit-3" data-next="digit-4" data-previous="digit-2" class="input-key" maxlength="1"/>
@@ -92,11 +93,17 @@
     <!--Sign Up OTP Section Ends -->
 @push('scripts')
 <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     $(document).ready(function() {
         $('.loader').hide();
         $('#resend-zone').hide();
         var data = JSON.parse(localStorage.getItem('data'));
-        var resend_url = '';
+        var resend_url = 'resend-otp';
         $('#email').text(data.email);
      
         $('#resend-otp').on('click',function(){
@@ -109,7 +116,8 @@
                 },
                 success: function(data) {
                     if(data.status === true){
-                         
+                        $('#timer-zone').show();
+                        timer(10);
                     }
                     else{
                         alert('Something went wrong! Try Again');
@@ -129,16 +137,24 @@
             var form = $('#otp-form'); 
             var formData = form.serialize(); 
             var action = form.attr('action');
+            var digit1 =$('#digit-1').val();
+            var digit2 =$('#digit-2').val();
+            var digit3 =$('#digit-3').val();
+            var digit4 =$('#digit-4').val();
+            var digit5 =$('#digit-5').val();
+            var digit6 =$('#digit-6').val();
+            var otp = digit1+digit2+digit3+digit4+digit5+digit6;
             $.ajax({
                 url: action,
                 type: "POST",
-                data: formData,
+                data: {otp:otp,mobile:data.mobile},
                 beforeSend: function() {
                     $('.loader').show();
                 },
                 success: function(data) {
                     if(data.status === true){
-                        window.location.href = '/sign-up/verify';
+                        localStorage.setItem('company', JSON.stringify(data.user));
+                        window.location.href = '/sign-up/company-info';
                     }
                     else{
                         alert('Something went wrong! Try Again');
@@ -176,7 +192,7 @@
             }
         });
 
-        timer(90);
+        timer(10);
 
     });
 
