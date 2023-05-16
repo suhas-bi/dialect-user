@@ -10,4 +10,8 @@ class CompanyActivity extends Model
     use HasFactory;
 
     protected $guarded = [''];
+
+    public function subcategory(){
+        return $this->hasOne(Subcategory::class,'id','activity_id');
+    }
 }

@@ -57,7 +57,7 @@
                                     <div class="selected-basket d-flex">
                                         <span>Selected</span>
                                         <a href="#" class="basket-ico" data-toggle="modal" data-target="#selected-categories">
-                                            <small class="basket-count d-flex align-items-center justify-content-center">3</small>
+                                            <small class="basket-count d-flex align-items-center justify-content-center">0</small>
                                         </a>
                                     </div>
                                 </div>
@@ -71,11 +71,11 @@
                                         </div>
                                         <div class="col-md-12">
                                            <ul class="alphabets d-flex flex-wrap align-items-center">
-                                                <li><a href="#">A</a></li>
-                                                <li><a href="#">B</a></li>
-                                                <li><a href="#">C</a></li>
-                                                <li><a href="#">D</a></li>
-                                                <li><a href="#">E</a></li>
+                                                <li><a href="#" data-alpha="A">A</a></li>
+                                                <li><a href="#" data-alpha="B">B</a></li>
+                                                <li><a href="#" data-alpha="C">C</a></li>
+                                                <li><a href="#" data-alpha="D">D</a></li>
+                                                <li><a href="#" data-alpha="E">E</a></li>
                                                 <li><a href="#">F</a></li>
                                                 <li><a href="#">G</a></li>
                                                 <li><a href="#">H</a></li>
@@ -103,60 +103,10 @@
 
                                     <div class="row">
                                         <div class="col-md-12">
-                                           <ul class="categories-list d-flex flex-wrap align-items-center">
-                                                <li><a href="#">Airconditioning & Refrigeration</a></li>
-                                                <li><a href="#">Accounting & Finance</a></li>
-                                                <li><a href="#">Advocated & Legal Consultants</a></li>
-                                                <li><a href="#">Agricultural & Farm</a></li>
-                                                <li><a href="#">Architecture & Architects</a></li>
-                                                <li><a href="#">Audio & Video</a></li>
-                                                <li><a href="#">Banks & Banking Services</a></li>
-                                                <li><a href="#">Bags & Leather Goods</a></li>
-                                                <li><a href="#">Boilers & Boiler Parts</a></li>
-                                                <li><a href="#">Consultants</a></li>
-                                                <li><a href="#">Batteries & Charge Storage Devices</a></li>
-                                                <li><a href="#">Banners, Signs & Nameplates</a></li>
-                                                <li><a href="#">Construction Materials</a></li>
-                                                <li><a href="#">Business Services</a></li>
-                                                <li><a href="#">Canopies & Sheds</a></li>
-                                                <li><a href="#">Audio & Video</a></li>
-                                                <li><a href="#">Cargo & Shipping</a></li>
-                                                <li><a href="#">Chemical & Chemical Products</a></li>
-                                                <li><a href="#">Glass & Fiberglass</a></li>
-                                                <li><a href="#">Contracting Companies</a></li>
-                                                <li><a href="#">Doors Windows & Shutters</a></li>
-                                                <li><a href="#">Electrical & Electronics</a></li>
-                                                <li><a href="#">Engineering & Mechanicals</a></li>
-                                                <li><a href="#">Filters & Filtration Systems</a></li>
-                                                <li><a href="#">Fire Fighting & Prevention</a></li>
-                                                <li><a href="#">Fitness Clubs & Beauty Parlours</a></li>
-
-                                                <li><a href="#">Airconditioning & Refrigeration</a></li>
-                                                <li><a href="#">Accounting & Finance</a></li>
-                                                <li><a href="#">Advocated & Legal Consultants</a></li>
-                                                <li><a href="#">Agricultural & Farm</a></li>
-                                                <li><a href="#">Architecture & Architects</a></li>
-                                                <li><a href="#">Audio & Video</a></li>
-                                                <li><a href="#">Banks & Banking Services</a></li>
-                                                <li><a href="#">Bags & Leather Goods</a></li>
-                                                <li><a href="#">Boilers & Boiler Parts</a></li>
-                                                <li><a href="#">Consultants</a></li>
-                                                <li><a href="#">Batteries & Charge Storage Devices</a></li>
-                                                <li><a href="#">Banners, Signs & Nameplates</a></li>
-                                                <li><a href="#">Construction Materials</a></li>
-                                                <li><a href="#">Business Services</a></li>
-                                                <li><a href="#">Canopies & Sheds</a></li>
-                                                <li><a href="#">Audio & Video</a></li>
-                                                <li><a href="#">Cargo & Shipping</a></li>
-                                                <li><a href="#">Chemical & Chemical Products</a></li>
-                                                <li><a href="#">Glass & Fiberglass</a></li>
-                                                <li><a href="#">Contracting Companies</a></li>
-                                                <li><a href="#">Doors Windows & Shutters</a></li>
-                                                <li><a href="#">Electrical & Electronics</a></li>
-                                                <li><a href="#">Engineering & Mechanicals</a></li>
-                                                <li><a href="#">Filters & Filtration Systems</a></li>
-                                                <li><a href="#">Fire Fighting & Prevention</a></li>
-                                                <li><a href="#">Fitness Clubs & Beauty Parlours</a></li>
+                                           <ul id="category-list" class="categories-list d-flex flex-wrap align-items-center">
+                                            @foreach($categories as $key => $category)
+                                                <li><a href="#" class="category" data-id="{{ $category->id }}">{{ $category->name }}</a></li>
+                                            @endforeach    
                                            </ul>
                                         </div>
                                     </div>
@@ -165,23 +115,10 @@
                                 
                                 <div class="col-md-4">
                                     <div class="airconditioning">
-                                        <h1>(Airconditioning & Refrigeration)</h1>
-                                        <ul class="right-categories-list">
-                                            <li class="active"><a href="#">AC Contractors & AC Rentals</a></li>
-                                            <li><a href="#">AC Equipment & AC System Repairs</a></li>
-                                            <li><a href="#">AC Manufacturers</a></li>
-                                            <li><a href="#">AC Parts & AC Tools</a></li>
-                                            <li class="active"><a href="#">Air Cleaning & Air Purifying Systems</a></li>
-                                            <li><a href="#">Cold Storage Accessories & Cold Storage Equipment</a></li>
-                                            <li class="active"><a href="#">Dehumidifying Equipment Suppliers</a></li>
-                                            <li><a href="#">District Cooling & Heating System</a></li>
-                                            <li><a href="#">Duct Manufacturers, Duct Cleaners & Accessories</a></li>
-                                            <li><a href="#">HVAC Contractors</a></li>
-                                            <li><a href="#">HVAC Products & HVAC Accessories</a></li>
-                                            <li><a href="#">Refrigeration Contractors & Refrigeration Equipment</a></li>
+                                        <h1 id="current-category"></h1>
+                                        <ul id="subcategory-list" class="right-categories-list">
                                             
                                        </ul>
-
                                     </div>
                                 </div>
 
@@ -190,7 +127,7 @@
 
                         <div class="d-flex justify-content-between justify-content-center">
                             <div class="form-group proceed-btn">
-                                <input type="submit" value="Back" class="btn btn-third" onclick="window.location.href = 'company-info';">
+                                <input type="button" value="Back" class="btn btn-third" onclick="window.location.href = 'company-info';">
                             </div>
 
                             <div class="form-group proceed-btn">
@@ -215,20 +152,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="business-catg-main">
-                        <ul class="d-flex flex-wrap">
-                            <li class="d-flex justify-content-between justify-content-center heading">Airconditioning & Refrigeration</li>
-                            <li class="d-flex justify-content-between justify-content-center">
-                                AC Contractors & AC Rentals
-                                <a href="#" class="categ-delete"></a>
-                            </li>
-                            <li class="d-flex justify-content-between justify-content-center">
-                                AC Equipment & AC System Repairs
-                                <a href="#" class="categ-delete"></a>
-                            </li>
-                            <li class="d-flex justify-content-between justify-content-center">
-                                Air Cleaning & Air Purifying Systems
-                                <a href="#" class="categ-delete"></a>
-                            </li>
+                        <ul id="selected-subcategory" class="d-flex flex-wrap">
+                            
                         </ul>
                     </div>
                 </div>
@@ -239,7 +164,7 @@
                         </div>
 
                         <div class="form-group proceed-btn">
-                            <input type="button" value="OK" class="btn btn-secondary">
+                            <input type="button" value="OK" class="btn btn-secondary" onclick="window.location.href = 'declaration';">
                         </div>
                     </div>
                 </div>
@@ -249,5 +174,207 @@
   <!-- Model Ends -->
 @push('scripts')
 <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $(document).ready(function() {
+        selectedSubCategory();
+        $('.loader').hide();
+        var company = JSON.parse(localStorage.getItem('company'));
+        $('.category').click(function(e) {
+            e.preventDefault(); 
+            var id = $(this).data('id');
+            var action = '/sign-up/business-category/subcategory';
+            $.ajax({
+                url: action,
+                type: "POST",
+                data: { id : id},
+                beforeSend: function() {
+                    $('.loader').show();
+                },
+                success: function(data) {
+                     if(data.status === true){
+                        $('#subcategory-list').empty();
+                        $('#current-category').text(data.category.name);
+                        if(data.data.length){
+                            $.each(data.data, function(key, val) {
+                                var li = `<li><a href="#" class="subcategory" data-id="`+val.id+`">`+val.name+`</a></li>`;
+                                $('#subcategory-list').append(li);
+                            });
+                        }
+                        else{
+                            var li = `<li><img src="{{ asset('assets/images/no-data.png') }}" width="100%" alt=""></li>
+                                      <li class="text-center">No Subcategories found for <br><h3>`+data.category.name+`</h3></li>`;
+                            $('#subcategory-list').append(li);
+                        }
+                     }
+                },
+                error: function(xhr, status, error) {
+                     var response = JSON.parse(xhr.responseText);
+                     console.log(response);
+                    // if (response.errors) {
+                    //     $.each(response.errors, function(field, errors) {
+                    //         if(field === 'mobile'){
+                    //             var minput = $('input[name="' + field + '"]');
+                    //             var mfeedback = minput.parent().next('.invalid-msg2');
+                    //             mfeedback.html(errors[0]).show();
+                    //         }
+                    //         var input = $('input[name="' + field + '"]');
+                    //         input.addClass('red-border');
+                    //         var feedback = input.siblings('.invalid-msg2');
+                    //         feedback.text(errors[0]).show();
+                    //     });
+                    // }
+                },
+                complete: function(data) {
+                    $('.loader').hide();
+                }
+            });
+        });
+    });
+
+    function selectedSubCategory(){
+        var action = '/sign-up/business-category/selected';
+        $.ajax({
+            url: action,
+            type: "POST",
+            beforeSend: function() {
+                $('.loader').show();
+            },
+            success: function(data) {
+                    if(data.status === true){
+                    $('#selected-subcategory').empty();
+                    if(data.data.length){
+                        $('.basket-count').text(data.data.length);
+                        $.each(data.data, function(key, val) {
+                            
+                            var li = `<li class="d-flex justify-content-between justify-content-center">`
+                                             + val.subcategory.name +
+                                             `<a href="#" data-id="`+val.id+`" class="categ-delete"></a>
+                                      </li>`;
+                            $('#selected-subcategory').append(li);
+                        });
+                    }
+                    else{
+                        var li = `<li class="text-center"><h3>No Data Found!</h3></li>`;
+                        $('#selected-subcategory').append(li);
+                    }
+                    }
+            },
+            error: function(xhr, status, error) {
+                    var response = JSON.parse(xhr.responseText);
+                   
+                // if (response.errors) {
+                //     $.each(response.errors, function(field, errors) {
+                //         if(field === 'mobile'){
+                //             var minput = $('input[name="' + field + '"]');
+                //             var mfeedback = minput.parent().next('.invalid-msg2');
+                //             mfeedback.html(errors[0]).show();
+                //         }
+                //         var input = $('input[name="' + field + '"]');
+                //         input.addClass('red-border');
+                //         var feedback = input.siblings('.invalid-msg2');
+                //         feedback.text(errors[0]).show();
+                //     });
+                // }
+            },
+            complete: function(data) {
+                $('.loader').hide();
+            }
+        });
+    }
+
+
+    $(document).on('click', '.categ-delete', function (e) {
+        e.preventDefault();
+        var activityId = $(this).data('id');
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Category will be deleted from the list!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Ajax request for deletion
+                $.ajax({
+                    url: '/sign-up/business-category/delete/' + activityId,
+                    type: 'DELETE',
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function (response) {
+                        // Handle success response
+                        Swal.fire('Deleted!', 'The item has been deleted.', 'success');
+                        // Perform any additional actions as needed
+                        selectedSubCategory();
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error response
+                        Swal.fire('Error!', 'An error occurred while deleting the item.', 'error');
+                    }
+                });
+            }
+        });
+    });
+
+    $(document).on('click', '.subcategory', function (e) {
+        e.preventDefault();
+        var activityId = $(this).data('id');
+        $.ajax({
+            url: '/sign-up/business-category/add',
+            type: 'POST',
+            data: {
+                id:activityId
+            },
+            success: function (response) {
+                if(response.status === true){
+                    Swal.fire({
+                        toast: true,
+                        icon: 'success',
+                        title: response.message,
+                        animation: false,
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+                    selectedSubCategory();
+                }
+            },
+            error: function (xhr, status, error) {
+                var response = JSON.parse(xhr.responseText);
+                if(response.status === false){
+                    Swal.fire({
+                        toast: true,
+                        icon: 'warning',
+                        title: response.message,
+                        animation: false,
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+                    selectedSubCategory();
+                }
+            }
+        });
+    });
+
+</script>
 @endpush  
 @endsection

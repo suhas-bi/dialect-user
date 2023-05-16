@@ -153,19 +153,18 @@
                 },
                 success: function(data) {
                     if(data.status === true){
-                        localStorage.setItem('company', JSON.stringify(data.user));
+                        localStorage.setItem('company', JSON.stringify(data.company));
                         window.location.href = '/sign-up/company-info';
-                    }
-                    else{
-                        alert('Something went wrong! Try Again');
                     }
                 },
                 error: function(xhr, status, error) {
                     var response = JSON.parse(xhr.responseText);
-                   
+                    if(response.status === false){
+                        window.location.href = '/sign-up';
+                    }
                 },
                 complete: function(data) {
-                    $('.loader').hide();
+                    $('.loader').hide(); 
                 }
             });
         });

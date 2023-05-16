@@ -28,8 +28,10 @@
                             <div class="form-group row px-3 position-relative">
                                 <i class="email-ico"></i>
                                 <input type="text" placeholder="Email Address"
-                                    class="form-control border-info placeicon">
+                                    class="form-control border-info placeicon red-border" id="validationCustom03">
+                                    <div class="invalid-msg"> Please provide a valid email. </div>
                             </div>
+                            
 
                             <!-- Password Input -->
                             <div class="form-group row px-3 position-relative">
@@ -54,7 +56,7 @@
 
                             <!-- Forgot Password Link -->
                             <div class="row">
-                                <a href="#" class="forgot-pass">Forgot Password?</a>
+                                <a href="forgot-password.html" class="forgot-pass">Forgot Password?</a>
                             </div>
 
                         </form>
@@ -62,6 +64,7 @@
                 </div>
             </div>
         </section>
+
 
 
         <footer id="footer">

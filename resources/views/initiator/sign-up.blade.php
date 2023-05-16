@@ -48,7 +48,6 @@
                         </ul>
                         
                     </div>
-                    
                     <section class="reg-content-sec">
                         <form id="sign-up-form" action="{{ route('sign-up.store') }}" method="post">
                             @csrf
@@ -56,59 +55,59 @@
                                 <div class="row mb-3">
                                     <div class="col-md-12"><span class="mandatory">*All fields are mandatory!</span></div>
                                 </div>
-                            
+                        
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label>Company Name <span class="mandatory">*</span></label>
-                                        <input id="name" type="text" class="form-control" name="name" placeholder="Company Name">
-                                        <small class="invalid-feedback"></small>
+                                        <div class="form-group position-relative">
+                                            <label for="name">Company Name <span class="mandatory">*</span></label>
+                                            <input id="name" type="text" name="name" class="form-control" placeholder="Company Name">
+                                            <div class="invalid-msg2"> </div>
+                                        </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <label>Email <span class="mandatory">*</span></label>
-                                        <input id="email" type="email" class="form-control" name="email" placeholder="Email Address">
-                                        <small class="invalid-feedback"></small>
+                                        <div class="form-group position-relative">
+                                            <label for="email">Email <span class="mandatory">*</span></label>
+                                            <input id="email" type="text" name="email" class="form-control" placeholder="Email">
+                                            <div class="invalid-msg2"> </div>
+                                        </div>   
                                     </div>
                         
                                     <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>PO Box No <span class="mandatory">*</span></label>
-                                                <input id="pobox" type="text" class="form-control" name="pobox" placeholder="PO Box No">
-                                                <small class="invalid-feedback"></small>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label>Location</label>
-                                                <input id="country_id" type="text" class="form-control" name="country_id" placeholder="Location">
-                                                <small class="invalid-feedback"></small>
-                                            </div>
+                                        <label>Country <span class="mandatory">*</span></label>
+                                        <div class="select-drop3">
+                                            <select id="standard-select" name="country_id" >
+                                                <option value="1">Qatar</option>
+                                            </select>
+                                            <div class="invalid-msg2"> </div>
                                         </div>
                                     </div>
                         
                                     <div class="col-md-6">
-                                        <label>Mobile <span class="mandatory">*</span></label>
-                                        <div class="d-flex">
-                                            <input type="text" class="form-control mobile-code" name="country_code" value="+974" readonly>
-                                            <input type="text" class="form-control mobile-number" name="mobile" placeholder="Mobile">
-                                        </div>
-                                        <small class="invalid-feedback"></small>
+                                        <div class="form-group position-relative">
+                                            <label>Mobile <span class="mandatory">*</span></label>
+                                            <div class="d-flex">
+                                                <input type="text" name="country_code" class="form-control mobile-code"  value="+974" placeholder="+974" readonly>
+                                                <input type="text" name="mobile" class="form-control mobile-number" placeholder="Mobile">
+                                            </div>
+                                            <div class="invalid-msg2"></div>
+                                        </div>    
                                     </div>
                                 </div>
-                              
-                        </div>
-
-                        <div class="d-flex justify-content-between justify-content-center">
-                            <div class="already-signup">
-                                Already registered? <a href="{{ url('/') }}">Click here</a> to login
                             </div>
 
-                            <div class="form-group proceed-btn">
-                                <button type="submit" value="Proceed" class="btn btn-secondary">
-                                    <i class="fa fa-repeat fa-spin text-white loader"></i>
-                                    <span class="text-white">Proceed</span>
-                                </button>
-                            </div>
+                            <div class="d-flex justify-content-between justify-content-center">
+                                <div class="already-signup">
+                                    Already registered? <a href="{{ url('/') }}">Click here</a> to login
+                                </div>
 
-                        </div>
+                                <div class="form-group proceed-btn">
+                                    <button type="submit" value="Proceed" class="btn btn-secondary">
+                                        <i class="fa fa-repeat fa-spin text-white loader"></i>
+                                        <span class="text-white">Proceed</span>
+                                    </button>
+                                </div>
+
+                            </div>
                         </form> 
                     </section>
 
@@ -123,6 +122,7 @@
         $('.loader').hide();
         $('#sign-up-form').submit(function(e) {
             e.preventDefault(); 
+            $('.invalid-msg2').hide();
             var formData = $(this).serialize(); 
             var action = $(this).attr('action');
             $.ajax({
@@ -137,9 +137,7 @@
                         localStorage.setItem('data', JSON.stringify(data.user));
                         window.location.href = '/sign-up/verify';
                     }
-                    else{
-                        alert('Something went wrong! Try Again');
-                    }
+                    console.log(data);
                 },
                 error: function(xhr, status, error) {
                     var response = JSON.parse(xhr.responseText);
@@ -147,13 +145,13 @@
                         $.each(response.errors, function(field, errors) {
                             if(field === 'mobile'){
                                 var minput = $('input[name="' + field + '"]');
-                                var mfeedback = minput.parent().next('.invalid-feedback');
-                                mfeedback.html(errors[0]);
+                                var mfeedback = minput.parent().next('.invalid-msg2');
+                                mfeedback.html(errors[0]).show();
                             }
                             var input = $('input[name="' + field + '"]');
-                            input.addClass('is-invalid');
-                            var feedback = input.siblings('.invalid-feedback');
-                            feedback.text(errors[0]);
+                            input.addClass('red-border');
+                            var feedback = input.siblings('.invalid-msg2');
+                            feedback.text(errors[0]).show();
                         });
                     }
                 },

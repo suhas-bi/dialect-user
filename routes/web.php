@@ -30,11 +30,17 @@ Route::post('/sign-up/resend-otp', [SignUpController::class,'resendOtp'])->name(
 Route::post('/sign-up/verify-otp', [SignUpController::class,'verifyOtp'])->name('sign-up.verify-otp');
 
 Route::get('/sign-up/company-info', [CompanyInfoController::class,'index'])->name('sign-up.company-info');
+Route::post('/sign-up/company-info/store', [CompanyInfoController::class,'store'])->name('sign-up.company-info.store');
 
 Route::get('/sign-up/business-category',[BusinessCategoryController::class,'index'])->name('sign-up.business-category');
-
+Route::post('/sign-up/business-category/subcategory', [BusinessCategoryController::class,'getSubcategories'])->name('sign-up.business-category.subcategory');
+Route::post('/sign-up/business-category/selected', [BusinessCategoryController::class,'selectedSubcategories'])->name('sign-up.business-category.selected');
+Route::delete('/sign-up/business-category/delete/{id}', [BusinessCategoryController::class,'deleteSelected'])->name('sign-up.business-category.delete');
+Route::post('/sign-up/business-category/add', [BusinessCategoryController::class,'addActivity'])->name('sign-up.business-category.add');
+ 
 Route::get('/sign-up/declaration', [DeclarationController::class,'index'])->name('sign-up.declaration');
 
-Route::get('/sign-up/declaration-edit', [DeclarationController::class,'edit'])->name('sign-up.edit');
+Route::get('/sign-up/registration-edit', [DeclarationController::class,'edit'])->name('sign-up.edit');
+Route::post('/sign-up/registration-edit', [DeclarationController::class,'update'])->name('sign-up.update');
 
 Route::get('/sign-up/review-verification', [SignUpController::class,'review'])->name('sign-up.review-verification');

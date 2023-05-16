@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/aos.css') }}" type="text/css">
     <!-- <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.css') }}" type="text/css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+
     <title>DialectB2B</title>
 </head>
 
@@ -32,6 +34,8 @@
 
     <script type='text/javascript' src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script type='text/javascript' src="{{ asset('assets/js/aos.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
+
 
     @stack('scripts')
     <script>
@@ -168,6 +172,39 @@
         then close all select boxes:*/
         document.addEventListener("click", closeAllSelect);
 
+
+
+        @if (Session::has('warning'))
+            Swal.fire({
+                toast: true,
+                icon: 'warning',
+                title: "{{ Session::get('warning') }}",
+                animation: false,
+                position: 'top',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+        @elseif(Session::has('success'))
+            Swal.fire({
+                toast: true,
+                icon: 'success',
+                title: "{{ Session::get('success') }}",
+                animation: false,
+                position: 'top',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+        @endif
     </script>
 </body>
 

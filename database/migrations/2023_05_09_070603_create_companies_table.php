@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('country_code');
             $table->string('phone');
-            $table->string('pobox');
+            $table->string('pobox')->nullable();
             $table->string('fax')->nullable();
             $table->string('address')->nullable();
             $table->string('zone')->nullable();

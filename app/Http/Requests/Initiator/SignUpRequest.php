@@ -25,9 +25,19 @@ class SignUpRequest extends FormRequest
             'name' => ['required',],
             'email' => ['required','email'],
             'country_code' => ['required'],
-            'mobile' => ['required'],
-            'country_id' => ['required'],
-            'pobox' => ['required'],
+            'mobile' => ['required','unique:company_users,mobile','numeric','digits_between:4,12'],
+            'country_id' => ['required']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Please enter your company name',
+            'country_id.required' => 'Please choose your country',
+            'email.required' => 'Please enter your email address',
+            'email.email' => 'Please enter a valid email address',
+            'mobile.required' => 'Please enter your mobile no.',
         ];
     }
 }

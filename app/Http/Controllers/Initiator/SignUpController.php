@@ -24,7 +24,7 @@ class SignUpController extends Controller
             $user['otp'] = $otp;
             Cache::put($request->mobile, $user, now()->addMinutes(20));
 
-            Mail::to('suhas966@gmail.com')->queue(new OTP($otp));
+            Mail::to($user['email'])->queue(new OTP($otp));
 
             return response()->json([
                 'status' => true,
@@ -60,7 +60,7 @@ class SignUpController extends Controller
             $user['otp'] = $otp;
             Cache::put($mobile_number, $user, now()->addMinutes(20));
 
-            Mail::to('suhas966@gmail.com')->queue(new OTP($otp));
+            Mail::to($user['email'])->queue(new OTP($otp));
 
             return response()->json([
                 'status' => true,
@@ -105,7 +105,7 @@ class SignUpController extends Controller
                 return response()->json([
                     'status' => false,
                     'message' => 'OTP expired or does not exist',
-                ], 404);
+                ], 422);
             }
 
             if ($user['otp'] != $request->otp) {
@@ -115,25 +115,40 @@ class SignUpController extends Controller
                 ], 422);
             }
 
-            $newCompany = Company::create([
-                 'name' => $user['name'],
-                 'email' => $user['email'],
-                 'country_id' => $user['country_id'],
-                 'country_code' => $user['country_code'],
-                 'phone' => $user['mobile'],
-                 'pobox' =>	$user['pobox'],
-            ]);
+            $checkCompanyExists = Company::where('email',$user['email'])->first();
 
+            if(!$checkCompanyExists){
+                $newCompany = Company::create([
+                    'name' => $user['name'],
+                    'email' => $user['email'],
+                    'country_id' => $user['country_id'],
+                    'country_code' => $user['country_code'],
+                    'phone' => $user['mobile']
+               ]);
+
+               // Clear the OTP from cache
+                Cache::forget($mobile_number);
+
+                Cache::put('company', $newCompany);
+
+                return response()->json([
+                    'status' => true,
+                    'company' => $newCompany,
+                    'message' => 'Email Verified!'
+                ], 200);
+            }
+            
             // Clear the OTP from cache
             Cache::forget($mobile_number);
 
-            Cache::put('company', $newCompany);
-
+            Cache::put('company', $checkCompanyExists);
+            
             return response()->json([
                 'status' => true,
-                'company' => $newCompany,
+                'company' => $checkCompanyExists,
                 'message' => 'Email Verified!'
             ], 200);
+   
 
         } catch (\Throwable $th) {
             return response()->json([
@@ -144,6 +159,7 @@ class SignUpController extends Controller
     }
 
     public function review(){
+        Cache::forget('company');
         return view('initiator.review-verification');
     }
 }

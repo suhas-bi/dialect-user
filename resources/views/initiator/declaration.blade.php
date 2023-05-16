@@ -55,9 +55,9 @@
                             <div class="row mb-5">
                                     <div class="d-flex justify-content-between justify-content-center">
                                         <div class="form-group proceed-btn">
-                                            <input type="submit" value="Edit" class="btn btn-third" onclick="window.location.href = 'declaration-edit';">
+                                            <input type="submit" value="Edit" class="btn btn-third" onclick="window.location.href = 'registration-edit';">
                                         </div>
-                                        <span>Date: 02/05/2023</span>
+                                        <span>Date: {{ $company->updated_at }}</span>
                                     </div>
                             </div>
                         
@@ -69,11 +69,11 @@
                                         <tbody>
                                           <tr>
                                             <th scope="row">Company Name</th>
-                                            <td>Miracle Trading LLC</td>
+                                            <td>{{ $company->name }}</td>
                                           </tr>
                                           <tr>
                                             <th scope="row">Company Address </th>
-                                            <td>Adil Farad, 1st Block 1st Cross, Doha, 560016</td>
+                                            <td>{{ $company->address }}, {{ $company->zone }}, {{ $company->street }}, {{ $company->building }}, {{ $company->unit }}, {{ $company->pobox }}</td>
                                           </tr>
                                           <tr>
                                             <th scope="row">Operation Regions</th>
@@ -88,13 +88,13 @@
                                           <tr>
                                             <th scope="row">Company Website </th>
                                             <td>
-                                                www.miracle.com
+                                                {{ $company->domain }}
                                             </td>
                                           </tr>
                                           <tr>
                                             <th scope="row">Company Fax </th>
                                             <td>
-                                                +974 555 222 6665
+                                            {{ $company->country_code.' '.$company->fax }}
                                             </td>
                                           </tr>
                                           <tr>
@@ -115,8 +115,8 @@
                                           <tr>
                                             <th scope="row">CR License</th>
                                             <td>
-                                                CR License No: 10524585<br>
-                                                Expiry Date: 02/05/2024
+                                                CR License No: {{ $company->document->doc_number ?? '' }}<br>
+                                                Expiry Date: {{ $company->document->expiry_date ?? '' }}
                                             </td>
                                           </tr>
                                         </tbody>
@@ -127,7 +127,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="license-preview d-flex align-items-center justify-content-center">
-                                        QR License Preview
+                                        CR License Preview
                                     </div>
                                     <div class="read-declaration">
                                         Please read the <a href="#"> declaration</a> and select agree to proceed.
@@ -142,7 +142,7 @@
 
                         <div class="d-flex justify-content-end">
                             <div class="form-group proceed-btn">
-                                <input type="submit" value="Edit" class="btn btn-third" onclick="window.location.href = 'declaration-edit';">
+                                <input type="submit" value="Edit" class="btn btn-third" onclick="window.location.href = 'registration-edit';">
                             </div>
                             <div class="form-group proceed-btn">
                                 <input type="submit" value="Proceed" class="btn btn-secondary" onclick="window.location.href = 'review-verification';">
