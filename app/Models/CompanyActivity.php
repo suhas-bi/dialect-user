@@ -12,6 +12,6 @@ class CompanyActivity extends Model
     protected $guarded = [''];
 
     public function subcategory(){
-        return $this->hasOne(Subcategory::class,'id','activity_id');
+        return $this->hasOne(SubCategory::class,'id','activity_id');
     }
 }

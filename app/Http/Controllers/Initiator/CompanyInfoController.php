@@ -55,7 +55,7 @@ class CompanyInfoController extends Controller
                 'unit' => $input['unit'],
                 'pobox' => $input['pobox'],
                 'fax' => $input['fax'],
-                'domain' => $input['domain'],
+                'domain' => $input['domain']
             ]);
 
             CompanyDocument::updateOrCreate([

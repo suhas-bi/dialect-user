@@ -123,7 +123,8 @@ class SignUpController extends Controller
                     'email' => $user['email'],
                     'country_id' => $user['country_id'],
                     'country_code' => $user['country_code'],
-                    'phone' => $user['mobile']
+                    'phone' => $user['mobile'],
+                    'is_approved' => 0
                ]);
 
                // Clear the OTP from cache
@@ -159,7 +160,16 @@ class SignUpController extends Controller
     }
 
     public function review(){
+        $comp = Cache::get('company');
+        if(!$comp){
+            return redirect('/');
+        }
+
+        Company::find($comp->id)->update([
+            'decleration' => 1,
+        ]);
         Cache::forget('company');
+        
         return view('initiator.review-verification');
     }
 }
