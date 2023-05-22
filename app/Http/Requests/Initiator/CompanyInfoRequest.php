@@ -23,12 +23,12 @@ class CompanyInfoRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'pobox' => ['required','min:4','max:10'],
+            'pobox' => ['nullable'],
             'address' => ['required'],
             'zone' => ['required'],
             'street' => ['required'],
             'building' => ['required'],
-            'unit' => ['required'],
+            'unit' => ['nullable'],
             'country_id' => ['required'],
             'region_id' => ['array','min:1'],
             'domain' => ['nullable'],
@@ -37,7 +37,7 @@ class CompanyInfoRequest extends FormRequest
             'logo' => ['nullable'],
             'document_no' => ['required'],
             'expiry_date' => ['nullable'],
-            'file' => ['nullable'],
+            'document_file' => ['required'],
         ];
     }
 

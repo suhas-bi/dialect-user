@@ -63,7 +63,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group position-relative">
                                                     <label>Company Name <span class="mandatory">*</span></label>
-                                                    <input id="name" type="text" name="name" class="form-control" value="{{ $company->name }}" placeholder="Company Name" readonly>
+                                                    <input id="name" type="text" name="name" class="form-control" value="{{ $company->name }}" placeholder="Company Name">
                                                     <div class="invalid-msg2"> </div>
                                                 </div>
                                             </div>
@@ -153,7 +153,7 @@
                                                 <div class="col-md-6">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <input type="file" id="upload" name="logo" hidden/>
+                                                            <input type="file" id="logo-upload" name="logo" hidden/>
                                                             <label for="upload" class="browse-file">Drag a file or browse
                                                                 a file to upload</label>
                                                         </div>
@@ -173,7 +173,7 @@
                                     <div class="col-md-4">
                                         <div class="document-upload">
                                             <h1>Document Upload</h1>
-                                            <h2>CR License</h2>
+                                            <h2>{{ $document->name }}</h2>
                                             <div class="form-group position-relative">
                                                 <label>Document No <span class="mandatory">*</span></label>
                                                 <input id="document_no" type="text" name="document_no" class="form-control" value="{{ $company->document->doc_number ?? '' }}" placeholder="Document No">
@@ -181,20 +181,33 @@
                                             </div>
                                             <div class="form-group position-relative">
                                                 <label>Document Expiry Date<span class="mandatory">*</span></label>
-                                                <input id="expiry_date" type="date" name="expiry_date" class="form-control" value="{{ $company->document->expiry_date ?? '' }}" placeholder="Expiry Date">
+                                                <input id="expiry_date" type="date" name="expiry_date" class="form-control" value="{{ $company->document->expiry_date ?? '' }}" placeholder="Expiry Date" min="{{ date('Y-m-d') }}">
                                                 <div class="invalid-msg2"> </div>
                                             </div>
-                                            <div class="form-group position-relative">
+                                            
+                                            <div class="form-group position-relative {{ $company->document->doc_file ? '' : '' }}">
                                                 <label>Upload Document</label>
                                                 <div class="clearfix"></div>
-                                                <input type="file" id="upload" name="file" hidden />
+                                                <input type="file" id="upload" name="document_file" hidden />
                                                 <label for="upload" class="upload-file">Upload Files</label>
                                                 <div class="clearfix"></div>
                                                 <label>Or Drop Files</label>
                                                 <span class="formats-documents">Format: jpeg, jpg, png, gif, svg<br>
                                                 Max-Size: 2MB </span>
+                                                <div id="progressBar" style="display: none;">
+                                                    <div id="progress" style="width: 0%;"></div>
+                                                </div>
                                                 <div class="invalid-msg2"> </div>
-                                            </div>    
+                                            </div>
+                                            <div id="document-preview" class="d-flex flex-column align-items-left  mt-2 {{ !$company->document->doc_file ? 'd-none' : '' }}" >
+                                                <span class="d-flex doc-preview align-items-center justify-content-between">
+                                                    {{ $company->document->doc_file ?? '' }}
+                                                    <div class="d-flex align-items-center">
+                                                        <a id="doc-preview-link" href="{{ asset($company->document->doc_file ?? '') }}" class="doc-preview-view" target="_blank"></a>
+                                                        <a href="#!" class="doc-preview-delete"></a>
+                                                        </div>
+                                                </span>
+                                            </div>  
                                         </div>
                                     </div>
                                 </div>
@@ -223,6 +236,7 @@
     <!-- Company Info Section Ends -->
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $.ajaxSetup({
         headers: {
@@ -233,17 +247,53 @@
     $(document).ready(function() {
         $('.loader').hide();
         var company = JSON.parse(localStorage.getItem('company'));
+
+        var progressBar = document.getElementById('progressBar');
+        var progress = document.getElementById('progress');
+        var documentPreview = document.getElementById('document-preview');
+
+        $('#upload').change(function() {
+            var uploadAction = '/sign-up/company-info/upload-document';
+            var fileInput = $(this)[0];
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            formData.append('document_file', file);
+
+            axios.post(uploadAction, formData, {
+                    headers: {
+                    'Content-Type': 'multipart/form-data'
+                    },
+                    onUploadProgress: function(progressEvent) {
+                        var percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        progress.style.width = percent + '%';
+                    }
+                })
+                .then((response) => {
+                    // Handle success response
+                    console.log(response);
+                    document.getElementById('doc-preview-link').innerText = 'cr_document.pdf';
+                    documentPreview.classList.remove('d-none');
+                    progressBar.style.display = 'none';
+                })
+                .catch((error) => {
+                    // Handle error response
+                    console.log(error);
+                    progressBar.style.display = 'none';
+                });
+                progressBar.style.display = 'block';
+        });
+
+
         $('#company-info').submit(function(e) {
             e.preventDefault(); 
             $('.invalid-msg2').hide();
             var files = $('#upload')[0].files;
             var formData = new FormData(this); 
             var action = $(this).attr('action');
-            $.ajax({
+            //formData.append('file',files);
+        /*    $.ajax({
                 url: action,
                 type: "POST",
-                processData: false,
-                contentType: false,
                 data: formData,
                 beforeSend: function() {
                     $('.loader').show();
@@ -275,9 +325,42 @@
                     }
                 },
                 complete: function(data) {
-                    $('.loader').hide();
+                    
                 }
-            });
+            }); */
+
+                axios.post(action, formData, {
+                    headers: {
+                    'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then((response) => {
+                    // Handle success response
+                    if(response.data.status === true){
+                        localStorage.setItem('data', JSON.stringify(response.data.user));
+                        window.location.href = '/sign-up/business-category';
+                    }
+                })
+                .catch((error) => {
+                    // Handle error response
+                    if(error.response.data.type == 'superseed'){
+                        Swal.fire('Warning!', 'Your company has already been registered with us!.','warning');
+                    }
+                    if (error.response.status == 422) {
+                        $.each(error.response.data.errors, function(field, errors) {
+                            if(field === 'mobile'){
+                                var minput = $('input[name="' + field + '"]');
+                                var mfeedback = minput.parent().next('.invalid-msg2');
+                                mfeedback.html(errors[0]).show();
+                            }
+                            var input = $('input[name="' + field + '"]');
+                            input.addClass('red-border');
+                            var feedback = input.siblings('.invalid-msg2');
+                            feedback.text(errors[0]).show();
+                        });
+                    }
+                    $('.loader').hide();
+                });
         });
     });
 </script>

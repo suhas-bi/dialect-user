@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('doc_type');
             $table->string('doc_file');
             $table->string('expiry_date')->nullable();
-            $table->string('doc_number');
+            $table->string('doc_number')->nullable();
             $table->string('remarks')->nullable();
             $table->integer('status')->default(0);
             $table->timestamps();
