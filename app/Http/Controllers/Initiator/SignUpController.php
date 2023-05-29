@@ -164,12 +164,13 @@ class SignUpController extends Controller
         if(!$comp){
             return redirect('/');
         }
-
-        Company::find($comp->id)->update([
-            'decleration' => 1,
-        ]);
+        
+        $company = Company::find($comp->id);
+        if($company->decleration == ''){
+            return back();
+        }
         Cache::forget('company');
         
-        return view('initiator.review-verification');
+        return view('initiator.review-verification',compact('company'));
     }
 }

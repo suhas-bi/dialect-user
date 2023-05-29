@@ -1,14 +1,34 @@
 #progressBar {
+    position: relative;
     width: 100%;
     height: 10px;
     background-color: #f0f0f0;
     margin-top: 10px;
-    border-radius: 100%;
+    border-radius: 25px;
     color: #ffffff;
  }
 
 #progress {
+    position: absolute;
     height: 100%;
-    background-color: #1de638;
+    background-color: #09d424;
     width: 0%;
 }
+
+#progressBarLogo {
+    position: relative;
+    width: 100%;
+    height: 10px;
+    background-color: #f0f0f0;
+    margin-top: 10px;
+    border-radius: 25px;
+    color: #ffffff;
+ }
+
+#progressLogo {
+    position: absolute;
+    height: 100%;
+    background-color: #09d424;
+    width: 0%;
+}
+

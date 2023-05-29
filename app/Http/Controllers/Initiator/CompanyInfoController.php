@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Initiator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Initiator\CompanyInfoRequest;
+use App\Http\Requests\Initiator\DocumentUploadRequest;
+use App\Http\Requests\Initiator\LogoUploadRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Company;
@@ -25,7 +27,8 @@ class CompanyInfoController extends Controller
         $regions = Region::where('country_id',$comp->country_id)->get();
         $company = Company::find($comp->id);
         $document = Document::where('country_id',$company->country_id)->first();
-        return view('initiator.company-info',compact('company','regions','document'));
+        $company_locations = CompanyLocation::where('company_id',$company->id)->pluck('region_id')->toArray();
+        return view('initiator.company-info',compact('company','regions','document','company_locations'));
     }
 
     public function store(CompanyInfoRequest $request){
@@ -37,7 +40,7 @@ class CompanyInfoController extends Controller
         $company = Company::find($comp->id);
         $input = $request->validated();
         DB::beginTransaction();
-
+        
         $docExists = CompanyDocument::where('doc_number',$input['document_no'])->where('company_id','!=',$company->id)->first();
         if($docExists){
             return response()->json([
@@ -49,21 +52,6 @@ class CompanyInfoController extends Controller
 
         try {
             
-            
-            $folder = 'uploads/company/'.$company->id;
-            $filePath = $docExists->doc_file;
-            $logoPath = $company->logo;
-            if ($request->hasFile('document_file')) {
-                $document = $request->file('document_file');
-                $fileName = 'company_logo.' . $document->getClientOriginalExtension();
-                $filepath = $document->storeAs($folder, $fileName);
-            }
-            if ($request->hasFile('logo')) {
-                $logo = $request->file('logo');
-                $logoName = 'company_logo.' . $logo->getClientOriginalExtension();
-                $logoPath = $logo->storeAs($folder, $logoName);
-            }
-
             $company->update([
                 'address' => $input['address'],
                 'zone' => $input['zone'],
@@ -72,15 +60,13 @@ class CompanyInfoController extends Controller
                 'unit' => $input['unit'],
                 'pobox' => $input['pobox'],
                 'fax' => $input['fax'],
-                'domain' => $input['domain'],
-                'logo' => $logoPath
+                'domain' => $input['domain']
             ]);
 
             CompanyDocument::updateOrCreate([
                 'company_id'   => $company->id,
             ],[
                 'doc_type' => 1,
-                'doc_file' => $filePath,
                 'expiry_date' => $input['expiry_date'],
                 'doc_number' => $input['document_no']
             ]);
@@ -113,7 +99,7 @@ class CompanyInfoController extends Controller
         }
     }
 
-    public function uploadDocument(Request $request){
+    public function uploadDocument(DocumentUploadRequest $request){
         $comp = Cache::get('company');
         if(!$comp){
             return redirect('/');
@@ -126,14 +112,56 @@ class CompanyInfoController extends Controller
             $folder = 'uploads/company/'.$company->id;
             if ($request->hasFile('document_file')) {
                 $document = $request->file('document_file');
-                $fileName = 'company_logo.' . $document->getClientOriginalExtension();
+                $originalName = $document->getClientOriginalName();
+                $fileName = 'company_document.' . $document->getClientOriginalExtension();
                 $filePath = $document->storeAs($folder, $fileName);
             }
-            CompanyDocument::updateOrCreate([
+            $document = CompanyDocument::updateOrCreate([
                 'company_id'   => $company->id,
             ],[
+                'doc_name' => $originalName,
                 'doc_type' => 1,
                 'doc_file' => $filePath,
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'data' => $document,
+                'message' => 'Success!',
+            ], 200);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    } 
+
+    public function deleteDocument(Request $request){
+        $comp = Cache::get('company');
+        if(!$comp){
+            return redirect('/');
+        }
+
+        DB::beginTransaction();
+        try{
+            $company = Company::find($comp->id);
+            $document = Document::where('country_id',$company->country_id)->first();
+            $folder = 'uploads/company/'.$company->id;
+            if ($request->hasFile('document_file')) {
+                $document = $request->file('document_file');
+                $fileName = 'company_document.' . $document->getClientOriginalExtension();
+                $filePath = $document->storeAs($folder, $fileName);
+            }
+            $document = CompanyDocument::updateOrCreate([
+                'company_id'   => $company->id,
+            ],[
+                'doc_type' => $document->id,
+                'doc_file' => '',
             ]);
 
             DB::commit();
@@ -151,4 +179,42 @@ class CompanyInfoController extends Controller
             ], 500);
         }
     } 
+
+    public function uploadLogo(LogoUploadRequest $request){
+        $comp = Cache::get('company');
+        if(!$comp){
+            return redirect('/');
+        }
+
+        DB::beginTransaction();
+        try{
+            $company = Company::find($comp->id);
+            $folder = 'uploads/company/'.$company->id;
+            if ($request->hasFile('logo_file')) {
+                $logo = $request->file('logo_file');
+                $originalName = $logo->getClientOriginalName();
+                $fileName = 'company_logo.' . $logo->getClientOriginalExtension();
+                $filePath = $logo->storeAs($folder, $fileName);
+            }
+            
+            $company->update(['logo' => $filePath]);
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'data' => $company,
+                'message' => 'Success!',
+            ], 200);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    } 
+
+    
 }

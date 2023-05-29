@@ -11,4 +11,8 @@ class Region extends Model
 
     protected $guarded = [''];
     
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class, 'company_locations', 'region_id', 'company_id');
+    }
 }

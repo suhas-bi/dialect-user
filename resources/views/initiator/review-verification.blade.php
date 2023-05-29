@@ -64,7 +64,7 @@
                                     <div class="reivew-status d-flex justify-content-center">
                                         <div class="request-submited active">
                                             <h2>Request Submitted</h2>
-                                            <h3>(30-11-2022)</h3>
+                                            <h3>({{ $company->updated_at}})</h3>
                                         </div>
 
                                         <div class="admin-review">

@@ -33,6 +33,9 @@ Route::get('/sign-up/company-info', [CompanyInfoController::class,'index'])->nam
 Route::post('/sign-up/company-info/store', [CompanyInfoController::class,'store'])->name('sign-up.company-info.store');
 
 Route::post('/sign-up/company-info/upload-document', [CompanyInfoController::class,'uploadDocument'])->name('sign-up.company-info.uploadDocument');
+Route::post('/sign-up/company-info/delete-document', [CompanyInfoController::class,'deleteDocument'])->name('sign-up.company-info.deleteDocument');
+
+Route::post('/sign-up/company-info/upload-logo', [CompanyInfoController::class,'uploadLogo'])->name('sign-up.company-info.uploadLogo');
 
 Route::get('/sign-up/business-category',[BusinessCategoryController::class,'index'])->name('sign-up.business-category');
 Route::post('/sign-up/business-category/subcategory', [BusinessCategoryController::class,'getSubcategories'])->name('sign-up.business-category.subcategory');
@@ -41,6 +44,9 @@ Route::delete('/sign-up/business-category/delete/{id}', [BusinessCategoryControl
 Route::post('/sign-up/business-category/add', [BusinessCategoryController::class,'addActivity'])->name('sign-up.business-category.add');
  
 Route::get('/sign-up/declaration', [DeclarationController::class,'index'])->name('sign-up.declaration');
+Route::get('/sign-up/download-declaration', [DeclarationController::class,'download'])->name('sign-up.declaration.download');
+Route::post('/sign-up/declaration/upload', [DeclarationController::class,'upload'])->name('sign-up.declaration.upload');
+Route::post('/sign-up/declaration/delete', [DeclarationController::class,'delete'])->name('sign-up.declaration.delete');
 
 Route::get('/sign-up/registration-edit', [DeclarationController::class,'edit'])->name('sign-up.edit');
 Route::post('/sign-up/registration-edit', [DeclarationController::class,'update'])->name('sign-up.update');

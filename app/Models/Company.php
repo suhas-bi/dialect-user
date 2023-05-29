@@ -14,4 +14,14 @@ class Company extends Model
     public function document(){
         return $this->hasOne(CompanyDocument::class,'company_id','id');
     }
+
+    public function activities()
+    {
+        return $this->belongsToMany(Subcategory::class, 'company_activities', 'company_id', 'activity_id');
+    }
+
+    public function locations()
+    {
+        return $this->belongsToMany(Region::class, 'company_locations', 'company_id', 'region_id');
+    }
 }

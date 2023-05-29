@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Initiator;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Cache;
 
 class SignUpRequest extends FormRequest
 {
@@ -21,11 +23,20 @@ class SignUpRequest extends FormRequest
      */
     public function rules(): array
     {
+        $rule_mobile_unique = '';
+        $rule_phone_unique = '';
+        $comp = Cache::get('company');
+        if($comp){
+            $rule_mobile_unique = Rule::unique('company_users', 'mobile')->ignore($comp->id,'company_id');
+            $rule_phone_unique = Rule::unique('companies', 'phone')->ignore($comp->id,'id');
+        }
+
+
         return [
             'name' => ['required',],
             'email' => ['required','email'],
             'country_code' => ['required'],
-            'mobile' => ['required','unique:company_users,mobile','numeric','digits_between:4,12'],
+            'mobile' => ['required','numeric','digits_between:4,12',$rule_mobile_unique,$rule_phone_unique],
             'country_id' => ['required']
         ];
     }

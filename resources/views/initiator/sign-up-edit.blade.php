@@ -120,19 +120,19 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="operating-regions">
+                                    <div class="operating-regions form-group position-relative">
                                         <label>Operating Regions</label>
                                         <ul>
                                             @foreach($regions as $key => $region)
-                                                <li>
-                                                    <label class="cust-checkbox">{{ $region->name }}
-                                                        <input id="region_id_{{ $key }}" type="checkbox" name="region_id[]" checked="checked" value="{{ $region->id }}">
-                                                        <span class="checkmark"></span>
+                                            <li>
+                                                <label class="cust-checkbox">{{ $region->name }}
+                                                    <input id="region_id_{{ $key }}" type="checkbox" name="region_id[]" {{ in_array($region->id, $company_locations) ? 'checked' : '' }} value="{{ $region->id }}">
+                                                    <span class="checkmark"></span>
                                                     </label>
-                                                </li>
+                                            </li>
                                             @endforeach
                                         </ul>
-                                        <div class="invalid-msg2"> </div>
+                                        <div class="invalid-msg2 region_error"> </div>
                                         <div class="clearfix"></div>
                                     </div>
 
@@ -177,19 +177,12 @@
                                         </div>
                                         <div class="business-catg-main">
                                             <ul class="d-flex flex-wrap">
-                                                <li class="d-flex justify-content-between justify-content-center heading">Airconditioning & Refrigeration</li>
+                                                @foreach($company->activities as $key => $activity)
                                                 <li class="d-flex justify-content-between justify-content-center">
-                                                    AC Contractors & AC Rentals
-                                                    <a href="#" class="categ-delete"></a>
+                                                    {{ $activity }} 
+                                                    <a href="#" data-id="{{ $activity }}" class="categ-delete"></a>
                                                 </li>
-                                                <li class="d-flex justify-content-between justify-content-center">
-                                                    AC Equipment & AC System Repairs
-                                                    <a href="#" class="categ-delete"></a>
-                                                </li>
-                                                <li class="d-flex justify-content-between justify-content-center">
-                                                    Air Cleaning & Air Purifying Systems
-                                                    <a href="#" class="categ-delete"></a>
-                                                </li>
+                                                @endforeach
                                             </ul>
                                         </div>
                                     </div>
@@ -210,17 +203,33 @@
                                             <input id="expiry_date" type="date" name="expiry_date" class="form-control" value="{{ $company->document->expiry_date ?? '' }}" placeholder="Expiry Date">
                                             <div class="invalid-msg2"> </div>
                                         </div>
-                                        <div class="form-group position-relative">    
-                                            <label>Upload Document</label>
-                                            <div class="clearfix"></div>
-                                            <input type="file" id="upload" hidden />
-                                            <label for="upload" class="upload-file">Upload Files</label>
-                                            <div class="clearfix"></div>
-                                            <label>Or Drop Files</label>
-                                            <span class="formats-documents">Format: jpeg, jpg, png, gif, svg<br>
-                                                Max-Size: 2MB </span>
-                                            <div class="invalid-msg2"> </div>
-                                        </div>
+                                        <div id="document-upload-area" class="form-group position-relative {{ $company->document && $company->document->doc_file ? 'd-none' : '' }}">
+                                                <label>Upload Document</label>
+                                                <div class="clearfix"></div>
+                                                <input type="file" id="upload" name="document_file" hidden accept=".jpeg, .jpg, .png, .pdf" />
+                                                <label for="upload" class="upload-file">Upload Files</label>
+                                                <div class="clearfix"></div>
+                                                <label>Or Drop Files</label>
+                                                <span class="formats-documents">Format: jpeg, jpg, png, pdf<br>
+                                                Max-Size: 4MB </span>
+                                                <div id="progressBar" style="display: none;">
+                                                    <div id="progress" style="width: 0%;"></div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="invalid-msg2 doc-msg"> </div>
+                                            </div>
+                                            <input id="document" type="hidden" name="document" value="{{ $company->document->doc_file ?? '' }}" />
+                                            <div id="document-preview" class="d-flex flex-column align-items-left  mt-2" >
+                                                @if($company->document)
+                                                <span class="d-flex doc-preview align-items-center justify-content-between {{ !$company->document->doc_file ? 'd-none' : '' }}">
+                                                    {{ $company->document->doc_name ?? '' }}
+                                                    <div class="d-flex align-items-center">
+                                                        <a id="doc-preview-link" href="{{ asset($company->document->doc_file ?? '') }}" class="doc-preview-view" target="_blank"></a>
+                                                        <a href="#" class="doc-preview-delete delete-document" data-id="{{ $company->document->id ?? '' }}" data-url="{{ route('sign-up.company-info.deleteDocument') }}"></a>
+                                                        </div>
+                                                </span>
+                                                @endif 
+                                            </div> 
                                     
                                     </div>
                                 </div>

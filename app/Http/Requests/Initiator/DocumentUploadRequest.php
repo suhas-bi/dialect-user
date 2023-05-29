@@ -3,9 +3,8 @@
 namespace App\Http\Requests\Initiator;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\AtLeastOneCheckboxSelected;
 
-class CompanyInfoRequest extends FormRequest
+class DocumentUploadRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,21 +22,7 @@ class CompanyInfoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required'],
-            'pobox' => ['nullable'],
-            'address' => ['required'],
-            'zone' => ['required'],
-            'street' => ['required'],
-            'building' => ['required'],
-            'unit' => ['nullable'],
-            'country_id' => ['required'],
-            'region_id' => ['required','array',new AtLeastOneCheckboxSelected],
-            'domain' => ['nullable'],
-            'country_code' => ['required'],
-            'fax' => ['nullable'],
-            'document_no' => ['required'],
-            'expiry_date' => ['required'],
-            'document' => ['required']
+            'document_file' => ['required','mimes:jpeg,jpg,png,pdf','max:4096'],
         ];
     }
 
@@ -47,18 +32,19 @@ class CompanyInfoRequest extends FormRequest
             'name.required' => 'Please enter your company name',
             'pobox.required' => 'Please enter your PO Box No.',
             'country_id.required' => 'Please choose your country',
-            'region_id.required' => 'Please choose atleast 1 region',
             'address.required' => 'Please enter your address',
             'zone.required' => 'Please enter your zone no.',
             'street.required' => 'Please enter your street.',
             'building.required' => 'Please enter your zone no.',
-            'unit.required' => 'Please enter your unit no.',
+            'unit.required' => 'Please enter your zone no.',
+            'region_id.required' => 'Please enter your zone no.',
             'domain.required' => 'Please enter your website address.',
             'country_code.required' => 'Please enter your country code.',
             'fax.required' => 'Please enter your fax no.',
+            'logo.required' => 'Please upload your  logo.',
             'document_no.required' => 'Please enter your document no.',
             'expiry_date.required' => 'Please enter your document expiry date.',
-            'document' => 'Please upload document file'
+            'file.required' => 'Please upload document.',
         ];
     }
 }

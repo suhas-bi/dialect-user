@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->string('doc_type');
-            $table->string('doc_file');
+            $table->string('doc_name')->nullable();
+            $table->string('doc_file')->nullable();
             $table->string('expiry_date')->nullable();
             $table->string('doc_number')->nullable();
             $table->string('remarks')->nullable();

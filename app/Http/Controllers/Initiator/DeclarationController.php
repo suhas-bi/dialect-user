@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\Initiator;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Http\Requests\Initiator\CompanyInfoRequest;
-use Illuminate\Support\Facades\Cache;
+use App\Http\Requests\Initiator\DeclarationUploadRequest;
 use App\Models\Company;
 use App\Models\Region;
 use App\Models\CompanyDocument;
 use App\Models\CompanyLocation;
 use App\Models\CompanyActivity;
 use DB;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use PDF;
 
 class DeclarationController extends Controller
 {
@@ -26,7 +27,7 @@ class DeclarationController extends Controller
             return redirect()->route('sign-up.business-category')->with('warning','At least select one category to proceed!');
         }
 
-        $company = Company::find($comp->id);
+        $company = Company::with('activities')->find($comp->id);
         return view('initiator.declaration',compact('company'));
     }
 
@@ -36,9 +37,10 @@ class DeclarationController extends Controller
             return redirect('/');
         }
 
-        $company = Company::find($comp->id);
+         $company = Company::with('activities')->find($comp->id);
         $regions = Region::where('country_id',$comp->country_id)->get();
-        return view('initiator.sign-up-edit',compact('company','regions'));
+        $company_locations = CompanyLocation::where('company_id',$company->id)->pluck('region_id')->toArray();
+        return view('initiator.sign-up-edit',compact('company','regions','company_locations'));
     }
 
     public function update(CompanyInfoRequest $request){
@@ -90,6 +92,84 @@ class DeclarationController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Success!'
+            ], 200);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function download(Request $request){
+        $comp = Cache::get('company');
+        if(!$comp){
+            return redirect()->back();
+        }
+
+        $data  = Company::with('locations','activities')->find($comp->id)->toArray();
+        view()->share('company',$data);
+        $pdf = PDF::loadView('initiator.declaration_download', $data);
+        return $pdf->download('declaration.pdf');
+    } 
+
+    public function upload(DeclarationUploadRequest $request){
+        $comp = Cache::get('company');
+        if(!$comp){
+            return redirect('/');
+        }
+
+        DB::beginTransaction();
+        try{
+            $company = Company::find($comp->id);
+            $folder = 'uploads/company/'.$company->id;
+            if ($request->hasFile('declaration_file')) {
+                $declaration = $request->file('declaration_file');
+                $originalName = $declaration->getClientOriginalName();
+                $fileName = 'declaration.' . $declaration->getClientOriginalExtension();
+                $filePath = $declaration->storeAs($folder, $fileName);
+            }
+            
+            $company->update(['decleration' => $filePath, 'declaration_updated_at' => now()]);
+
+            DB::commit();
+
+            $company = Company::find($comp->id);
+
+            return response()->json([
+                'status' => true,
+                'data' => $company,
+                'message' => 'Success!',
+            ], 200);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    } 
+
+    public function delete(Request $request){
+        $comp = Cache::get('company');
+        if(!$comp){
+            return redirect('/');
+        }
+        dd($comp);
+        DB::beginTransaction();
+        try{
+            $company = Company::find($comp->id);
+
+            $company->update(['decleration' => '', 'declaration_updated_at' => '']);
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Success!',
             ], 200);
 
         } catch (\Exception $e) {

@@ -119,19 +119,19 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="operating-regions">
+                                        <div class="operating-regions form-group position-relative">
                                             <label>Operating Regions</label>
                                             <ul>
                                                 @foreach($regions as $key => $region)
                                                 <li>
                                                     <label class="cust-checkbox">{{ $region->name }}
-                                                        <input id="region_id_{{ $key }}" type="checkbox" name="region_id[]" checked="checked" value="{{ $region->id }}">
+                                                        <input id="region_id_{{ $key }}" type="checkbox" name="region_id[]" {{ in_array($region->id, $company_locations) ? 'checked' : '' }} value="{{ $region->id }}">
                                                         <span class="checkmark"></span>
                                                      </label>
                                                 </li>
                                                 @endforeach
                                             </ul>
-                                            <div class="invalid-msg2"> </div>
+                                            <div class="invalid-msg2 region_error"> </div>
                                             <div class="clearfix"></div>
                                         </div>
 
@@ -152,10 +152,11 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="row">
-                                                        <div class="col-md-6">
-                                                            <input type="file" id="logo-upload" name="logo" hidden/>
-                                                            <label for="upload" class="browse-file">Drag a file or browse
+                                                        <div class="col-md-6 position-relative" id="logo-upload-area">
+                                                            <input type="file" id="logo-upload" name="logo_file" hidden/>
+                                                            <label for="logo-upload" class="browse-file">Drag a file or browse
                                                                 a file to upload</label>
+                                                            <div class="invalid-msg2 logo-error mt-4"> </div>    
                                                         </div>
                                                         <div class="col-md-6 d-flex align-items-center justify-content-center">
                                                             <div class="uplaod-formats">
@@ -165,6 +166,22 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <div id="logo-preview" class="d-flex flex-column align-items-left  mt-2">
+                                                        <span class="d-flex doc-preview align-items-center justify-content-between {{ !$company->logo ? 'd-none' : '' }}">
+                                                            Company Logo
+                                                            <div class="d-flex align-items-center">
+                                                                <a href="#" class="doc-preview-view"></a>
+                                                            </div>
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <div id="progressBarLogo" style="display: none;">
+                                                            <div id="progressLogo" style="width: 0%;"></div>
+                                                        </div>
+                                                        
+                                                    </div>
+
                                                 </div>
                                             </div>  
                                         </div>
@@ -185,29 +202,33 @@
                                                 <div class="invalid-msg2"> </div>
                                             </div>
                                             
-                                            <div class="form-group position-relative {{ $company->document->doc_file ? '' : '' }}">
+                                            <div id="document-upload-area" class="form-group position-relative {{ $company->document && $company->document->doc_file ? 'd-none' : '' }}">
                                                 <label>Upload Document</label>
                                                 <div class="clearfix"></div>
-                                                <input type="file" id="upload" name="document_file" hidden />
+                                                <input type="file" id="upload" name="document_file" hidden accept=".jpeg, .jpg, .png, .pdf" />
                                                 <label for="upload" class="upload-file">Upload Files</label>
                                                 <div class="clearfix"></div>
                                                 <label>Or Drop Files</label>
-                                                <span class="formats-documents">Format: jpeg, jpg, png, gif, svg<br>
-                                                Max-Size: 2MB </span>
+                                                <span class="formats-documents">Format: jpeg, jpg, png, pdf<br>
+                                                Max-Size: 4MB </span>
                                                 <div id="progressBar" style="display: none;">
                                                     <div id="progress" style="width: 0%;"></div>
                                                 </div>
-                                                <div class="invalid-msg2"> </div>
+                                                <div class="clearfix"></div>
+                                                <div class="invalid-msg2 doc-msg"> </div>
                                             </div>
-                                            <div id="document-preview" class="d-flex flex-column align-items-left  mt-2 {{ !$company->document->doc_file ? 'd-none' : '' }}" >
-                                                <span class="d-flex doc-preview align-items-center justify-content-between">
-                                                    {{ $company->document->doc_file ?? '' }}
+                                            <input id="document" type="hidden" name="document" value="{{ $company->document->doc_file ?? '' }}" />
+                                            <div id="document-preview" class="d-flex flex-column align-items-left  mt-2" >
+                                                @if($company->document)
+                                                <span class="d-flex doc-preview align-items-center justify-content-between {{ !$company->document->doc_file ? 'd-none' : '' }}">
+                                                    {{ $company->document->doc_name ?? '' }}
                                                     <div class="d-flex align-items-center">
                                                         <a id="doc-preview-link" href="{{ asset($company->document->doc_file ?? '') }}" class="doc-preview-view" target="_blank"></a>
-                                                        <a href="#!" class="doc-preview-delete"></a>
+                                                        <a href="#" class="doc-preview-delete delete-document" data-id="{{ $company->document->id ?? '' }}" data-url="{{ route('sign-up.company-info.deleteDocument') }}"></a>
                                                         </div>
                                                 </span>
-                                            </div>  
+                                                @endif 
+                                            </div> 
                                         </div>
                                     </div>
                                 </div>
@@ -248,9 +269,17 @@
         $('.loader').hide();
         var company = JSON.parse(localStorage.getItem('company'));
 
+        // Document
         var progressBar = document.getElementById('progressBar');
         var progress = document.getElementById('progress');
         var documentPreview = document.getElementById('document-preview');
+        var documentUploadArea = document.getElementById('document-upload-area');
+
+        // Logo
+        var progressBarLogo = document.getElementById('progressBarLogo');
+        var progressLogo = document.getElementById('progressLogo');
+        var logoPreview = document.getElementById('logo-preview');
+        var logoUploadArea = document.getElementById('logo-upload-area');
 
         $('#upload').change(function() {
             var uploadAction = '/sign-up/company-info/upload-document';
@@ -270,17 +299,110 @@
                 })
                 .then((response) => {
                     // Handle success response
-                    console.log(response);
-                    document.getElementById('doc-preview-link').innerText = 'cr_document.pdf';
+                    console.log(response.data.data.doc_file);
+                    var content = `<span class="d-flex doc-preview align-items-center justify-content-between">
+                                        ${response.data.data.doc_name}
+                                        <div class="d-flex align-items-center">
+                                            <a id="doc-preview-link" href="${response.data.data.doc_file}" class="doc-preview-view" target="_blank"></a>
+                                            <a href="#" class="doc-preview-delete delete-document" data-id="${response.data.data.id}" data-url="{{ route('sign-up.company-info.deleteDocument') }}"></a>
+                                            </div>
+                                    </span>`;
+                    $('#document').val(response.data.data.doc_file);                
                     documentPreview.classList.remove('d-none');
+                    documentPreview.innerHTML = content;
+                    documentUploadArea.classList.add('d-none');
                     progressBar.style.display = 'none';
                 })
                 .catch((error) => {
                     // Handle error response
                     console.log(error);
+                    if (error.response.status == 422) {
+                        $.each(error.response.data.errors, function(field, errors) {
+                            var input = $('input[name="' + field + '"]');
+                            input.addClass('red-border');
+                            var feedback = input.siblings('.invalid-msg2');
+                            feedback.text(errors[0]).show();
+                        });
+                    }
                     progressBar.style.display = 'none';
                 });
                 progressBar.style.display = 'block';
+        });
+
+        $("body").on("click",".delete-document",function(){
+            var docDeleteAction = $(this).data('url');
+            var token = "{{ csrf_token() }}";
+            var id = $(this).data('id');
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Document will be deleted!",
+                icon: 'warning',
+            }).then(function (willDelete) {
+                if (willDelete) {
+                    axios.post(docDeleteAction, id)
+                    .then((response) => {
+                        // Handle success response
+                        console.log(response);
+                        documentPreview.classList.add('d-none');
+                        documentUploadArea.classList.remove('d-none');
+                    })
+                    .catch((error) => {
+                        // Handle error response
+                        console.log(error);
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Cancelled',
+                        icon: "error",
+                    });
+                }
+            });
+        });
+
+        $('#logo-upload').change(function() {
+            var uploadAction = '/sign-up/company-info/upload-logo';
+            var logoInput = $(this)[0];
+            var logo = logoInput.files[0];
+            var formData = new FormData();
+            formData.append('logo_file', logo);
+
+            axios.post(uploadAction, formData, {
+                    headers: {
+                    'Content-Type': 'multipart/form-data'
+                    },
+                    onUploadProgress: function(progressEvent) {
+                        var percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        progressLogo.style.width = percent + '%';
+                    }
+                })
+                .then((response) => {
+                    // Handle success response
+                    console.log(response.data.data.doc_file);
+                    var content = `<span class="d-flex doc-preview align-items-center justify-content-between {{ !$company->logo ? 'd-none' : '' }}">
+                                      Company Logo
+                                        <div class="d-flex align-items-center">
+                                            <a href="${response.data.data.doc_file}" class="doc-preview-view"></a>
+                                        </div>
+                                    </span>`;
+                    logoPreview.classList.remove('d-none');
+                    logoPreview.innerHTML = content;
+                    progressBarLogo.style.display = 'none';
+                })
+                .catch((error) => {
+                    // Handle error response
+                    console.log(error);
+                    if (error.response.status == 422) {
+                        $.each(error.response.data.errors, function(field, errors) {
+                            if(field === 'logo_file'){
+                                var logo_error = $('.logo-error');
+                                console.log(errors[0]);
+                                logo_error.html(errors[0]).show();
+                            }
+                        });
+                    }
+                    progressBarLogo.style.display = 'none';
+                });
+                progressBarLogo.style.display = 'block';
         });
 
 
@@ -290,44 +412,6 @@
             var files = $('#upload')[0].files;
             var formData = new FormData(this); 
             var action = $(this).attr('action');
-            //formData.append('file',files);
-        /*    $.ajax({
-                url: action,
-                type: "POST",
-                data: formData,
-                beforeSend: function() {
-                    $('.loader').show();
-                },
-                success: function(data) {
-                    if(data.status === true){
-                        localStorage.setItem('data', JSON.stringify(data.user));
-                        window.location.href = '/sign-up/business-category';
-                    }
-                    console.log(data);
-                },
-                error: function(xhr, status, error) {
-                    var response = JSON.parse(xhr.responseText);
-                    if(response.type == 'superseed'){
-                        Swal.fire('Warning!', 'Your company has already been registered with us!.','warning');
-                    }
-                    if (response.errors) {
-                        $.each(response.errors, function(field, errors) {
-                            if(field === 'mobile'){
-                                var minput = $('input[name="' + field + '"]');
-                                var mfeedback = minput.parent().next('.invalid-msg2');
-                                mfeedback.html(errors[0]).show();
-                            }
-                            var input = $('input[name="' + field + '"]');
-                            input.addClass('red-border');
-                            var feedback = input.siblings('.invalid-msg2');
-                            feedback.text(errors[0]).show();
-                        });
-                    }
-                },
-                complete: function(data) {
-                    
-                }
-            }); */
 
                 axios.post(action, formData, {
                     headers: {
@@ -348,10 +432,14 @@
                     }
                     if (error.response.status == 422) {
                         $.each(error.response.data.errors, function(field, errors) {
-                            if(field === 'mobile'){
-                                var minput = $('input[name="' + field + '"]');
-                                var mfeedback = minput.parent().next('.invalid-msg2');
-                                mfeedback.html(errors[0]).show();
+                            if(field === 'region_id'){
+                                var region_error = $('.region_error');
+                                console.log(region_error);
+                                region_error.html(errors[0]).show();
+                            }
+                            if(field === 'document'){
+                                var document_error = $('.doc-msg');
+                                document_error.html(errors[0]).show();
                             }
                             var input = $('input[name="' + field + '"]');
                             input.addClass('red-border');
