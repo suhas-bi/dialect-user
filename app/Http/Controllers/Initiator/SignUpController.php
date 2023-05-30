@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OTP;
 use App\Models\Company;
+use App\Models\CompanyUser;
+use DB;
+use Auth;
+use Illuminate\Support\Facades\Hash;
 
 class SignUpController extends Controller
 {
@@ -172,5 +176,74 @@ class SignUpController extends Controller
         Cache::forget('company');
         
         return view('initiator.review-verification',compact('company'));
+    }
+
+    public function onboarding($token){
+        $user = CompanyUser::where('token', $token)->firstOrFail();
+        if(!$user){
+            return redirect('/');
+        }
+        return view('initiator.onboarding',compact('user'));
+    }
+
+    public function setPassword(Request $request){
+        $request->validate([  
+            'password' =>'required|confirmed|string|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+        ]);
+        
+        DB::beginTransaction();
+
+        try {
+            $user = CompanyUser::find($request->user_id);
+            $user->password = Hash::make($request->password);
+            $user->status = 1;
+            $user->token = '';
+            $user->save();
+            
+            $company_users = CompanyUser::where('company_id',$user->company_id)->whereNotNull('password')->where('status',1)->get();
+            $company = Company::find($user->company_id);
+            if($company_users->count('id') == 3){
+                $company->status = $company->is_account_verified == 1 ? 2 : 1;
+                $company->save();
+            }
+    
+            // $details['email'] = $company->email;
+            // $details['name'] = $company->name;
+            // $details['subject'] = 'User successfully onboarded.';
+            // $details['body'] = "<div><p>'.$user->name.' has successfully activated his account</p></div>";
+            // dispatch(new MailQueueJob($details));
+            
+            DB::commit(); 
+            if (Auth::attempt(['email' => $user->email, 'password' => $request->password], '')) {
+                $user = auth()->user();
+                if($user->role == 1){
+                    return redirect()->intended('admin/dashboard')
+                    ->withSuccess('Signed in');
+                }  
+                elseif($user->role == 2){
+                    return redirect()->intended('procurement/dashboard')
+                    ->withSuccess('Signed in');
+                }  
+                elseif($user->role == 3){
+                    return redirect()->intended('sales/dashboard')
+                    ->withSuccess('Signed in');
+                }  
+                elseif($user->role == 4){
+                    return redirect()->intended('member/dashboard')
+                    ->withSuccess('Signed in');
+                }  
+                else{
+                    return back();
+                }
+                
+            }
+      
+            return back();
+        }
+        catch(\Exception  $e){
+            DB::rollback();
+            return redirect()->intended('/');
+        }
+       
     }
 }

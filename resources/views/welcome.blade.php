@@ -23,11 +23,12 @@
                     <h1 class="justify-content-center d-flex align-items-center">Login</h1>
 
                     <div class="p-4">
-                        <form class="form-horizontal">
+                        <form class="form-horizontal" action="{{ route('login') }}" method="post">
+                            @csrf
                             <!-- Email Input -->
                             <div class="form-group row px-3 position-relative">
                                 <i class="email-ico"></i>
-                                <input type="text" placeholder="Email Address"
+                                <input name="email" type="text" placeholder="Email Address"
                                     class="form-control border-info placeicon red-border" id="validationCustom03">
                                     <div class="invalid-msg"> Please provide a valid email. </div>
                             </div>
@@ -36,7 +37,7 @@
                             <!-- Password Input -->
                             <div class="form-group row px-3 position-relative">
                                 <i class="password-ico"></i>
-                                <input type="password" placeholder="Password"
+                                <input name="password" type="password" placeholder="Password"
                                     class="form-control border-info placeicon">
                                 <i class="eye-ico"></i>
                             </div>

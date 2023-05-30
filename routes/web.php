@@ -10,6 +10,12 @@ use App\Http\Controllers\Initiator\{
     DeclarationController
 };
 
+use App\Http\Controllers\LoginController;
+
+use App\Http\Controllers\Admin\{
+    AdminHomeController,
+};
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,4 +57,27 @@ Route::post('/sign-up/declaration/delete', [DeclarationController::class,'delete
 Route::get('/sign-up/registration-edit', [DeclarationController::class,'edit'])->name('sign-up.edit');
 Route::post('/sign-up/registration-edit', [DeclarationController::class,'update'])->name('sign-up.update');
 
+
+Route::get('onboarding/{token}',  [SignUpController::class,'onboarding'])->name('onboarding');
+Route::post('registration',  [SignUpController::class,'setPassword'])->name('registration.setPassword');
+
 Route::get('/sign-up/review-verification', [SignUpController::class,'review'])->name('sign-up.review-verification');
+
+
+// Administrator
+Route::get('/admin/dashboard', [AdminHomeController::class,'index'])->name('admin.dashboard');
+Route::get('/procurement/dashboard', [AdminHomeController::class,'procurement'])->name('procurement.dashboard');
+Route::get('/sales/dashboard', [AdminHomeController::class,'sales'])->name('sales.dashboard');
+
+Route::get('/admin/edit-admin', [AdminHomeController::class,'adminEdit'])->name('admin.adminEdit');
+Route::post('/admin/update-admin/{id}', [AdminHomeController::class,'adminUpdate'])->name('admin.adminUpdate');
+
+Route::get('/admin/create-procurement', [AdminHomeController::class,'procurementCreate'])->name('admin.procurementCreate');
+Route::get('/admin/create-sales', [AdminHomeController::class,'salesCreate'])->name('admin.salesCreate');
+Route::post('/admin/update-user', [AdminHomeController::class,'createUpdateUser'])->name('admin.createUpdateUser');
+
+Route::get('/logout', [AdminHomeController::class,'logout'])->name('logout');
+
+Route::post('/login', [LoginController::class,'login'])->name('login');
+
+
