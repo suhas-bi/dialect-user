@@ -110,7 +110,7 @@
             $.ajax({
                 url: resend_url,
                 type: "POST",
-                data: { mobile:data.mobile },
+                data: { email:data.email },
                 beforeSend: function() {
                     $('#resend-zone').hide();
                 },
@@ -147,7 +147,7 @@
             $.ajax({
                 url: action,
                 type: "POST",
-                data: {otp:otp,mobile:data.mobile},
+                data: {otp:otp,email:data.email},
                 beforeSend: function() {
                     $('.loader').show();
                 },
@@ -160,7 +160,25 @@
                 error: function(xhr, status, error) {
                     var response = JSON.parse(xhr.responseText);
                     if(response.status === false){
-                        window.location.href = '/sign-up';
+                        console.log(response);
+                        if(response.type == 1){
+                            Swal.fire({
+                                title: response.message,
+                                text: 'Please restart the registration process!',
+                                icon: 'warning',
+                                showCancelButton: false,
+                                confirmButtonText: 'Restart Process',
+                                cancelButtonText: 'Cancel'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '/sign-up';
+                                }
+                            });
+                        }
+                        else{
+                            Swal.fire('Warning!', response.message, 'warning');
+                        }
+                        
                     }
                 },
                 complete: function(data) {

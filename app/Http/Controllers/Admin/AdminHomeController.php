@@ -19,11 +19,17 @@ use Illuminate\Support\Str;
 
 class AdminHomeController extends Controller
 {
+
+    public function __construct() 
+    {
+      $this->middleware('auth');
+    }
+    
     public function index(){
         $company_id = auth()->user()->company_id;
 
-        $userCount = CompanyUser::where('company_id',$company_id)->count();
-        if($userCount > 3){
+        $userCount = CompanyUser::where('company_id',$company_id)->whereNotNull('password')->count();
+        if($userCount < 3){
             $admin = CompanyUser::where('company_id',$company_id)->where('role',1)->first();
             $procurement = CompanyUser::where('company_id',$company_id)->where('role',2)->first();
             $sales = CompanyUser::where('company_id',$company_id)->where('role',3)->first();

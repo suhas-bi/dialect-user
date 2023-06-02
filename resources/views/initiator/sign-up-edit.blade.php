@@ -121,7 +121,7 @@
                                         </div>
                                     </div>
                                     <div class="operating-regions form-group position-relative">
-                                        <label>Operating Regions</label>
+                                        <label>Please select the region(s) where your company offers its services.</label>
                                         <ul>
                                             @foreach($regions as $key => $region)
                                             <li>
@@ -153,10 +153,11 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="row">
-                                                    <div class="col-md-6">
-                                                        <input type="file" id="upload" hidden/>
-                                                        <label for="upload" class="browse-file">Drag a file or browse
+                                                    <div class="col-md-6 position-relative" id="logo-upload-area">
+                                                        <input type="file" id="logo-upload" name="logo_file" accept="image/*" hidden/>
+                                                        <label for="logo-upload" class="browse-file">Drag a file or browse
                                                             a file to upload</label>
+                                                        <div class="invalid-msg2 logo-error mt-4"> </div>    
                                                     </div>
                                                     <div class="col-md-6 d-flex align-items-center justify-content-center">
                                                         <div class="uplaod-formats">
@@ -166,6 +167,21 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <div id="logo-preview" class="d-flex flex-column align-items-left  mt-2 {{ !$company->logo ? 'd-none' : '' }}">
+                                                    <span class="d-flex doc-preview align-items-center justify-content-between">
+                                                        Company Logo
+                                                        <div class="d-flex align-items-center">
+                                                            <a href="{{ $company->logo }}" class="doc-preview-view"></a>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    <div id="progressBarLogo" style="display: none;">
+                                                        <div id="progressLogo" style="width: 0%;"></div>
+                                                    </div>
+                                                    
+                                                </div>
                                             </div>
                                         </div>  
                                     </div>
@@ -173,37 +189,42 @@
                                     <div class="operating-regions">
                                         <div class="d-flex justify-content-between justify-content-center">
                                             <label>Business Category</label>
-                                            <a href="#" class="add-business-catg">Add Business Category</a>
+                                            <button id="registration-button" type="submit" class="add-business-catg">Add Business Category</button>
                                         </div>
                                         <div class="business-catg-main">
-                                            <ul class="d-flex flex-wrap">
-                                                @foreach($company->activities as $key => $activity)
+                                            <ul class="d-flex flex-wrap" id="selected-subcategory">
+                                                @forelse($companyActivities as $key => $activity)
                                                 <li class="d-flex justify-content-between justify-content-center">
-                                                    {{ $activity }} 
-                                                    <a href="#" data-id="{{ $activity }}" class="categ-delete"></a>
+                                                    {{ $activity->subcategory->name ?? '' }} 
+                                                    <a href="#" data-id="{{ $activity->id }}" class="categ-delete"></a>
                                                 </li>
-                                                @endforeach
+                                                @empty
+                                                <li>
+                                                    <h3>No Data Found!</h3>
+                                                </li>
+                                                @endforelse
                                             </ul>
                                         </div>
                                     </div>
 
                                     </div>
                                 
-                                <div class="col-md-4">
-                                    <div class="document-upload">
-                                        <h1>Document Upload</h1>
-                                        <h2>CR License</h2>
-                                        <div class="form-group position-relative">
-                                            <label>Document No <span class="mandatory">*</span></label>
-                                            <input id="document_no" type="text" name="document_no" class="form-control" value="{{ $company->document->doc_number ?? '' }}" placeholder="Document No">
-                                            <div class="invalid-msg2"> </div>
-                                        </div>
-                                        <div class="form-group position-relative">
-                                            <label>Document Expiry Date<span class="mandatory">*</span></label>
-                                            <input id="expiry_date" type="date" name="expiry_date" class="form-control" value="{{ $company->document->expiry_date ?? '' }}" placeholder="Expiry Date">
-                                            <div class="invalid-msg2"> </div>
-                                        </div>
-                                        <div id="document-upload-area" class="form-group position-relative {{ $company->document && $company->document->doc_file ? 'd-none' : '' }}">
+                                    <div class="col-md-4">
+                                        <div class="document-upload">
+                                            <h1>Document Upload</h1>
+                                            <h2>{{ $document->name }}</h2>
+                                            <div class="form-group position-relative">
+                                                <label>Document No <span class="mandatory">*</span></label>
+                                                <input id="document_no" type="text" name="document_no" class="form-control" value="{{ $company->document->doc_number ?? '' }}" placeholder="Document No">
+                                                <div class="invalid-msg2"> </div>
+                                            </div>
+                                            <div class="form-group position-relative">
+                                                <label>Document Expiry Date<span class="mandatory">*</span></label>
+                                                <input id="expiry_date" type="date" name="expiry_date" class="form-control" value="{{ $company->document->expiry_date ?? '' }}" placeholder="Expiry Date" min="{{ date('Y-m-d') }}">
+                                                <div class="invalid-msg2"> </div>
+                                            </div>
+                                            
+                                            <div id="document-upload-area" class="form-group position-relative {{ $company->document && $company->document->doc_file ? 'd-none' : '' }}">
                                                 <label>Upload Document</label>
                                                 <div class="clearfix"></div>
                                                 <input type="file" id="upload" name="document_file" hidden accept=".jpeg, .jpg, .png, .pdf" />
@@ -224,15 +245,14 @@
                                                 <span class="d-flex doc-preview align-items-center justify-content-between {{ !$company->document->doc_file ? 'd-none' : '' }}">
                                                     {{ $company->document->doc_name ?? '' }}
                                                     <div class="d-flex align-items-center">
-                                                        <a id="doc-preview-link" href="{{ asset($company->document->doc_file ?? '') }}" class="doc-preview-view" target="_blank"></a>
+                                                        <a id="doc-preview-link" href="{{ asset('storage/'.$company->document->doc_file ?? '') }}" class="doc-preview-view" target="_blank"></a>
                                                         <a href="#" class="doc-preview-delete delete-document" data-id="{{ $company->document->id ?? '' }}" data-url="{{ route('sign-up.company-info.deleteDocument') }}"></a>
                                                         </div>
                                                 </span>
                                                 @endif 
                                             </div> 
-                                    
+                                        </div>
                                     </div>
-                                </div>
 
                             </div>
                         </div>
@@ -243,7 +263,7 @@
                             </div>
 
                             <div class="form-group proceed-btn">
-                                <button type="submit" value="Proceed" class="btn btn-secondary">
+                                <button id="registration-button" type="submit" value="Proceed" class="btn btn-secondary">
                                     <i class="fa fa-repeat fa-spin text-white loader"></i>
                                     <span class="text-white">Proceed</span>
                                 </button>
@@ -272,6 +292,143 @@
     $(document).ready(function() {
         $('.loader').hide();
         var company = JSON.parse(localStorage.getItem('company'));
+
+        // Document
+        var progressBar = document.getElementById('progressBar');
+        var progress = document.getElementById('progress');
+        var documentPreview = document.getElementById('document-preview');
+        var documentUploadArea = document.getElementById('document-upload-area');
+
+        // Logo
+        var progressBarLogo = document.getElementById('progressBarLogo');
+        var progressLogo = document.getElementById('progressLogo');
+        var logoPreview = document.getElementById('logo-preview');
+        var logoUploadArea = document.getElementById('logo-upload-area');
+
+        $('#upload').change(function() {
+            var uploadAction = '/sign-up/company-info/upload-document';
+            var fileInput = $(this)[0];
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            formData.append('document_file', file);
+
+            axios.post(uploadAction, formData, {
+                headers: {
+                'Content-Type': 'multipart/form-data'
+                },
+                onUploadProgress: function(progressEvent) {
+                    var percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                    progress.style.width = percent + '%';
+                }
+            })
+            .then((response) => {
+                // Handle success response
+                console.log(response.data.data.doc_file);
+                var content = `<span class="d-flex doc-preview align-items-center justify-content-between">
+                                    ${response.data.data.doc_name}
+                                    <div class="d-flex align-items-center">
+                                        <a id="doc-preview-link" href="${response.data.data.doc_file}" class="doc-preview-view" target="_blank"></a>
+                                        <a href="#" class="doc-preview-delete delete-document" data-id="${response.data.data.id}" data-url="{{ route('sign-up.company-info.deleteDocument') }}"></a>
+                                        </div>
+                                </span>`;
+                $('#document').val(response.data.data.doc_file);                
+                documentPreview.classList.remove('d-none');
+                documentPreview.innerHTML = content;
+                documentUploadArea.classList.add('d-none');
+                progressBar.style.display = 'none';
+            })
+            .catch((error) => {
+                // Handle error response
+                console.log(error);
+                if (error.response.status == 422) {
+                    $.each(error.response.data.errors, function(field, errors) {
+                        var input = $('input[name="' + field + '"]');
+                        input.addClass('red-border');
+                        var feedback = input.siblings('.invalid-msg2');
+                        feedback.text(errors[0]).show();
+                    });
+                }
+                progressBar.style.display = 'none';
+            });
+            progressBar.style.display = 'block';
+        });
+
+        $("body").on("click",".delete-document",function(){
+            var docDeleteAction = $(this).data('url');
+            var token = "{{ csrf_token() }}";
+            var id = $(this).data('id');
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Document will be deleted!",
+                icon: 'warning',
+                showCancelButton: true,
+            }).then(function (willDelete) {
+                if (willDelete.isConfirmed === true) {
+                    axios.post(docDeleteAction, id)
+                    .then((response) => {
+                        // Handle success response
+                        //console.log(response);
+                        documentPreview.classList.add('d-none');
+                        documentUploadArea.classList.remove('d-none');
+                    })
+                    .catch((error) => {
+                        // Handle error response
+                        console.log(error);
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Cancelled',
+                        icon: "error",
+                    });
+                }
+            });
+        });
+
+        $('#logo-upload').change(function() {
+            var uploadAction = '/sign-up/company-info/upload-logo';
+            var logoInput = $(this)[0];
+            var logo = logoInput.files[0];
+            var formData = new FormData();
+            formData.append('logo_file', logo);
+
+            axios.post(uploadAction, formData, {
+                    headers: {
+                    'Content-Type': 'multipart/form-data'
+                    },
+                    onUploadProgress: function(progressEvent) {
+                        var percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        progressLogo.style.width = percent + '%';
+                    }
+                })
+                .then((response) => {
+                    // Handle success response
+                    var logoContent = `<span class="d-flex doc-preview align-items-center justify-content-between">
+                                      Company Logo
+                                        <div class="d-flex align-items-center">
+                                            <a href="${response.data.data.logo}" class="doc-preview-view"></a>
+                                        </div>
+                                    </span>`;
+                    logoPreview.classList.remove('d-none');
+                    logoPreview.innerHTML = logoContent;
+                    progressBarLogo.style.display = 'none';
+                })
+                .catch((error) => {
+                    // Handle error response
+                    console.log(error);
+                    if (error.response.status == 422) {
+                        $.each(error.response.data.errors, function(field, errors) {
+                            if(field === 'logo_file'){
+                                var logo_error = $('.logo-error');
+                                console.log(errors[0]);
+                                logo_error.html(errors[0]).show();
+                            }
+                        });
+                    }
+                    progressBarLogo.style.display = 'none';
+                });
+                progressBarLogo.style.display = 'block';
+        });
+
         $('#registration').submit(function(e) {
             e.preventDefault(); 
             $('.invalid-msg2').hide();
@@ -290,7 +447,7 @@
                 success: function(data) {
                     console.log(data);
                     if(data.status === true){
-                        window.location.href = '/sign-up/review-verification';
+                        window.location.href = '/sign-up/business-category';
                     }
                 },
                 error: function(xhr, status, error) {
@@ -314,7 +471,68 @@
                 }
             });
         });
+
+
+        $(document).on('click', '.categ-delete', function (e) {
+            e.preventDefault();
+            var activityId = $(this).data('id');
+            var activityDeleteAction = '/sign-up/business-category/delete/' + activityId;  
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Category will be deleted from the list!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.delete(activityDeleteAction, activityId)
+                    .then((response) => {
+                        // Handle success response
+                        selectedSubCategory();
+                        Swal.fire('Deleted!', 'The item has been deleted.', 'success');
+                    })
+                    .catch((error) => {
+                        // Handle error response
+                        Swal.fire('Error!', 'An error occurred while deleting the item.', 'error');
+                    });
+                }
+            });
+        });
+
     });
+
+
+    function selectedSubCategory(){
+        var action = '/sign-up/business-category/selected';
+        axios.post(action)
+        .then((response) => {
+            // Handle success response
+            if(response.data.status === true){
+                $('#selected-subcategory').empty();
+                if(response.data.data.length){
+                    $.each(response.data.data, function(key, val) {       
+                        var li = `<li class="d-flex justify-content-between justify-content-center">`
+                                            + val.subcategory.name +
+                                            `<a href="#" data-id="`+val.id+`" class="categ-delete"></a>
+                                    </li>`;
+                        $('#selected-subcategory').append(li);
+                    });
+                }
+                else{
+                    var li = `<li class="text-center"><h3>No Data Found!</h3></li>`;
+                    $('#selected-subcategory').append(li);
+                }
+            }
+            else{
+
+            }
+        })
+        .catch((error) => {
+            // Handle error response
+            //console.log(error);
+        });
+    }
 </script>
 @endpush
 @endsection

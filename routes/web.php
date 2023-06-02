@@ -44,6 +44,7 @@ Route::post('/sign-up/company-info/delete-document', [CompanyInfoController::cla
 Route::post('/sign-up/company-info/upload-logo', [CompanyInfoController::class,'uploadLogo'])->name('sign-up.company-info.uploadLogo');
 
 Route::get('/sign-up/business-category',[BusinessCategoryController::class,'index'])->name('sign-up.business-category');
+Route::post('/sign-up/business-category',[BusinessCategoryController::class,'search'])->name('sign-up.business-category.search');
 Route::post('/sign-up/business-category/subcategory', [BusinessCategoryController::class,'getSubcategories'])->name('sign-up.business-category.subcategory');
 Route::post('/sign-up/business-category/selected', [BusinessCategoryController::class,'selectedSubcategories'])->name('sign-up.business-category.selected');
 Route::delete('/sign-up/business-category/delete/{id}', [BusinessCategoryController::class,'deleteSelected'])->name('sign-up.business-category.delete');
@@ -56,6 +57,8 @@ Route::post('/sign-up/declaration/delete', [DeclarationController::class,'delete
 
 Route::get('/sign-up/registration-edit', [DeclarationController::class,'edit'])->name('sign-up.edit');
 Route::post('/sign-up/registration-edit', [DeclarationController::class,'update'])->name('sign-up.update');
+
+Route::get('registration/{token}',  [SignUpController::class,'registrationProcess'])->name('registration');
 
 
 Route::get('onboarding/{token}',  [SignUpController::class,'onboarding'])->name('onboarding');
@@ -79,5 +82,8 @@ Route::post('/admin/update-user', [AdminHomeController::class,'createUpdateUser'
 Route::get('/logout', [AdminHomeController::class,'logout'])->name('logout');
 
 Route::post('/login', [LoginController::class,'login'])->name('login');
+Route::get('/login', function(){
+    return redirect('/');
+});
 
 

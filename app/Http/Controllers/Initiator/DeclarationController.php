@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Initiator;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Initiator\CompanyInfoRequest;
 use App\Http\Requests\Initiator\DeclarationUploadRequest;
 use App\Models\Company;
 use App\Models\Region;
+use App\Models\Document;
 use App\Models\CompanyDocument;
 use App\Models\CompanyLocation;
 use App\Models\CompanyActivity;
@@ -37,10 +39,12 @@ class DeclarationController extends Controller
             return redirect('/');
         }
 
-         $company = Company::with('activities')->find($comp->id);
+        $company = Company::find($comp->id);
         $regions = Region::where('country_id',$comp->country_id)->get();
+        $document = Document::where('country_id',$company->country_id)->first();
         $company_locations = CompanyLocation::where('company_id',$company->id)->pluck('region_id')->toArray();
-        return view('initiator.sign-up-edit',compact('company','regions','company_locations'));
+        $companyActivities = CompanyActivity::with('subcategory')->where('company_id',$comp->id)->get();
+        return view('initiator.sign-up-edit',compact('company','regions','company_locations','companyActivities','document'));
     }
 
     public function update(CompanyInfoRequest $request){
@@ -158,7 +162,6 @@ class DeclarationController extends Controller
         if(!$comp){
             return redirect('/');
         }
-        dd($comp);
         DB::beginTransaction();
         try{
             $company = Company::find($comp->id);

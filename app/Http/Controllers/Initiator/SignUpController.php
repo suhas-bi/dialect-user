@@ -11,9 +11,11 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\OTP;
 use App\Models\Company;
 use App\Models\CompanyUser;
+use App\Models\RegistrationToken;
 use DB;
 use Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class SignUpController extends Controller
 {
@@ -26,10 +28,10 @@ class SignUpController extends Controller
             $otp = rand(100000, 999999);
             $user = $request->validated();
             $user['otp'] = $otp;
-            Cache::put($request->mobile, $user, now()->addMinutes(20));
+            Cache::put($request->email, $user, now()->addMinutes(20));
 
             Mail::to($user['email'])->queue(new OTP($otp));
-
+            Cache::put('otp_count', 0);
             return response()->json([
                 'status' => true,
                 'message' => 'OTP Send!',
@@ -48,8 +50,8 @@ class SignUpController extends Controller
     }
 
     public function resendOtp(Request $request){
-        $mobile_number = $request->mobile;
-        $user = Cache::get($mobile_number);
+        $email = $request->email;
+        $user = Cache::get($email);
 
         if(!$user){
             return response()->json([
@@ -62,7 +64,7 @@ class SignUpController extends Controller
 
             $otp = rand(100000, 999999);
             $user['otp'] = $otp;
-            Cache::put($mobile_number, $user, now()->addMinutes(20));
+            Cache::put($email, $user, now()->addMinutes(20));
 
             Mail::to($user['email'])->queue(new OTP($otp));
 
@@ -89,7 +91,7 @@ class SignUpController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'mobile' => 'required',
+            'email' => 'required',
             'otp' => 'required|max:6',
         ]);
 
@@ -102,12 +104,23 @@ class SignUpController extends Controller
         }
 
         try {
-            $mobile_number = $request->mobile;
-            $user = Cache::get($mobile_number);
+            $email = $request->email;
+            $user = Cache::get($email);
+
+            $otp_count = Cache::get('otp_count') + 1;
+            Cache::put('otp_count', $otp_count);
+            if($otp_count > 3){
+                return response()->json([
+                    'status' => false,
+                    'type' => 1,
+                    'message' => 'Exceeded maximum attempts',
+                ], 422);
+            }
 
             if (!$user) {
                 return response()->json([
                     'status' => false,
+                    'type' => 1,
                     'message' => 'OTP expired or does not exist',
                 ], 422);
             }
@@ -132,9 +145,25 @@ class SignUpController extends Controller
                ]);
 
                // Clear the OTP from cache
-                Cache::forget($mobile_number);
+                Cache::forget($email);
 
                 Cache::put('company', $newCompany);
+
+                $plaintext = Str::random(32);
+                $token = RegistrationToken::create([
+                        'company_id' => $newCompany->id,
+                        'token' => hash('sha256', $plaintext),
+                        'expire_at' => now()->addDays(7),
+                ]);
+
+                $details = [
+                    'name' =>  $newCompany->name ?? 'User',
+                    'subject'	=>'DialectB2B Registration Process.',
+                    'body' => "<div><p>We're excited to welcome you to the world of infinite opportunities, and we can't wait to help you get started on your new journey.<br><br>To get started, complete your registration here:</p></div>",
+                    'link'	=> url('registration/'.$token->token),
+                ];
+                
+                \Mail::to($newCompany->email)->send(new \App\Mail\CommonMail($details));
 
                 return response()->json([
                     'status' => true,
@@ -144,7 +173,7 @@ class SignUpController extends Controller
             }
             
             // Clear the OTP from cache
-            Cache::forget($mobile_number);
+            Cache::forget($email);
 
             Cache::put('company', $checkCompanyExists);
             
@@ -245,5 +274,37 @@ class SignUpController extends Controller
             return redirect()->intended('/');
         }
        
+    }
+
+    public function registrationProcess($token){
+        $data = RegistrationToken::where('token', $token)->firstOrFail();
+        if(!$data){
+            return redirect('/');
+        }
+        $company = Company::find($data->company_id);
+        Cache::put('company', $company);
+
+        $otp = rand(100000, 999999);
+        $company['otp'] = $otp;
+        Cache::put($company->phone, $company, now()->addMinutes(20));
+
+        try {
+
+            Mail::to($company->email)->queue(new OTP($otp));
+
+            return redirect()->route('sign-up.verify');
+            // return response()->json([
+            //     'status' => true,
+            //     'message' => 'OTP Generated Successfully'
+            // ], 200);
+        } catch (\Throwable $th) {
+
+            return redirect()->route('sign-up.verify');
+            // return response()->json([
+            //     'status' => false,
+            //     'message' => $th->getMessage()
+            // ], 500);
+
+        }    
     }
 }

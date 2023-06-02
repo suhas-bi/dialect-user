@@ -120,7 +120,7 @@
                                             </div>
                                         </div>
                                         <div class="operating-regions form-group position-relative">
-                                            <label>Operating Regions</label>
+                                            <label>Please select the region(s) where your company offers its services.</label>
                                             <ul>
                                                 @foreach($regions as $key => $region)
                                                 <li>
@@ -153,7 +153,7 @@
                                                 <div class="col-md-6">
                                                     <div class="row">
                                                         <div class="col-md-6 position-relative" id="logo-upload-area">
-                                                            <input type="file" id="logo-upload" name="logo_file" hidden/>
+                                                            <input type="file" id="logo-upload" name="logo_file" accept="image/*" hidden/>
                                                             <label for="logo-upload" class="browse-file">Drag a file or browse
                                                                 a file to upload</label>
                                                             <div class="invalid-msg2 logo-error mt-4"> </div>    
@@ -167,11 +167,11 @@
                                                         </div>
                                                     </div>
 
-                                                    <div id="logo-preview" class="d-flex flex-column align-items-left  mt-2">
-                                                        <span class="d-flex doc-preview align-items-center justify-content-between {{ !$company->logo ? 'd-none' : '' }}">
+                                                    <div id="logo-preview" class="d-flex flex-column align-items-left  mt-2 {{ !$company->logo ? 'd-none' : '' }}">
+                                                        <span class="d-flex doc-preview align-items-center justify-content-between">
                                                             Company Logo
                                                             <div class="d-flex align-items-center">
-                                                                <a href="#" class="doc-preview-view"></a>
+                                                                <a href="{{ $company->logo }}" class="doc-preview-view"></a>
                                                             </div>
                                                         </span>
                                                     </div>
@@ -203,7 +203,7 @@
                                             </div>
                                             
                                             <div id="document-upload-area" class="form-group position-relative {{ $company->document && $company->document->doc_file ? 'd-none' : '' }}">
-                                                <label>Upload Document</label>
+                                                <label>Upload Document<span class="mandatory">*</span></label>
                                                 <div class="clearfix"></div>
                                                 <input type="file" id="upload" name="document_file" hidden accept=".jpeg, .jpg, .png, .pdf" />
                                                 <label for="upload" class="upload-file">Upload Files</label>
@@ -223,7 +223,7 @@
                                                 <span class="d-flex doc-preview align-items-center justify-content-between {{ !$company->document->doc_file ? 'd-none' : '' }}">
                                                     {{ $company->document->doc_name ?? '' }}
                                                     <div class="d-flex align-items-center">
-                                                        <a id="doc-preview-link" href="{{ asset($company->document->doc_file ?? '') }}" class="doc-preview-view" target="_blank"></a>
+                                                        <a id="doc-preview-link" href="{{ asset('storage/'.$company->document->doc_file ?? '') }}" class="doc-preview-view" target="_blank"></a>
                                                         <a href="#" class="doc-preview-delete delete-document" data-id="{{ $company->document->id ?? '' }}" data-url="{{ route('sign-up.company-info.deleteDocument') }}"></a>
                                                         </div>
                                                 </span>
@@ -236,7 +236,7 @@
 
                             <div class="d-flex justify-content-between justify-content-center">
                                 <div class="already-signup">
-                                    <a href="#" class="reset" onclick="window.location.reload();">Reset</a>
+                                    <!-- <a href="#" class="reset" onclick="window.location.reload();">Reset</a> -->
                                 </div>
 
                                 <div class="form-group proceed-btn">
@@ -337,12 +337,13 @@
                 title: "Are you sure?",
                 text: "Document will be deleted!",
                 icon: 'warning',
+                showCancelButton: true,
             }).then(function (willDelete) {
-                if (willDelete) {
+                if (willDelete.isConfirmed === true) {
                     axios.post(docDeleteAction, id)
                     .then((response) => {
                         // Handle success response
-                        console.log(response);
+                        //console.log(response);
                         documentPreview.classList.add('d-none');
                         documentUploadArea.classList.remove('d-none');
                     })
@@ -377,15 +378,14 @@
                 })
                 .then((response) => {
                     // Handle success response
-                    console.log(response.data.data.doc_file);
-                    var content = `<span class="d-flex doc-preview align-items-center justify-content-between {{ !$company->logo ? 'd-none' : '' }}">
+                    var logoContent = `<span class="d-flex doc-preview align-items-center justify-content-between">
                                       Company Logo
                                         <div class="d-flex align-items-center">
-                                            <a href="${response.data.data.doc_file}" class="doc-preview-view"></a>
+                                            <a href="${response.data.data.logo}" class="doc-preview-view"></a>
                                         </div>
                                     </span>`;
                     logoPreview.classList.remove('d-none');
-                    logoPreview.innerHTML = content;
+                    logoPreview.innerHTML = logoContent;
                     progressBarLogo.style.display = 'none';
                 })
                 .catch((error) => {

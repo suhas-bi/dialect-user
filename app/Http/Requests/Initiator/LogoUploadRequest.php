@@ -22,7 +22,7 @@ class LogoUploadRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'logo_file' => ['required','mimes:jpeg,jpg,png','max:4096'],
+            'logo_file' => ['required','mimes:jpeg,jpg,png','max:2048'],
         ];
     }
 

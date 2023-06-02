@@ -57,7 +57,7 @@
                                         <div class="form-group proceed-btn">
                                             <input type="submit" value="Edit" class="btn btn-third" onclick="window.location.href = 'registration-edit';">
                                         </div>
-                                        <span>Date: {{ $company->updated_at }}</span>
+                                        <span>Date: {{ Carbon\Carbon::createFromTimeString($company->updated_at)->format('d-m-Y')  }}</span>
                                     </div>
                             </div>
                             
@@ -166,7 +166,7 @@
                                         <div class="clearfix"></div>
                                         
                                     </div>
-                                    <div id="declaration-preview">
+                                    <div id="declaration-preview" class="mt-4">
                                         <span class="d-flex doc-preview align-items-center justify-content-between {{ !$company->decleration ? 'd-none' : '' }}">
                                         Declaration
                                         <div class="d-flex align-items-center">
@@ -272,8 +272,9 @@
                 title: "Are you sure?",
                 text: "Declaration will be deleted!",
                 icon: 'warning',
+                showCancelButton: true,
             }).then(function (willDelete) {
-                if (willDelete) {
+                if (willDelete.isConfirmed === true) {
                     axios.post(docDeleteAction, id)
                     .then((response) => {
                         // Handle success response

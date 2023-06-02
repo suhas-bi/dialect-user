@@ -67,7 +67,7 @@
                                 <div class="col-md-8">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <input type="text" placeholder="Please Choose Category" class="form-control choose-category">
+                                            <input id="search" type="text" placeholder="Please Choose Category" class="form-control choose-category">
                                         </div>
                                         <div class="col-md-12">
                                            <ul class="alphabets d-flex flex-wrap align-items-center">
@@ -114,7 +114,7 @@
                                     </div>
                                 
                                 <div class="col-md-4">
-                                    <div class="airconditioning">
+                                    <div class="airconditioning subcategory-section">
                                         <h1 id="current-category"></h1>
                                         <ul id="subcategory-list" class="right-categories-list">
                                             
@@ -173,6 +173,7 @@
     </div>
   <!-- Model Ends -->
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 <script>
     $.ajaxSetup({
@@ -182,6 +183,7 @@
     });
 
     $(document).ready(function() {
+        $('.subcategory-section').hide();
         selectedSubCategory();
         $('.loader').hide();
         var company = JSON.parse(localStorage.getItem('company'));
@@ -189,102 +191,64 @@
             e.preventDefault(); 
             var id = $(this).data('id');
             var action = '/sign-up/business-category/subcategory';
-            $.ajax({
-                url: action,
-                type: "POST",
-                data: { id : id},
-                beforeSend: function() {
-                    $('.loader').show();
-                },
-                success: function(data) {
-                     if(data.status === true){
-                        $('#subcategory-list').empty();
-                        $('#current-category').text(data.category.name);
-                        if(data.data.length){
-                            $.each(data.data, function(key, val) {
-                                var li = `<li><a href="#" class="subcategory" data-id="`+val.id+`">`+val.name+`</a></li>`;
-                                $('#subcategory-list').append(li);
-                            });
-                        }
-                        else{
-                            var li = `<li><img src="{{ asset('assets/images/no-data.png') }}" width="100%" alt=""></li>
-                                      <li class="text-center">No Subcategories found for <br><h3>`+data.category.name+`</h3></li>`;
+            var data = { 'id' : id }
+            axios.post(action,data)
+            .then((response) => {
+                // Handle success response
+                console.log(response.data);
+                if(response.data.status === true){
+                    $('.subcategory-section').show();
+                    $('#subcategory-list').empty();
+                    $('#current-category').text(response.data.category.name);
+                    if(response.data.data.length){
+                        $.each(response.data.data, function(key, val) {
+                            var li = `<li><a href="#" class="subcategory" data-id="`+val.id+`">`+val.name+`</a></li>`;
                             $('#subcategory-list').append(li);
-                        }
-                     }
-                },
-                error: function(xhr, status, error) {
-                     var response = JSON.parse(xhr.responseText);
-                     console.log(response);
-                    // if (response.errors) {
-                    //     $.each(response.errors, function(field, errors) {
-                    //         if(field === 'mobile'){
-                    //             var minput = $('input[name="' + field + '"]');
-                    //             var mfeedback = minput.parent().next('.invalid-msg2');
-                    //             mfeedback.html(errors[0]).show();
-                    //         }
-                    //         var input = $('input[name="' + field + '"]');
-                    //         input.addClass('red-border');
-                    //         var feedback = input.siblings('.invalid-msg2');
-                    //         feedback.text(errors[0]).show();
-                    //     });
-                    // }
-                },
-                complete: function(data) {
-                    $('.loader').hide();
+                        });
+                    }
+                    else{
+                        var li = `<li><img src="{{ asset('assets/images/no-data.png') }}" width="100%" alt=""></li>
+                                    <li class="text-center">No Subcategories found for <br><h3>`+response.data.category.name+`</h3></li>`;
+                        $('#subcategory-list').append(li);
+                    }
                 }
+            })
+            .catch((error) => {
+                // Handle error response
+                console.log(error);
             });
         });
     });
 
     function selectedSubCategory(){
         var action = '/sign-up/business-category/selected';
-        $.ajax({
-            url: action,
-            type: "POST",
-            beforeSend: function() {
-                $('.loader').show();
-            },
-            success: function(data) {
-                    if(data.status === true){
-                    $('#selected-subcategory').empty();
-                    if(data.data.length){
-                        $('.basket-count').text(data.data.length);
-                        $.each(data.data, function(key, val) {
-                            
-                            var li = `<li class="d-flex justify-content-between justify-content-center">`
-                                             + val.subcategory.name +
-                                             `<a href="#" data-id="`+val.id+`" class="categ-delete"></a>
-                                      </li>`;
-                            $('#selected-subcategory').append(li);
-                        });
-                    }
-                    else{
-                        var li = `<li class="text-center"><h3>No Data Found!</h3></li>`;
+        axios.post(action)
+        .then((response) => {
+            // Handle success response
+            if(response.data.status === true){
+                $('#selected-subcategory').empty();
+                if(response.data.data.length){
+                    $('.basket-count').text(response.data.data.length);
+                    $.each(response.data.data, function(key, val) {       
+                        var li = `<li class="d-flex justify-content-between justify-content-center">`
+                                            + val.subcategory.name +
+                                            `<a href="#" data-id="`+val.id+`" class="categ-delete"></a>
+                                    </li>`;
                         $('#selected-subcategory').append(li);
-                    }
-                    }
-            },
-            error: function(xhr, status, error) {
-                    var response = JSON.parse(xhr.responseText);
-                   
-                // if (response.errors) {
-                //     $.each(response.errors, function(field, errors) {
-                //         if(field === 'mobile'){
-                //             var minput = $('input[name="' + field + '"]');
-                //             var mfeedback = minput.parent().next('.invalid-msg2');
-                //             mfeedback.html(errors[0]).show();
-                //         }
-                //         var input = $('input[name="' + field + '"]');
-                //         input.addClass('red-border');
-                //         var feedback = input.siblings('.invalid-msg2');
-                //         feedback.text(errors[0]).show();
-                //     });
-                // }
-            },
-            complete: function(data) {
-                $('.loader').hide();
+                    });
+                }
+                else{
+                    var li = `<li class="text-center"><h3>No Data Found!</h3></li>`;
+                    $('#selected-subcategory').append(li);
+                }
             }
+            else{
+
+            }
+        })
+        .catch((error) => {
+            // Handle error response
+            //console.log(error);
         });
     }
 
@@ -292,7 +256,7 @@
     $(document).on('click', '.categ-delete', function (e) {
         e.preventDefault();
         var activityId = $(this).data('id');
-
+        var activityDeleteAction = '/sign-up/business-category/delete/' + activityId;  
         Swal.fire({
             title: 'Are you sure?',
             text: 'Category will be deleted from the list!',
@@ -302,23 +266,16 @@
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Ajax request for deletion
-                $.ajax({
-                    url: '/sign-up/business-category/delete/' + activityId,
-                    type: 'DELETE',
-                    data: {
-                        "_token": "{{ csrf_token() }}"
-                    },
-                    success: function (response) {
-                        // Handle success response
-                        Swal.fire('Deleted!', 'The item has been deleted.', 'success');
-                        // Perform any additional actions as needed
-                        selectedSubCategory();
-                    },
-                    error: function (xhr, status, error) {
-                        // Handle error response
-                        Swal.fire('Error!', 'An error occurred while deleting the item.', 'error');
-                    }
+                axios.delete(activityDeleteAction, activityId)
+                .then((response) => {
+                    // Handle success response
+                    Swal.fire('Deleted!', 'The item has been deleted.', 'success');
+                    selectedSubCategory();
+                })
+                .catch((error) => {
+                    // Handle error response
+                    Swal.fire('Error!', 'An error occurred while deleting the item.', 'error');
+                    selectedSubCategory();
                 });
             }
         });
@@ -327,53 +284,58 @@
     $(document).on('click', '.subcategory', function (e) {
         e.preventDefault();
         var activityId = $(this).data('id');
-        $.ajax({
-            url: '/sign-up/business-category/add',
-            type: 'POST',
-            data: {
-                id:activityId
-            },
-            success: function (response) {
-                if(response.status === true){
-                    Swal.fire({
-                        toast: true,
-                        icon: 'success',
-                        title: response.message,
-                        animation: false,
-                        position: 'top',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    })
-                    selectedSubCategory();
-                }
-            },
-            error: function (xhr, status, error) {
-                var response = JSON.parse(xhr.responseText);
-                if(response.status === false){
-                    Swal.fire({
-                        toast: true,
-                        icon: 'warning',
-                        title: response.message,
-                        animation: false,
-                        position: 'top',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    })
-                    selectedSubCategory();
-                }
+        var action = '/sign-up/business-category/add';
+        var data = { 'id' : activityId }
+        axios.post(action,data)
+        .then((response) => {
+            // Handle success response
+            //console.log(response.data.message);
+            if(response.data.status === true){
+                Swal.fire({
+                    toast: true,
+                    icon: 'success',
+                    title: response.data.message,
+                    position: 'top-right',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+                selectedSubCategory();
             }
+            else{
+                selectedSubCategory();
+            }
+        })
+        .catch((error) => {
+            // Handle error response
+            //console.log(error.response.data.message)
+            Swal.fire('Warning!', error.response.data.message, 'warning');
+            selectedSubCategory();
         });
     });
+
+    $('#search').on('keyup', (e) => {
+        $('.subcategory-section').hide();
+        $('#category-list').empty();
+        let data = { 'search' : e.target.value }
+        var searchAction = "{{ route('sign-up.business-category.search') }}";
+        axios.post(searchAction, data)
+        .then((response) => {
+            // Handle success response
+            $('#category-list').empty();
+            response.data.forEach((item, i) => {
+                $('#category-list').append('<li><a href="#" class="subcategory" data-id="'+item.id+'">'+item.name+'</a></li>')
+            });
+        })
+        .catch((error) => {
+            // Handle error response
+            
+        });
+    })
 
 </script>
 @endpush  

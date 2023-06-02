@@ -5,6 +5,7 @@ namespace App\Http\Requests\Initiator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Cache;
+use App\Models\Company;
 
 class SignUpRequest extends FormRequest
 {
@@ -25,12 +26,13 @@ class SignUpRequest extends FormRequest
     {
         $rule_mobile_unique = '';
         $rule_phone_unique = '';
-        $comp = Cache::get('company');
+        $comp = Company::where('phone',$this->mobile)->first();
         if($comp){
-            $rule_mobile_unique = Rule::unique('company_users', 'mobile')->ignore($comp->id,'company_id');
             $rule_phone_unique = Rule::unique('companies', 'phone')->ignore($comp->id,'id');
+            $rule_mobile_unique = Rule::unique('company_users', 'mobile')->ignore($comp->id,'company_id');
         }
-
+       
+ 
 
         return [
             'name' => ['required',],

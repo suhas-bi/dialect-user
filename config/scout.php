@@ -129,14 +129,20 @@ return [
     |
     */
 
+    // 'meilisearch' => [
+    //     'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
+    //     'key' => env('MEILISEARCH_KEY'),
+    //     'index-settings' => [
+    //         // 'users' => [
+    //         //     'filterableAttributes'=> ['id', 'name', 'email'],
+    //         // ],
+    //     ],
+    // ],
+
     'meilisearch' => [
-        'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
-        'key' => env('MEILISEARCH_KEY'),
-        'index-settings' => [
-            // 'users' => [
-            //     'filterableAttributes'=> ['id', 'name', 'email'],
-            // ],
-        ],
+        'host' => env('MEILISEARCH_HOST', 'http://127.0.0.1:7700'),
+        'key' => env('MEILISEARCH_KEY', null),
+        'default_index' => env('MEILISEARCH_INDEX', 'your_default_index_name'),
     ],
 
 ];

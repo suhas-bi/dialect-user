@@ -64,7 +64,7 @@
                                     <div class="reivew-status d-flex justify-content-center">
                                         <div class="request-submited active">
                                             <h2>Request Submitted</h2>
-                                            <h3>({{ $company->updated_at}})</h3>
+                                            <h3>({{ Carbon\Carbon::createFromTimeString($company->updated_at)->format('d-m-Y')  }})</h3>
                                         </div>
 
                                         <div class="admin-review">
@@ -86,7 +86,7 @@
                             </div>
 
                             <div class="form-group proceed-btn">
-                                <input type="submit" value="Proceed" class="btn btn-secondary" onclick="window.location.href = '/';">
+                                <input type="submit" value="Back to home" class="btn btn-secondary" onclick="window.location.href = '/';">
                             </div>
 
                         </div>

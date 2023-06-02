@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Category;
+use App\Models\SubCategory;
 use App\Models\CompanyActivity;
 
 class BusinessCategoryController extends Controller
@@ -21,6 +22,22 @@ class BusinessCategoryController extends Controller
 
     public function sort(Request $request){
 
+    }
+
+    public function search(Request $request){
+        $sub_categories = SubCategory::search($request->get('search') ?? '', function ($meilisearch, string $query, array $options) use ($request) {
+            $result = $meilisearch->search($query, $options);
+
+            return $result;
+        })->get()->map(function($query) {
+            return [
+                'name'=> $query->name,
+                'id'=> $query->id
+            ];
+        });
+
+        
+        return response()->json($sub_categories);
     }
 
     public function getSubcategories(Request $request){
