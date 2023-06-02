@@ -51,6 +51,8 @@ class CompanyInfoController extends Controller
         }
 
         try {
+
+            $document = Document::where('country_id',$company->country_id)->first();
             
             $company->update([
                 'address' => $input['address'],
@@ -66,7 +68,7 @@ class CompanyInfoController extends Controller
             CompanyDocument::updateOrCreate([
                 'company_id'   => $company->id,
             ],[
-                'doc_type' => 1,
+                'doc_type' => $document->id,
                 'expiry_date' => $input['expiry_date'],
                 'doc_number' => $input['document_no']
             ]);

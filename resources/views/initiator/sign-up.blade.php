@@ -87,7 +87,7 @@
                                             <label>Mobile <span class="mandatory">*</span></label>
                                             <div class="d-flex">
                                                 <input type="text" name="country_code" class="form-control mobile-code"  value="+974" placeholder="+974" readonly>
-                                                <input type="text" name="mobile" class="form-control mobile-number" placeholder="Mobile">
+                                                <input type="text" name="mobile" class="form-control mobile-number" placeholder="Mobile" onkeypress="allowNumbersOnly(event)">
                                             </div>
                                             <div class="invalid-msg2"></div>
                                         </div>    
@@ -161,6 +161,13 @@
             });
         });
     });
+
+    function allowNumbersOnly(e) {
+        var code = (e.which) ? e.which : e.keyCode;
+        if (code > 31 && (code < 48 || code > 57)) {
+            e.preventDefault();
+        }
+    }
 </script>
 @endpush
 @endsection

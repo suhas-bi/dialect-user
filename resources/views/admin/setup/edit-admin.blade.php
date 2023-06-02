@@ -104,7 +104,7 @@
                                                     <div class="col-md-4">
                                                         <label>Mobile <span class="mandatory">*</span></label>
                                                         <div class="d-flex">
-                                                            <input type="text" value="+974" placeholder="+974" class="form-control mobile-code">
+                                                            <input type="text" value="+974" placeholder="+974" class="form-control mobile-code" readonly>
                                                             <input id="admin-mobile" type="text" name="admin_mobile" value="{{ old('admin_mobile') ?? $admin->mobile ?? '' }}" placeholder="Mobile" class="form-control mobile-number">
                                                         </div>
                                                         <div class="invalid-msg2">@error('admin_mobile'){{ $message }}@enderror</div>
@@ -112,7 +112,7 @@
                                                     <div class="col-md-4">
                                                         <label>Land LIne </label>
                                                         <div class="d-flex">
-                                                            <input type="text" value="+974" placeholder="+974" class="form-control mobile-code">
+                                                            <input type="text" value="+974" placeholder="+974" class="form-control mobile-code" readonly>
                                                             <input id="admin-landline" type="text" name="admin_landline" value="{{ old('admin_landline') ?? $admin->landline ?? '' }}" placeholder="Landline" class="form-control mobile-number">
                                                         </div>
                                                         <div class="invalid-msg2">@error('admin_landline'){{ $message }}@enderror</div>

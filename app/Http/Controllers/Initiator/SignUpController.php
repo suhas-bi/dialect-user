@@ -200,7 +200,7 @@ class SignUpController extends Controller
         
         $company = Company::find($comp->id);
         if($company->decleration == ''){
-            return back();
+            return back()->with('warning','Please upload declaration file to continue.');
         }
         Cache::forget('company');
         
