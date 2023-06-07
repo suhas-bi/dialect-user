@@ -58,7 +58,7 @@
                                     <h2>That's Great! Thanks for updating your company details</h2>
                                     <h1>We are reviewing, you will hear from us soon</h1>
                                     <p>
-                                        Once the verification is completed, all your registered account users will be acknowledged by an email.
+                                    Your company registration approval process is currently under review. If you haven't received any response from our end within 48 hours, please contact our customer service for assistance.
                                     </p>
 
                                     <div class="reivew-status d-flex justify-content-center">

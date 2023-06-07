@@ -141,12 +141,6 @@ class AdminHomeController extends Controller
         return redirect('/');
     }
 
-    public function procurement(){
-        echo "Procurement Home";
-    }
 
-    public function sales(){
-        echo "Sales Home";
-    }
 
 }

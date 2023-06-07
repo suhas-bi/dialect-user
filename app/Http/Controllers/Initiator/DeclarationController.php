@@ -8,6 +8,7 @@ use App\Http\Requests\Initiator\DeclarationUploadRequest;
 use App\Models\Company;
 use App\Models\Region;
 use App\Models\Document;
+use App\Models\Country;
 use App\Models\CompanyDocument;
 use App\Models\CompanyLocation;
 use App\Models\CompanyActivity;
@@ -19,7 +20,8 @@ use PDF;
 class DeclarationController extends Controller
 {
     public function index(){
-        $comp = Cache::get('company');
+        //$comp = Cache::get('company');
+        $comp = session('company');
         if(!$comp){
             return redirect('/');
         }
@@ -29,26 +31,29 @@ class DeclarationController extends Controller
             return redirect()->route('sign-up.business-category')->with('warning','At least select one category to proceed!');
         }
 
-        $company = Company::with('activities')->find($comp->id);
+        $company = Company::with('activities','document')->find($comp->id);
         return view('initiator.declaration',compact('company'));
     }
 
     public function edit(){
-        $comp = Cache::get('company');
+        //$comp = Cache::get('company');
+        $comp = session('company');
         if(!$comp){
             return redirect('/');
         }
 
+        $countries = Country::where('status',1)->get();
         $company = Company::find($comp->id);
         $regions = Region::where('country_id',$comp->country_id)->get();
         $document = Document::where('country_id',$company->country_id)->first();
         $company_locations = CompanyLocation::where('company_id',$company->id)->pluck('region_id')->toArray();
         $companyActivities = CompanyActivity::with('subcategory')->where('company_id',$comp->id)->get();
-        return view('initiator.sign-up-edit',compact('company','regions','company_locations','companyActivities','document'));
+        return view('initiator.sign-up-edit',compact('company','regions','company_locations','companyActivities','document','countries'));
     }
 
     public function update(CompanyInfoRequest $request){
-        $comp = Cache::get('company');
+        //$comp = Cache::get('company');
+        $comp = session('company');
         if(!$comp){
             return redirect('/');
         }
@@ -60,6 +65,7 @@ class DeclarationController extends Controller
         try {
 
             Company::find($comp->id)->update([
+                'name' => $input['name'],
                 'address' => $input['address'],
                 'zone' => $input['zone'],
                 'street' => $input['street'],
@@ -73,8 +79,6 @@ class DeclarationController extends Controller
             CompanyDocument::updateOrCreate([
                 'company_id'   => $comp->id,
             ],[
-                'doc_type' => 1,
-                'doc_file' => '123.pdf',
                 'expiry_date' => $input['expiry_date'],
                 'doc_number' => $input['document_no']
             ]);
@@ -108,7 +112,8 @@ class DeclarationController extends Controller
     }
 
     public function download(Request $request){
-        $comp = Cache::get('company');
+        //$comp = Cache::get('company');
+        $comp = session('company');
         if(!$comp){
             return redirect()->back();
         }
@@ -120,7 +125,8 @@ class DeclarationController extends Controller
     } 
 
     public function upload(DeclarationUploadRequest $request){
-        $comp = Cache::get('company');
+        //$comp = Cache::get('company');
+        $comp = session('company');
         if(!$comp){
             return redirect('/');
         }
@@ -128,15 +134,16 @@ class DeclarationController extends Controller
         DB::beginTransaction();
         try{
             $company = Company::find($comp->id);
-            $folder = 'uploads/company/'.$company->id;
+            $folder = 'uploads/'.$company->id;
             if ($request->hasFile('declaration_file')) {
                 $declaration = $request->file('declaration_file');
                 $originalName = $declaration->getClientOriginalName();
                 $fileName = 'declaration.' . $declaration->getClientOriginalExtension();
-                $filePath = $declaration->storeAs($folder, $fileName);
+                // $filePath = $declaration->storeAs($folder, $fileName);
+                $filePath = $declaration->move(public_path($folder), $fileName);
             }
             
-            $company->update(['decleration' => $filePath, 'declaration_updated_at' => now()]);
+            $company->update(['decleration' => $folder.'/'.$fileName, 'declaration_updated_at' => now()]);
 
             DB::commit();
 
@@ -145,6 +152,7 @@ class DeclarationController extends Controller
             return response()->json([
                 'status' => true,
                 'data' => $company,
+                'filepath' => asset($folder.'/'.$fileName),
                 'message' => 'Success!',
             ], 200);
 
@@ -158,7 +166,8 @@ class DeclarationController extends Controller
     } 
 
     public function delete(Request $request){
-        $comp = Cache::get('company');
+        //$comp = Cache::get('company');
+        $comp = session('company');
         if(!$comp){
             return redirect('/');
         }

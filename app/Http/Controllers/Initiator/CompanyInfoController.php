@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Models\Company;
 use App\Models\CompanyDocument;
 use App\Models\CompanyLocation;
+use App\Models\Country;
 use App\Models\Region;
 use App\Models\Document;
 use DB;
@@ -19,20 +20,21 @@ use DB;
 class CompanyInfoController extends Controller
 {
     public function index(){
-        $comp = Cache::get('company');
+        $comp = session('company');
         if(!$comp){
             return redirect('/');
         }
 
+        $countries = Country::where('status',1)->get();
         $regions = Region::where('country_id',$comp->country_id)->get();
         $company = Company::find($comp->id);
         $document = Document::where('country_id',$company->country_id)->first();
         $company_locations = CompanyLocation::where('company_id',$company->id)->pluck('region_id')->toArray();
-        return view('initiator.company-info',compact('company','regions','document','company_locations'));
+        return view('initiator.company-info',compact('company','regions','document','company_locations','countries'));
     }
 
     public function store(CompanyInfoRequest $request){
-        $comp = Cache::get('company');
+        $comp = session('company');
         if(!$comp){
             return redirect('/');
         }
@@ -55,12 +57,15 @@ class CompanyInfoController extends Controller
             $document = Document::where('country_id',$company->country_id)->first();
             
             $company->update([
+                'name' => $input['name'],
                 'address' => $input['address'],
                 'zone' => $input['zone'],
                 'street' => $input['street'],
                 'building' => $input['building'],
+                'country_id' => $input['country_id'],
                 'unit' => $input['unit'],
                 'pobox' => $input['pobox'],
+                'phone' => $input['mobile'],
                 'fax' => $input['fax'],
                 'domain' => $input['domain']
             ]);
@@ -102,7 +107,7 @@ class CompanyInfoController extends Controller
     }
 
     public function uploadDocument(DocumentUploadRequest $request){
-        $comp = Cache::get('company');
+        $comp = session('company');
         if(!$comp){
             return redirect('/');
         }
@@ -110,27 +115,28 @@ class CompanyInfoController extends Controller
         DB::beginTransaction();
         try{
             $company = Company::find($comp->id);
-            $document = Document::where('country_id',$company->country_id)->first();
-            $folder = 'uploads/company/'.$company->id;
+            $doc = Document::where('country_id',$company->country_id)->first();
+            $folder = 'uploads/'.$company->id;
             if ($request->hasFile('document_file')) {
                 $document = $request->file('document_file');
                 $originalName = $document->getClientOriginalName();
                 $fileName = 'company_document.' . $document->getClientOriginalExtension();
-                $filePath = $document->storeAs($folder, $fileName);
+                //$filePath = $document->storeAs($folder, $fileName);
+                $filePath = $document->move(public_path($folder), $fileName);
             }
             $document = CompanyDocument::updateOrCreate([
                 'company_id'   => $company->id,
             ],[
+                'doc_type' => $doc->id,
                 'doc_name' => $originalName,
-                'doc_type' => 1,
-                'doc_file' => $filePath,
+                'doc_file' => $folder.'/'.$fileName,
             ]);
-
             DB::commit();
-
+             
             return response()->json([
                 'status' => true,
                 'data' => $document,
+                'filepath' => asset($folder.'/'.$fileName),
                 'message' => 'Success!',
             ], 200);
 
@@ -144,7 +150,7 @@ class CompanyInfoController extends Controller
     } 
 
     public function deleteDocument(Request $request){
-        $comp = Cache::get('company');
+        $comp = session('company');
         if(!$comp){
             return redirect('/');
         }
@@ -152,17 +158,15 @@ class CompanyInfoController extends Controller
         DB::beginTransaction();
         try{
             $company = Company::find($comp->id);
-            $document = Document::where('country_id',$company->country_id)->first();
-            $folder = 'uploads/company/'.$company->id;
+            $doc = Document::where('country_id',$company->country_id)->first();
+            $folder = 'uploads/'.$company->id;
             if ($request->hasFile('document_file')) {
-                $document = $request->file('document_file');
-                $fileName = 'company_document.' . $document->getClientOriginalExtension();
-                $filePath = $document->storeAs($folder, $fileName);
+                
             }
             $document = CompanyDocument::updateOrCreate([
                 'company_id'   => $company->id,
             ],[
-                'doc_type' => $document->id,
+                'doc_type' => $doc->id,
                 'doc_file' => '',
             ]);
 
@@ -183,7 +187,8 @@ class CompanyInfoController extends Controller
     } 
 
     public function uploadLogo(LogoUploadRequest $request){
-        $comp = Cache::get('company');
+        //$comp = Cache::get('company');
+        $comp = session('company');
         if(!$comp){
             return redirect('/');
         }
@@ -191,21 +196,23 @@ class CompanyInfoController extends Controller
         DB::beginTransaction();
         try{
             $company = Company::find($comp->id);
-            $folder = 'uploads/company/'.$company->id;
+            $folder = 'uploads/'.$company->id;
             if ($request->hasFile('logo_file')) {
                 $logo = $request->file('logo_file');
                 $originalName = $logo->getClientOriginalName();
                 $fileName = 'company_logo.' . $logo->getClientOriginalExtension();
-                $filePath = $logo->storeAs($folder, $fileName);
+                //$filePath = $logo->storeAs($folder, $fileName);
+                $filePath = $logo->move(public_path($folder), $fileName);
             }
             
-            $company->update(['logo' => $filePath]);
+            $company->update(['logo' => $folder.'/'.$fileName]);
 
             DB::commit();
 
             return response()->json([
                 'status' => true,
                 'data' => $company,
+                'filepath' => asset($folder.'/'.$fileName),
                 'message' => 'Success!',
             ], 200);
 

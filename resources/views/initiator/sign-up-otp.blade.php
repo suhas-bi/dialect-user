@@ -57,15 +57,16 @@
 
                                 <form id="otp-form" action="{{ route('sign-up.verify-otp') }}" method="post" class="digit-group d-flex justify-content-center " data-group-name="digits" data-autosubmit="false" autocomplete="off">
                                     @csrf
-                                    <input type="text" id="digit-1" name="digit-1" data-next="digit-2" class="input-key" maxlength="1" autofocus/>
-                                    <input type="text" id="digit-2" name="digit-2" data-next="digit-3" data-previous="digit-1" class="input-key" maxlength="1"/>
-                                    <input type="text" id="digit-3" name="digit-3" data-next="digit-4" data-previous="digit-2" class="input-key" maxlength="1"/>
-                                    <input type="text" id="digit-4" name="digit-4" data-next="digit-5" data-previous="digit-3" class="input-key" maxlength="1"/>
-                                    <input type="text" id="digit-5" name="digit-5" data-next="digit-6" data-previous="digit-4" class="input-key" maxlength="1"/>
-                                    <input type="text" id="digit-6" name="digit-6" data-previous="digit-5" class="input-key" maxlength="1"/>
+                                    <input type="text" id="digit-1" name="digit-1" data-next="digit-2" class="input-key" maxlength="1" autofocus onkeypress="allowNumbersOnly(event)"/>
+                                    <input type="text" id="digit-2" name="digit-2" data-next="digit-3" data-previous="digit-1" class="input-key" maxlength="1" onkeypress="allowNumbersOnly(event)"/>
+                                    <input type="text" id="digit-3" name="digit-3" data-next="digit-4" data-previous="digit-2" class="input-key" maxlength="1" onkeypress="allowNumbersOnly(event)"/>
+                                    <input type="text" id="digit-4" name="digit-4" data-next="digit-5" data-previous="digit-3" class="input-key" maxlength="1" onkeypress="allowNumbersOnly(event)"/>
+                                    <input type="text" id="digit-5" name="digit-5" data-next="digit-6" data-previous="digit-4" class="input-key" maxlength="1" onkeypress="allowNumbersOnly(event)"/>
+                                    <input type="text" id="digit-6" name="digit-6" data-previous="digit-5" class="input-key" maxlength="1" onkeypress="allowNumbersOnly(event)"/>
                                 </form>
 
                                 <span id="timer-zone"> Resend OTP in <span id="timer"></span></span>
+                                <span id="msg-zone"></span>
                                 <div id="resend-zone"><a href="#" id="resend-otp">Click here</a> to resend OTP</div>
 
                             </div>
@@ -113,11 +114,27 @@
                 data: { email:data.email },
                 beforeSend: function() {
                     $('#resend-zone').hide();
+                    $('#msg-zone').text('Please wait... sending new OTP!')
                 },
                 success: function(data) {
                     if(data.status === true){
+                        Swal.fire({
+                                toast: true, 
+                                icon: 'success',
+                                title: "New OTP has been send",
+                                animation: false,
+                                position: 'top-right',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            });
+                        $('#msg-zone').text(' ');
                         $('#timer-zone').show();
-                        timer(10);
+                        timer(300);
                     }
                     else{
                         alert('Something went wrong! Try Again');
@@ -176,6 +193,8 @@
                             });
                         }
                         else{
+                            $('.input-key').val('');
+                            $('#digit-1').focus();
                             Swal.fire('Warning!', response.message, 'warning');
                         }
                         
@@ -240,6 +259,13 @@
         // Do timeout stuff here
         $('#timer-zone').hide();
         $('#resend-zone').show();
+    }
+
+    function allowNumbersOnly(e) {
+        var code = (e.which) ? e.which : e.keyCode;
+        if (code > 31 && (code < 48 || code > 57)) {
+            e.preventDefault();
+        }
     }
 
 </script>

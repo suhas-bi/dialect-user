@@ -12,7 +12,8 @@ use App\Models\CompanyActivity;
 class BusinessCategoryController extends Controller
 {
     public function index(){
-        $comp = Cache::get('company');
+        //$comp = Cache::get('company');
+        $comp = session('company');
         if(!$comp){
             return redirect('/');
         }
@@ -20,8 +21,18 @@ class BusinessCategoryController extends Controller
         return view('initiator.business-category',compact('categories'));
     }
 
-    public function sort(Request $request){
-
+    public function alpha(Request $request){
+        if($request->alpha == "All"){
+            $categories = Category::all();
+        }
+        else{
+            $categories = Category::where('name', 'LIKE', $request->alpha.'%')->get();
+        }
+        
+        return response()->json([
+            'status' => true,
+            'categories' => $categories,
+        ], 200);
     }
 
     public function search(Request $request){
@@ -41,7 +52,8 @@ class BusinessCategoryController extends Controller
     }
 
     public function getSubcategories(Request $request){
-        $comp = Cache::get('company');
+        //$comp = Cache::get('company');
+        $comp = session('company');
         if(!$comp){
             return redirect('/');
         }
@@ -62,7 +74,8 @@ class BusinessCategoryController extends Controller
     }
 
     public function addActivity(Request $request){
-        $comp = Cache::get('company');
+        //$comp = Cache::get('company');
+        $comp = session('company');
         if(!$comp){
             return redirect('/');
         }
@@ -106,7 +119,8 @@ class BusinessCategoryController extends Controller
     }
 
     public function selectedSubcategories(Request $request){
-        $comp = Cache::get('company');
+        //$comp = Cache::get('company');
+        $comp = session('company');
         if(!$comp){
             return redirect('/');
         }

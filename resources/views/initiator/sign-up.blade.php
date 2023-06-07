@@ -60,14 +60,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">
                                             <label for="name">Company Name <span class="mandatory">*</span></label>
-                                            <input id="name" type="text" name="name" class="form-control" placeholder="Company Name">
+                                            <input id="name" type="text" name="name" class="form-control" placeholder="Company Name" maxlength="100">
                                             <div class="invalid-msg2"> </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">
-                                            <label for="email">Email <span class="mandatory">*</span></label>
-                                            <input id="email" type="text" name="email" class="form-control" placeholder="Email">
+                                            <label for="email">Business Email <span class="mandatory">*</span></label>
+                                            <input id="email" type="text" name="email" class="form-control" placeholder="Business Email" maxlength="100">
                                             <div class="invalid-msg2"> </div>
                                         </div>   
                                     </div>
@@ -75,8 +75,10 @@
                                     <div class="col-md-6">
                                         <label>Country <span class="mandatory">*</span></label>
                                         <div class="select-drop3">
-                                            <select id="standard-select" name="country_id" >
-                                                <option value="1">Qatar</option>
+                                            <select id="standard-select" name="country_id" class="country">
+                                                @foreach($countries as $key => $country)
+                                                <option value="{{ $country->id }}" data-phone_code="{{ $country->phonecode }}">{{ $country->name }}</option>
+                                                @endforeach
                                             </select>
                                             <div class="invalid-msg2"> </div>
                                         </div>
@@ -86,8 +88,8 @@
                                         <div class="form-group position-relative">
                                             <label>Mobile <span class="mandatory">*</span></label>
                                             <div class="d-flex">
-                                                <input type="text" name="country_code" class="form-control mobile-code"  value="+974" placeholder="+974" readonly>
-                                                <input type="text" name="mobile" class="form-control mobile-number" placeholder="Mobile" onkeypress="allowNumbersOnly(event)">
+                                                <input id="country_code" type="text" name="country_code" class="form-control mobile-code"  value="+974"  readonly>
+                                                <input type="text" name="mobile" class="form-control mobile-number" placeholder="Mobile" onkeypress="allowNumbersOnly(event)" maxlength="20">
                                             </div>
                                             <div class="invalid-msg2"></div>
                                         </div>    
@@ -120,6 +122,8 @@
 <script>
     $(document).ready(function() {
         $('.loader').hide();
+        var code = $('.country  option:selected').data('phone_code');
+        $('#country_code').val(code);
         $('#sign-up-form').submit(function(e) {
             e.preventDefault(); 
             $('.invalid-msg2').hide();
@@ -160,6 +164,11 @@
                 }
             });
         });
+    });
+
+    $('.country').on('change',function(){
+        var code = $('.country  option:selected').data('phone_code');
+        $('#country_code').val(code);
     });
 
     function allowNumbersOnly(e) {

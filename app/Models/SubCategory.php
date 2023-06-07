@@ -47,7 +47,7 @@ class SubCategory extends Model
     }
     
     public function sub_keywords(){
-        return $this->hasMany(SubcategoryKeyword::class,'sub_category_id','id');
+        return $this->hasMany(SubCategoryKeyword::class,'sub_category_id','id');
     }
 
 }

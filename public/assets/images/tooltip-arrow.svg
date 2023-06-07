@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36" height="29" viewBox="0 0 36 29">
+  <defs>
+    <filter id="tooltip-arrow" x="0" y="0" width="36" height="29" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#tooltip-arrow)">
+    <g id="tooltip-arrow-2" data-name="tooltip-arrow" transform="translate(9 6)" fill="#fff">
+      <path d="M 16.94487571716309 10.5 L 1.055123686790466 10.5 L 9 0.7895955443382263 L 16.94487571716309 10.5 Z" stroke="none"/>
+      <path d="M 9 1.579191207885742 L 2.110247611999512 10 L 15.88975238800049 10 L 9 1.579191207885742 M 9 0 L 18 11 L 0 11 L 9 0 Z" stroke="none" fill="#cacfd8"/>
+    </g>
+  </g>
+</svg>

@@ -71,32 +71,33 @@
                                         </div>
                                         <div class="col-md-12">
                                            <ul class="alphabets d-flex flex-wrap align-items-center">
-                                                <li><a href="#" data-alpha="A">A</a></li>
-                                                <li><a href="#" data-alpha="B">B</a></li>
-                                                <li><a href="#" data-alpha="C">C</a></li>
-                                                <li><a href="#" data-alpha="D">D</a></li>
-                                                <li><a href="#" data-alpha="E">E</a></li>
-                                                <li><a href="#">F</a></li>
-                                                <li><a href="#">G</a></li>
-                                                <li><a href="#">H</a></li>
-                                                <li><a href="#">I</a></li>
-                                                <li><a href="#">J</a></li>
-                                                <li><a href="#">K</a></li>
-                                                <li><a href="#">L</a></li>
-                                                <li><a href="#">M</a></li>
-                                                <li><a href="#">N</a></li>
-                                                <li><a href="#">O</a></li>
-                                                <li><a href="#">P</a></li>
-                                                <li><a href="#">Q</a></li>
-                                                <li><a href="#">R</a></li>
-                                                <li><a href="#">S</a></li>
-                                                <li><a href="#">T</a></li>
-                                                <li><a href="#">U</a></li>
-                                                <li><a href="#">V</a></li>
-                                                <li><a href="#">W</a></li>
-                                                <li><a href="#">X</a></li>
-                                                <li><a href="#">Y</a></li>
-                                                <li><a href="#">Z</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="All">All</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="A">A</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="B">B</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="C">C</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="D">D</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="E">E</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="F">F</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="G">G</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="H">H</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="I">I</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="J">J</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="K">K</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="L">L</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="M">M</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="N">N</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="O">O</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="P">P</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="Q">Q</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="R">R</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="S">S</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="T">T</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="U">U</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="V">V</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="W">W</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="X">X</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="Y">Y</a></li>
+                                                <li><a href="#" class="alpha" data-alpha="Z">Z</a></li>
                                            </ul>
                                         </div>
                                     </div>
@@ -187,7 +188,8 @@
         selectedSubCategory();
         $('.loader').hide();
         var company = JSON.parse(localStorage.getItem('company'));
-        $('.category').click(function(e) {
+   
+        $(document).on('click', '.category', function(e){
             e.preventDefault(); 
             var id = $(this).data('id');
             var action = '/sign-up/business-category/subcategory';
@@ -217,6 +219,23 @@
                 // Handle error response
                 console.log(error);
             });
+        });
+    });
+
+    $('.alpha').click(function(e) {
+        e.preventDefault(); 
+        var alpha = $(this).data('alpha');
+        var action = "{{ route('sign-up.business-category.alpha') }}";
+        axios.post(action,{alpha:alpha})
+        .then((response) => {
+            $('#category-list').empty();
+            response.data.categories.forEach((item, i) => {
+                $('#category-list').append('<li><a href="#" class="category" data-id="'+item.id+'">'+item.name+'</a></li>')
+            });
+        })
+        .catch((error) => {
+            // Handle error response
+            //console.log(error);
         });
     });
 

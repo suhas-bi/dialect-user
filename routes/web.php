@@ -7,13 +7,27 @@ use App\Http\Controllers\Initiator\{
     SignUpController,
     CompanyInfoController,
     BusinessCategoryController,
-    DeclarationController
+    DeclarationController,
+    ReRegistrationController
 };
 
 use App\Http\Controllers\LoginController;
 
 use App\Http\Controllers\Admin\{
     AdminHomeController,
+};
+
+use App\Http\Controllers\Procurement\{
+    ProcurementHomeController,
+    ReviewListController,
+    ProDraftController,
+    ProCompletedBiddingController,
+    ProTeamController,
+    ProEventController,
+};
+
+use App\Http\Controllers\Sales\{
+    SalesHomeController,
 };
 
 /*
@@ -45,6 +59,7 @@ Route::post('/sign-up/company-info/upload-logo', [CompanyInfoController::class,'
 
 Route::get('/sign-up/business-category',[BusinessCategoryController::class,'index'])->name('sign-up.business-category');
 Route::post('/sign-up/business-category',[BusinessCategoryController::class,'search'])->name('sign-up.business-category.search');
+Route::post('/sign-up/business-category/alpha',[BusinessCategoryController::class,'alpha'])->name('sign-up.business-category.alpha');
 Route::post('/sign-up/business-category/subcategory', [BusinessCategoryController::class,'getSubcategories'])->name('sign-up.business-category.subcategory');
 Route::post('/sign-up/business-category/selected', [BusinessCategoryController::class,'selectedSubcategories'])->name('sign-up.business-category.selected');
 Route::delete('/sign-up/business-category/delete/{id}', [BusinessCategoryController::class,'deleteSelected'])->name('sign-up.business-category.delete');
@@ -58,19 +73,24 @@ Route::post('/sign-up/declaration/delete', [DeclarationController::class,'delete
 Route::get('/sign-up/registration-edit', [DeclarationController::class,'edit'])->name('sign-up.edit');
 Route::post('/sign-up/registration-edit', [DeclarationController::class,'update'])->name('sign-up.update');
 
-Route::get('registration/{token}',  [SignUpController::class,'registrationProcess'])->name('registration');
-
-
 Route::get('onboarding/{token}',  [SignUpController::class,'onboarding'])->name('onboarding');
 Route::post('registration',  [SignUpController::class,'setPassword'])->name('registration.setPassword');
 
 Route::get('/sign-up/review-verification', [SignUpController::class,'review'])->name('sign-up.review-verification');
 
+// Common
+Route::post('get-document',  [SignUpController::class,'getDocumentByCountry'])->name('getDocumentByCountry');
+Route::post('get-region',  [SignUpController::class,'getRegionByCountry'])->name('getRegionByCountry');
+
+
+// Re Registration 
+Route::get('registration/{token}',  [ReRegistrationController::class,'registrationProcess'])->name('registration');
+Route::get('/register/verify', [ReRegistrationController::class,'verify'])->name('registration.reVerify');
+Route::post('/register/verify-otp', [ReRegistrationController::class,'verifyOtp'])->name('registration.verify-otp');
 
 // Administrator
 Route::get('/admin/dashboard', [AdminHomeController::class,'index'])->name('admin.dashboard');
-Route::get('/procurement/dashboard', [AdminHomeController::class,'procurement'])->name('procurement.dashboard');
-Route::get('/sales/dashboard', [AdminHomeController::class,'sales'])->name('sales.dashboard');
+
 
 Route::get('/admin/edit-admin', [AdminHomeController::class,'adminEdit'])->name('admin.adminEdit');
 Route::post('/admin/update-admin/{id}', [AdminHomeController::class,'adminUpdate'])->name('admin.adminUpdate');
@@ -86,4 +106,20 @@ Route::get('/login', function(){
     return redirect('/');
 });
 
+
+// Procurement Start 
+Route::get('/procurement/dashboard', [ProcurementHomeController::class,'index'])->name('procurement.dashboard');
+Route::get('/procurement/review-list', [ReviewListController::class,'index'])->name('procurement.reviewList');
+Route::get('/procurement/draft', [ProDraftController::class,'index'])->name('procurement.draft');
+Route::get('/procurement/completed-bidding', [ProCompletedBiddingController::class,'index'])->name('procurement.completedBidding');
+Route::get('/procurement/team-account', [ProTeamController::class,'index'])->name('procurement.teamAccount');
+Route::get('/procurement/upcoming-events', [ProEventController::class,'index'])->name('procurement.upcomingEvents');
+
+
+// Procurement Ends
+
+// Sales Starts
+Route::get('/sales/dashboard', [SalesHomeController::class,'index'])->name('sales.dashboard');
+
+// Sales Ends
 

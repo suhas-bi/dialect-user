@@ -10,8 +10,11 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OTP;
 use App\Models\Company;
+use App\Models\Country;
 use App\Models\CompanyUser;
+use App\Models\Document;
 use App\Models\RegistrationToken;
+use App\Models\Region;
 use DB;
 use Auth;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +23,8 @@ use Illuminate\Support\Str;
 class SignUpController extends Controller
 {
     public function index(){
-        return view('initiator.sign-up');
+        $countries = Country::where('status',1)->get();
+        return view('initiator.sign-up',compact('countries'));
     }
 
     public function storeAndVerify(SignUpRequest $request){
@@ -28,10 +32,11 @@ class SignUpController extends Controller
             $otp = rand(100000, 999999);
             $user = $request->validated();
             $user['otp'] = $otp;
-            Cache::put($request->email, $user, now()->addMinutes(20));
+            session()->put($request->email, $user);
+            session()->put('expires_at', now()->addMinutes(5));
 
             Mail::to($user['email'])->queue(new OTP($otp));
-            Cache::put('otp_count', 0);
+            session()->put('otp_count', 0);
             return response()->json([
                 'status' => true,
                 'message' => 'OTP Send!',
@@ -51,7 +56,7 @@ class SignUpController extends Controller
 
     public function resendOtp(Request $request){
         $email = $request->email;
-        $user = Cache::get($email);
+        $user = session($email);
 
         if(!$user){
             return response()->json([
@@ -64,7 +69,8 @@ class SignUpController extends Controller
 
             $otp = rand(100000, 999999);
             $user['otp'] = $otp;
-            Cache::put($email, $user, now()->addMinutes(20));
+            session()->put($email, $user);
+            session()->put('expires_at', now()->addMinutes(5));
 
             Mail::to($user['email'])->queue(new OTP($otp));
 
@@ -105,10 +111,13 @@ class SignUpController extends Controller
 
         try {
             $email = $request->email;
-            $user = Cache::get($email);
+            //$user = Cache::get($email);
+            $user = session($email);
 
-            $otp_count = Cache::get('otp_count') + 1;
-            Cache::put('otp_count', $otp_count);
+            //$otp_count = Cache::get('otp_count') + 1;
+            $otp_count = session('otp_count') + 1;
+            //Cache::put('otp_count', $otp_count);
+            session()->put('otp_count', $otp_count);
             if($otp_count > 3){
                 return response()->json([
                     'status' => false,
@@ -145,9 +154,11 @@ class SignUpController extends Controller
                ]);
 
                // Clear the OTP from cache
-                Cache::forget($email);
+                //Cache::forget($email);
+                session()->forget($email);
 
-                Cache::put('company', $newCompany);
+                //Cache::put('company', $newCompany);
+                session()->put('company', $newCompany);
 
                 $plaintext = Str::random(32);
                 $token = RegistrationToken::create([
@@ -173,10 +184,12 @@ class SignUpController extends Controller
             }
             
             // Clear the OTP from cache
-            Cache::forget($email);
+            //Cache::forget($email);
+            session()->forget($email);
 
-            Cache::put('company', $checkCompanyExists);
-            
+            //Cache::put('company', $checkCompanyExists);
+            session()->put('company', $checkCompanyExists);
+
             return response()->json([
                 'status' => true,
                 'company' => $checkCompanyExists,
@@ -193,7 +206,8 @@ class SignUpController extends Controller
     }
 
     public function review(){
-        $comp = Cache::get('company');
+        $comp = session('company');
+        //$comp = Cache::get('company');
         if(!$comp){
             return redirect('/');
         }
@@ -202,7 +216,8 @@ class SignUpController extends Controller
         if($company->decleration == ''){
             return back()->with('warning','Please upload declaration file to continue.');
         }
-        Cache::forget('company');
+        //Cache::forget('company');
+        session()->forget('company');
         
         return view('initiator.review-verification',compact('company'));
     }
@@ -276,35 +291,23 @@ class SignUpController extends Controller
        
     }
 
-    public function registrationProcess($token){
-        $data = RegistrationToken::where('token', $token)->firstOrFail();
-        if(!$data){
-            return redirect('/');
-        }
-        $company = Company::find($data->company_id);
-        Cache::put('company', $company);
-
-        $otp = rand(100000, 999999);
-        $company['otp'] = $otp;
-        Cache::put($company->phone, $company, now()->addMinutes(20));
-
-        try {
-
-            Mail::to($company->email)->queue(new OTP($otp));
-
-            return redirect()->route('sign-up.verify');
-            // return response()->json([
-            //     'status' => true,
-            //     'message' => 'OTP Generated Successfully'
-            // ], 200);
-        } catch (\Throwable $th) {
-
-            return redirect()->route('sign-up.verify');
-            // return response()->json([
-            //     'status' => false,
-            //     'message' => $th->getMessage()
-            // ], 500);
-
-        }    
+    public function getDocumentByCountry(Request $request){
+        $document = Document::where('country_id',$request->id)->first();
+        return response()->json([
+            'status' => true,
+            'document' => $document,
+            'message' => 'Document Fetched!'
+        ], 200);
     }
+
+    public function getRegionByCountry(Request $request){
+        $regions = Region::where('country_id',$request->id)->get();
+        return response()->json([
+             'status' => true,
+             'regions' => $regions,
+             'message' => 'Regions Fetched!'
+         ], 200);
+    }
+
+    
 }

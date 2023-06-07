@@ -17,7 +17,7 @@ class Company extends Model
 
     public function activities()
     {
-        return $this->belongsToMany(Subcategory::class, 'company_activities', 'company_id', 'activity_id');
+        return $this->belongsToMany(SubCategory::class, 'company_activities', 'company_id', 'activity_id');
     }
 
     public function locations()

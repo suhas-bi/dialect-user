@@ -155,15 +155,15 @@ p {
             </td>
         </tr>
         <tr>
-            <th scope="row">Company Fax </th>
+            <th scope="row">Mobile No. </th>
             <td>
-            {{ $company['country_code'].' '.$company['fax'] }}
+            {{ $company['country_code'].' '.$company['phone'] }}
             </td>
         </tr>
         <tr>
-            <th scope="row">Company Logo </th>
+            <th scope="row">Company Fax </th>
             <td>
-                <img src="images/company-logo.png" alt="">
+            {{ $company['country_code'].' '.$company['fax'] }}
             </td>
         </tr>
         <tr>

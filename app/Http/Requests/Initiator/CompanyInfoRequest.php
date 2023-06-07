@@ -32,8 +32,9 @@ class CompanyInfoRequest extends FormRequest
             'unit' => ['nullable'],
             'country_id' => ['required'],
             'region_id' => ['required','array',new AtLeastOneCheckboxSelected],
-            'domain' => ['nullable'],
+            'domain' => ['nullable','regex:/^(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.[A-Za-z]{2,})+$/'],
             'country_code' => ['required'],
+            'mobile' => ['required'],
             'fax' => ['nullable'],
             'document_no' => ['required'],
             'expiry_date' => ['required'],
@@ -56,6 +57,7 @@ class CompanyInfoRequest extends FormRequest
             'domain.required' => 'Please enter your website address.',
             'country_code.required' => 'Please enter your country code.',
             'fax.required' => 'Please enter your fax no.',
+            'mobile.required' => 'Please enter your mobile no.',
             'document_no.required' => 'Please enter your document no.',
             'expiry_date.required' => 'Please enter your document expiry date.',
             'document' => 'Please upload document file'

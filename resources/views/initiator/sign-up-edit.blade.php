@@ -64,69 +64,73 @@
                                         <div class="col-md-12">
                                             <div class="form-group position-relative">
                                                 <label>Company Name <span class="mandatory">*</span></label>
-                                                <input id="name" type="text" name="name" class="form-control" value="{{ $company->name }}" placeholder="Company Name" readonly>
+                                                <input id="name" type="text" name="name" class="form-control" value="{{ $company->name }}" placeholder="Company Name" maxlength="150">
                                                 <div class="invalid-msg2"> </div>
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group position-relative">
                                                 <label>Company Address<span class="mandatory">*</span></label>
-                                                <input id="address" type="text" name="address" class="form-control" value="{{ $company->address }}" placeholder="Address">
+                                                <input id="address" type="text" name="address" class="form-control" value="{{ $company->address }}" placeholder="Address" maxlength="150">
                                                 <div class="invalid-msg2"> </div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group position-relative">
                                                 <label>Zone No <span class="mandatory">*</span></label>
-                                                <input id="zone" type="text" name="zone" class="form-control" value="{{ $company->zone }}" placeholder="Zone No">
+                                                <input id="zone" type="text" name="zone" class="form-control" value="{{ $company->zone }}" placeholder="Zone No" maxlength="150">
                                                 <div class="invalid-msg2"> </div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group position-relative">
                                                 <label>Street No <span class="mandatory">*</span></label>
-                                                <input id="street" type="text" name="street" class="form-control" value="{{ $company->street }}" placeholder="Street No">
+                                                <input id="street" type="text" name="street" class="form-control" value="{{ $company->street }}" placeholder="Street No" maxlength="150">
                                                 <div class="invalid-msg2"> </div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group position-relative">
                                                 <label>Building No<span class="mandatory">*</span></label>
-                                                <input id="building" type="text" name="building" class="form-control" value="{{ $company->building }}" placeholder="Building No">
+                                                <input id="building" type="text" name="building" class="form-control" value="{{ $company->building }}" placeholder="Building No" maxlength="150">
                                                 <div class="invalid-msg2"> </div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group position-relative">
-                                                <label>Unit No <span class="mandatory">*</span></label>
-                                                <input id="unit" type="text" name="unit" class="form-control" value="{{ $company->unit }}" placeholder="Unit No">
+                                                <label>Unit No</label>
+                                                <input id="unit" type="text" name="unit" class="form-control" value="{{ $company->unit }}" placeholder="Unit No" maxlength="150">
                                                 <div class="invalid-msg2"> </div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <label>Country<span class="mandatory">*</span></label>
                                             <div class="select-drop3">
-                                                <select id="standard-select" name="country_id" >
-                                                    <option value="1">Qatar</option>
+                                                <select id="standard-select" name="country_id" class="country">
+                                                    @foreach($countries as $key => $country)
+                                                    <option value="{{ $country->id }}" data-phone_code="{{ $country->phonecode }}"
+                                                            {{ $company->country_id == $country->id ? 'selected' : 'disabled' }}>{{ $country->name }}</option>
+                                                    @endforeach
                                                 </select>
                                                 <div class="invalid-msg2"> </div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group position-relative">
-                                                <label>PO Box No<span class="mandatory">*</span></label>
-                                                <input id="pobox" type="text" name="pobox" class="form-control" value="{{ $company->pobox }}" placeholder="PO Box No">
+                                                <label>PO Box No</label>
+                                                <input id="pobox" type="text" name="pobox" class="form-control" value="{{ $company->pobox }}" placeholder="PO Box No" maxlength="150">
                                                 <div class="invalid-msg2"> </div>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="operating-regions form-group position-relative">
-                                        <label>Please select the region(s) where your company offers its services.</label>
+                                        <label>Please select the region(s) where your company offers its services.<span class="mandatory">*</span></label>
                                         <ul>
                                             @foreach($regions as $key => $region)
                                             <li>
-                                                <label class="cust-checkbox">{{ $region->name }}
-                                                    <input id="region_id_{{ $key }}" type="checkbox" name="region_id[]" {{ in_array($region->id, $company_locations) ? 'checked' : '' }} value="{{ $region->id }}">
+                                                <label class="cust-checkbox">{{ $region->name ?? '' }}
+                                                    <input id="region_id_{{ $key }}" type="checkbox" name="region_id[]" {{ empty($company_locations) ? 'checked' : '' }} {{ in_array($region->id, $company_locations) ? 'checked' : '' }} value="{{ $region->id }}">
                                                     <span class="checkmark"></span>
                                                     </label>
                                             </li>
@@ -142,14 +146,25 @@
                                                 <div class="input-group position-relative">
                                                     <label>Website</label>
                                                     <span class="www-text d-flex align-items-center justify-content-center">WWW.</span>
-                                                    <input id="domain" type="text" name="domain" class="form-control website" value="{{ $company->domain }}" placeholder="eg:- dialectb2b.com">
+                                                    <input id="domain" type="text" name="domain" class="form-control website" value="{{ $company->domain }}" placeholder="eg:- dialectb2b.com" maxlength="150">
                                                     <div class="invalid-msg2"> </div>
                                                 </div>
-                                                <label>Fax</label>
-                                                <div class="d-flex">
-                                                    <input id="country_code" type="text" name="country_code" class="form-control mobile-code" value="+974" placeholder="+974" readonly>
-                                                    <input id="fax" type="text" name="fax" class="form-control mobile-number" value="{{ $company->fax }}" placeholder="Fax">
-                                                </div>
+                                                <div class="input-group position-relative">
+                                                    <label>Mobile No.<span class="mandatory">*</span></label>
+                                                    <div class="d-flex">
+                                                        <input id="country_code" type="text" name="country_code" class="form-control mobile-code" value="+974" readonly>
+                                                        <input id="mobile" type="text" name="mobile" class="form-control mobile-number" value="{{ $company->phone }}" placeholder="Mobile" onkeypress="allowNumbersOnly(event)" maxlength="20">
+                                                        <div class="invalid-msg2"></div>
+                                                    </div>
+                                                </div>   
+                                                <div class="input-group position-relative"> 
+                                                    <label>Fax</label>
+                                                    <div class="d-flex">
+                                                        <input id="country_code" type="text" name="country_code" class="form-control mobile-code" value="+974" readonly>
+                                                        <input id="fax" type="text" name="fax" class="form-control mobile-number" value="{{ $company->fax }}" placeholder="Fax" onkeypress="allowNumbersOnly(event)" maxlength="20">
+                                                        <div class="invalid-msg2"></div>
+                                                    </div>
+                                                </div>    
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="row">
@@ -172,7 +187,7 @@
                                                     <span class="d-flex doc-preview align-items-center justify-content-between">
                                                         Company Logo
                                                         <div class="d-flex align-items-center">
-                                                            <a href="{{ $company->logo }}" class="doc-preview-view"></a>
+                                                            <a href="{{ asset($company->logo) }}" class="doc-preview-view" target="_blank"></a>
                                                         </div>
                                                     </span>
                                                 </div>
@@ -212,20 +227,21 @@
                                     <div class="col-md-4">
                                         <div class="document-upload">
                                             <h1>Document Upload</h1>
-                                            <h2>{{ $document->name }}</h2>
+                                            <h2 id="document_type">{{ $document->name ?? '' }}</h2>
+                                            <input id="document_type_id" type="hidden" name="document_type" value="{{ $document->id ?? '' }}" />
                                             <div class="form-group position-relative">
                                                 <label>Document No <span class="mandatory">*</span></label>
-                                                <input id="document_no" type="text" name="document_no" class="form-control" value="{{ $company->document->doc_number ?? '' }}" placeholder="Document No">
+                                                <input id="document_no" type="text" name="document_no" class="form-control" value="{{ $company->document->doc_number ?? '' }}" placeholder="Document No" maxlength="150">
                                                 <div class="invalid-msg2"> </div>
                                             </div>
-                                            <div class="form-group position-relative">
+                                            <div class="form-group position-relative mb-4">
                                                 <label>Document Expiry Date<span class="mandatory">*</span></label>
                                                 <input id="expiry_date" type="date" name="expiry_date" class="form-control" value="{{ $company->document->expiry_date ?? '' }}" placeholder="Expiry Date" min="{{ date('Y-m-d') }}">
                                                 <div class="invalid-msg2"> </div>
                                             </div>
                                             
                                             <div id="document-upload-area" class="form-group position-relative {{ $company->document && $company->document->doc_file ? 'd-none' : '' }}">
-                                                <label>Upload Document</label>
+                                                <label>Upload Document<span class="mandatory">*</span></label>
                                                 <div class="clearfix"></div>
                                                 <input type="file" id="upload" name="document_file" hidden accept=".jpeg, .jpg, .png, .pdf" />
                                                 <label for="upload" class="upload-file">Upload Files</label>
@@ -240,12 +256,12 @@
                                                 <div class="invalid-msg2 doc-msg"> </div>
                                             </div>
                                             <input id="document" type="hidden" name="document" value="{{ $company->document->doc_file ?? '' }}" />
-                                            <div id="document-preview" class="d-flex flex-column align-items-left  mt-2" >
+                                            <div id="document-preview" class="d-flex flex-column align-items-left  mt-4 mb-4" >
                                                 @if($company->document)
                                                 <span class="d-flex doc-preview align-items-center justify-content-between {{ !$company->document->doc_file ? 'd-none' : '' }}">
                                                     {{ $company->document->doc_name ?? '' }}
                                                     <div class="d-flex align-items-center">
-                                                        <a id="doc-preview-link" href="{{ asset('storage/'.$company->document->doc_file ?? '') }}" class="doc-preview-view" target="_blank"></a>
+                                                        <a id="doc-preview-link" href="{{ asset($company->document->doc_file ?? '') }}" class="doc-preview-view" target="_blank"></a>
                                                         <a href="#" class="doc-preview-delete delete-document" data-id="{{ $company->document->id ?? '' }}" data-url="{{ route('sign-up.company-info.deleteDocument') }}"></a>
                                                         </div>
                                                 </span>
@@ -291,6 +307,12 @@
 
     $(document).ready(function() {
         $('.loader').hide();
+        
+        var country_id = $('.country  option:selected').val();
+        var code = $('.country  option:selected').data('phone_code');
+        $('.mobile-code').val(code);    
+        setCountryChange(country_id);
+        
         var company = JSON.parse(localStorage.getItem('company'));
 
         // Document
@@ -327,7 +349,7 @@
                 var content = `<span class="d-flex doc-preview align-items-center justify-content-between">
                                     ${response.data.data.doc_name}
                                     <div class="d-flex align-items-center">
-                                        <a id="doc-preview-link" href="${response.data.data.doc_file}" class="doc-preview-view" target="_blank"></a>
+                                        <a id="doc-preview-link" href="${response.data.filepath}" class="doc-preview-view" target="_blank"></a>
                                         <a href="#" class="doc-preview-delete delete-document" data-id="${response.data.data.id}" data-url="{{ route('sign-up.company-info.deleteDocument') }}"></a>
                                         </div>
                                 </span>`;
@@ -370,6 +392,7 @@
                         //console.log(response);
                         documentPreview.classList.add('d-none');
                         documentUploadArea.classList.remove('d-none');
+                        document.getElementById('document').value = '';
                     })
                     .catch((error) => {
                         // Handle error response
@@ -405,7 +428,7 @@
                     var logoContent = `<span class="d-flex doc-preview align-items-center justify-content-between">
                                       Company Logo
                                         <div class="d-flex align-items-center">
-                                            <a href="${response.data.data.logo}" class="doc-preview-view"></a>
+                                            <a href="${response.data.filepath}" class="doc-preview-view" target="_blank"></a>
                                         </div>
                                     </span>`;
                     logoPreview.classList.remove('d-none');
@@ -458,6 +481,15 @@
                                 var minput = $('input[name="' + field + '"]');
                                 var mfeedback = minput.parent().next('.invalid-msg2');
                                 mfeedback.html(errors[0]).show();
+                            }
+                            if(field === 'region_id'){
+                                var region_error = $('.region_error');
+                                console.log(region_error);
+                                region_error.html(errors[0]).show();
+                            }
+                            if(field === 'document'){
+                                var document_error = $('.doc-msg');
+                                document_error.html(errors[0]).show();
                             }
                             var input = $('input[name="' + field + '"]');
                             input.addClass('red-border');
@@ -532,6 +564,53 @@
             // Handle error response
             //console.log(error);
         });
+    }
+
+    $('.country').on('change',function(){
+        var id = $('.country  option:selected').val();
+        var code = $('.country  option:selected').data('phone_code');
+        $('.mobile-code').val(code);
+        setCountryChange(id);
+    });
+
+    function setCountryChange(id){
+        
+        var docAction = "{{ route('getDocumentByCountry') }}";
+        var regionAction = "{{ route('getRegionByCountry') }}";
+        axios.post(docAction, {id:id})
+        .then((response) => {
+        // Handle success response
+            if(response.data.status === true){
+               $('#document_type').text(response.data.document.name);
+               $('#document_type_id').val(response.data.document.id);
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+        axios.post(regionAction, {id:id})
+        .then((response) => {
+        // Handle success response
+            if(response.data.status === true){
+                var regions = response.data.regions;
+                regions.forEach(function(region) {
+                   
+                });
+                
+                //$('#region-checkbox').append(region_li);
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+
+    function allowNumbersOnly(e) {
+        var code = (e.which) ? e.which : e.keyCode;
+        if (code > 31 && (code < 48 || code > 57)) {
+            e.preventDefault();
+        }
     }
 </script>
 @endpush

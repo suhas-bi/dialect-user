@@ -103,6 +103,12 @@
                                             </td>
                                           </tr>
                                           <tr>
+                                            <th scope="row">Mobile No. </th>
+                                            <td>
+                                            {{ $company->country_code.' '.$company->phone }}
+                                            </td>
+                                          </tr>
+                                          <tr>
                                             <th scope="row">Company Fax </th>
                                             <td>
                                             {{ $company->country_code.' '.$company->fax }}
@@ -111,7 +117,7 @@
                                           <tr>
                                             <th scope="row">Company Logo </th>
                                             <td>
-                                                <img src="images/company-logo.png" alt="">
+                                                <img src="{{ asset($company->logo) }}" alt="" height="100px">
                                             </td>
                                           </tr>
 
@@ -139,8 +145,9 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="license-preview d-flex align-items-center justify-content-center">
-                                        QR License Preview
+                                    <div>
+                                    <embed src="{{ asset($company->document->doc_file ?? '') }}" class="license-preview d-flex align-items-center justify-content-center">
+                                        <!-- QR License Preview -->
                                     </div>
                                     <div id="declaration-download-area"  class="read-declaration {{ $company->decleration ? 'd-none' : '' }}">
                                         Please read the <a href="#"> declaration</a> carefully and select 'agree & download' to proceed.
@@ -170,7 +177,7 @@
                                         <span class="d-flex doc-preview align-items-center justify-content-between {{ !$company->decleration ? 'd-none' : '' }}">
                                         Declaration
                                         <div class="d-flex align-items-center">
-                                            <a id="doc-preview-link" href="" class="doc-preview-view" target="_blank"></a>
+                                            <a id="doc-preview-link" href="{{ asset($company->decleration) }}" class="doc-preview-view" target="_blank"></a>
                                             <a href="#" class="doc-preview-delete delete-declaration" data-id="{{ $company->id }}" data-url="{{ route('sign-up.declaration.delete') }}"></a>
                                             </div>
                                         </span>
@@ -236,7 +243,7 @@
                     var content = `<span class="d-flex doc-preview align-items-center justify-content-between">
                                         Declaration
                                         <div class="d-flex align-items-center">
-                                            <a id="doc-preview-link" href="" class="doc-preview-view" target="_blank"></a>
+                                            <a id="doc-preview-link" href="${response.data.filepath}" class="doc-preview-view" target="_blank"></a>
                                             <a href="#" class="doc-preview-delete delete-declaration"></a>
                                             </div>
                                     </span>`;
@@ -297,8 +304,23 @@
         });
 
         $("body").on("click","#proceed",function(){
-            window.location.href = 'review-verification';
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Submit the registration",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: "Yes, I Am Sure!",
+                cancelButtonText: "No, Cancel It!",  
+            }).then(function (willDelete) {
+                if (willDelete.isConfirmed === true) {
+                     window.location.href = 'review-verification';
+                }
+                else{
+                    window.reload();
+                }
+            });
         });
+
     });
 </script>
 @endpush
