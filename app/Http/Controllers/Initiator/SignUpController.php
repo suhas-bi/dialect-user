@@ -241,7 +241,6 @@ class SignUpController extends Controller
             $user = CompanyUser::find($request->user_id);
             $user->password = Hash::make($request->password);
             $user->status = 1;
-            $user->token = '';
             $user->save();
             
             $company_users = CompanyUser::where('company_id',$user->company_id)->whereNotNull('password')->where('status',1)->get();
@@ -260,6 +259,7 @@ class SignUpController extends Controller
             DB::commit(); 
             if (Auth::attempt(['email' => $user->email, 'password' => $request->password], '')) {
                 $user = auth()->user();
+                //$user->update(['token'=>'']);
                 if($user->role == 1){
                     return redirect()->intended('admin/dashboard')
                     ->withSuccess('Signed in');

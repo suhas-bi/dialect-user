@@ -116,7 +116,7 @@
                 success: function(data) {
                     if(data.status === true){
                         $('#timer-zone').show();
-                        timer(10);
+                        timer(300);
                     }
                     else{
                         alert('Something went wrong! Try Again');

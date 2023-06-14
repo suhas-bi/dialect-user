@@ -25,6 +25,8 @@ class ProcurementHomeController extends Controller
     }
     
     public function index(){
+        $user = auth()->user();
+        $user->update(['token'=>'']);
         $company_id = auth()->user()->company_id;
         return view('procurement.inbox.index');
     }

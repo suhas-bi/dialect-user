@@ -25,7 +25,7 @@ class ProCompletedBiddingController extends Controller
     
     public function index(){
         $company_id = auth()->user()->company_id;
-        return view('procurement.draft.index');
+        return view('procurement.completedbidding.index');
     }
 
 }

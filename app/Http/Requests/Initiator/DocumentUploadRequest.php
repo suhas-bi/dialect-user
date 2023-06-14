@@ -29,22 +29,7 @@ class DocumentUploadRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Please enter your company name',
-            'pobox.required' => 'Please enter your PO Box No.',
-            'country_id.required' => 'Please choose your country',
-            'address.required' => 'Please enter your address',
-            'zone.required' => 'Please enter your zone no.',
-            'street.required' => 'Please enter your street.',
-            'building.required' => 'Please enter your zone no.',
-            'unit.required' => 'Please enter your zone no.',
-            'region_id.required' => 'Please enter your zone no.',
-            'domain.required' => 'Please enter your website address.',
-            'country_code.required' => 'Please enter your country code.',
-            'fax.required' => 'Please enter your fax no.',
-            'logo.required' => 'Please upload your  logo.',
-            'document_no.required' => 'Please enter your document no.',
-            'expiry_date.required' => 'Please enter your document expiry date.',
-            'file.required' => 'Please upload document.',
+            'document_file.required' => 'Please upload file.',
         ];
     }
 }

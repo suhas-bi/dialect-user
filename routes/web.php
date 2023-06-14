@@ -14,20 +14,21 @@ use App\Http\Controllers\Initiator\{
 use App\Http\Controllers\LoginController;
 
 use App\Http\Controllers\Admin\{
-    AdminHomeController,
+    AdminHomeController
 };
 
 use App\Http\Controllers\Procurement\{
     ProcurementHomeController,
+    ProQuoteController,
     ReviewListController,
     ProDraftController,
     ProCompletedBiddingController,
     ProTeamController,
-    ProEventController,
+    ProEventController
 };
 
 use App\Http\Controllers\Sales\{
-    SalesHomeController,
+    SalesHomeController
 };
 
 /*
@@ -107,12 +108,32 @@ Route::get('/login', function(){
 });
 
 
+
 // Procurement Start 
+
+// Generate Quote Request
+Route::get('/procurement/quote/select-category', [ProQuoteController::class,'selectCategory'])->name('procurement.quote.selectCategory');
+Route::get('/procurement/quote/compose', [ProQuoteController::class,'compose'])->name('procurement.quote.compose');
+
+
+// Inbox
 Route::get('/procurement/dashboard', [ProcurementHomeController::class,'index'])->name('procurement.dashboard');
-Route::get('/procurement/review-list', [ReviewListController::class,'index'])->name('procurement.reviewList');
+
+// Team Settings & Approvals Start
+Route::get('/procurement/review-list/send', [ReviewListController::class,'send'])->name('procurement.reviewList.send');
+Route::get('/procurement/review-list/received', [ReviewListController::class,'received'])->name('procurement.reviewList.received');
+
+// Team Settings & Approvals End
+
 Route::get('/procurement/draft', [ProDraftController::class,'index'])->name('procurement.draft');
 Route::get('/procurement/completed-bidding', [ProCompletedBiddingController::class,'index'])->name('procurement.completedBidding');
-Route::get('/procurement/team-account', [ProTeamController::class,'index'])->name('procurement.teamAccount');
+
+// Team Settings & Approvals Start
+Route::get('/procurement/team-account/approval', [ProTeamController::class,'approval'])->name('procurement.teamAccount.approval');
+Route::get('/procurement/team-account/settings', [ProTeamController::class,'team'])->name('procurement.teamAccount.settings');
+// Team Settings & Approvals End
+
+
 Route::get('/procurement/upcoming-events', [ProEventController::class,'index'])->name('procurement.upcomingEvents');
 
 

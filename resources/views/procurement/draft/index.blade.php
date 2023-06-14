@@ -1,127 +1,167 @@
-@extends('layouts.app')
+@extends('procurement.layouts.app')
 @section('content')
     <!-- Header Starts -->
     @include('procurement.layouts.header')
     <!-- Header Ends -->
 
+    <!-- Main Content -->
+    <section class="container-fluid pleft-56">
+        <div class="row">
+            <div class="col-md-3 pr-0 bid-tap">
+                <div class="bid-inbox">
+                    <div class="review-list-header d-flex align-items-center">
+                        <h1 class="mr-auto">Draft</h1>
+                    </div>
+
+                    <div class="draft-list-group">
+
+                        <a href="#"
+                            class="list-group-item2 list-group-item-action flex-column align-items-start active">
+                            <div class="list-item-inner">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h3>Windows Aircondition on rental basis...</h3>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <small class="bid-date2">25 October, 2022</small>
+                                </div>
+                            </div>
+                        </a>
+
+
+                        <a href="#" class="list-group-item2 list-group-item-action flex-column align-items-start">
+                            <div class="list-item-inner">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h3>Windows Aircondition on rental basis...</h3>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <small class="bid-date2">25 October, 2022</small>
+                                </div>
+                            </div>
+                        </a>
+
+
+                        <a href="#" class="list-group-item2 list-group-item-action flex-column align-items-start ">
+                            <div class="list-item-inner">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h3>Windows Aircondition on rental basis...</h3>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <small class="bid-date2">25 October, 2022</small>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="#" class="list-group-item2 list-group-item-action flex-column align-items-start ">
+                            <div class="list-item-inner">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h3>Windows Aircondition on rental basis...</h3>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <small class="bid-date2">25 October, 2022</small>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="#" class="list-group-item2 list-group-item-action flex-column align-items-start ">
+                            <div class="list-item-inner">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h3>Windows Aircondition on rental basis...</h3>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <small class="bid-date2">25 October, 2022</small>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="#" class="list-group-item2 list-group-item-action flex-column align-items-start ">
+                            <div class="list-item-inner">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h3>Windows Aircondition on rental basis...</h3>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <small class="bid-date2">25 October, 2022</small>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="#" class="list-group-item2 list-group-item-action flex-column align-items-start ">
+                            <div class="list-item-inner">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h3>Windows Aircondition on rental basis...</h3>
+                                </div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <small class="bid-date2">25 October, 2022</small>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-9 pl-0 pr-0 scnd-section-main">
+                <div class="mid-sec-main">
+                    <div class="mid-second-sec d-flex justify-content-between bg-white">
+                        <div class="">
+                            <div class="w-100">
+                                <h2>Windows Air Condition on rental basis...</h2>
+                                <small class="created-date"><span>Created on: </span>25 January, 2023</small>
+                                <small class="created-date ms-4"><span>Bids accepted till: </span>25 January,
+                                    2023</small>
+                            </div>
+
+                            <div class="d-flex mt-2">
+                                <h3>Quote For: Al Nazer Mohammed, Admin IHRDS </h3>
+                                <a href="#" class="change-btn">Change</a>
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex mt-4">
+                            <div class="form-group proceed-btn">
+                                <input type="submit" value="Discard" class="btn btn-third"
+                                    onclick="window.location.href = '';">
+                            </div>
+
+                            <div class="form-group proceed-btn">
+                                <input type="submit" value="Proceed" class="btn btn-secondary"
+                                    onclick="window.location.href = '';">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="bid-detail-content">
+                        <p>Dear Sir,</p>
+
+                        <p>Request for Window AC with onsite installation on monthly rent is QAR 145/-</p>
+
+                        <p>attached more detailes about our service. .</p>
+
+                        <p>Thanks and regards,</p>
+
+                        <p>For Dulsco Qatar WLL<br>
+                            Procurement Department</p>
+
+                        <h1 class="mt-2">Attachments</h1>
+                        <div class="d-flex flex-column align-items-left float-start">
+                            <a href="#" class="attachmets-list">Proposal - Quotation-AC...XV.PDF</a>
+                            <a href="#" class="attachmets-list">Proposal - Quotation-AC-Dummy...XV.PDF</a>
+                            <a href="#" class="attachmets-list">Proposal - Quotation-AC...XV.PDF</a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- Main Content Ends -->
 @push('scripts')
-    <script>
-        $(document).ready(function () {
-            $('.nav-expand-ico').click(function () {
-                var toggleWidth = $(".side-nav-main").width() == 285 ? "64px" : "285px";
-                $('.side-nav-main').animate({ width: toggleWidth });
-            });
-
-          
-            
-            $(".nav-expand-ico").click(function () {
-                $("#logo-toogle").toggleClass("hide-logo");
-            });
-            
-            $(".nav-expand-ico").click(function () {
-                $(this).toggleClass("nav-close-ico");
-            });
-
-            $('.bid-open').hide();
-
-            $('.bid-detail').click(function () {
-                $('.bid-tap, .questions-ask').hide('500');
-                $('.bid-open').show('500');
-
-                $('.scnd-section-main').removeClass('col-md-9');
-                $('.scnd-section-main').addClass('col-md-6');
-            });
-
-            $('.cross-second').click(function () {
-                $('.bid-tap, .questions-ask').show('300');
-                $('.bid-open').hide('300');
-            });
-            $('.question-asked').hide();
-            $('.cross').click(function () {
-                $('.questions-ask').hide('300');
-                $('.scnd-section-main').addClass('col-md-9');
-                $('.scnd-section-main').removeClass('col-md-6');
-                $('.question-asked').show();
-            });
-            $('.question-asked').click(function () {
-                $('.questions-ask').show('300');
-                $('.scnd-section-main').removeClass('col-md-9');
-                $('.scnd-section-main').addClass('col-md-6');
-                $('.question-asked').hide();
-            });
-
-            $(".all-bid-ul").on('click', 'li', function () {
-                $(".all-bid-ul li.active").removeClass("active");
-                $(this).addClass("active");
-            });
-
-            $('.my-quotes').mouseover(function (e) {
-                $('.nav-tooltip-1').css('visibility', 'visible');
-            });
-            $('.my-quotes').mouseout(function (e) {
-                $('.nav-tooltip-1').css('visibility', 'hidden');
-            })
-            
-            $('.review-list').mouseover(function (e) {
-                $('.nav-tooltip-2').css('visibility', 'visible');
-            });
-            $('.review-list').mouseout(function (e) {
-                $('.nav-tooltip-2').css('visibility', 'hidden');
-            })
-
-            $('.draft').mouseover(function (e) {
-                $('.nav-tooltip-3').css('visibility', 'visible');
-            });
-            $('.draft').mouseout(function (e) {
-                $('.nav-tooltip-3').css('visibility', 'hidden');
-            })
-
-            $('.completed-bidding').mouseover(function (e) {
-                $('.nav-tooltip-4').css('visibility', 'visible');
-            });
-            $('.completed-bidding').mouseout(function (e) {
-                $('.nav-tooltip-4').css('visibility', 'hidden');
-            })
-
-            $('.team-settings').mouseover(function (e) {
-                $('.nav-tooltip-5').css('visibility', 'visible');
-            });
-            $('.team-settings').mouseout(function (e) {
-                $('.nav-tooltip-5').css('visibility', 'hidden');
-            })
-
-            $('.upcoming-events').mouseover(function (e) {
-                $('.nav-tooltip-6').css('visibility', 'visible');
-            });
-            $('.upcoming-events').mouseout(function (e) {
-                $('.nav-tooltip-6').css('visibility', 'hidden');
-            })
-
-            $(".nav-expand-ico").click(function () {
-                $(".tooltip-nav-main").toggleClass("tool-tip-hide");
-            });
-
-            
-            $('.read-more').click(function () {
-                $('#msg-expand').removeClass('msg-expand-main');
-                $('#msg-expand').addClass('msg-less-main');
-                $('.read-more').hide();
-                $('.read-less').show();
-                $("ul.all-bid-ul").css("height", "calc(100vh - 646px)");
-                
-            });
-
-            $('.read-less').click(function () {
-                $('#msg-expand').addClass('msg-expand-main');
-                $('#msg-expand').removeClass('msg-less-main');
-                $('.read-more').show();
-                $('.read-less').hide();
-                $("ul.all-bid-ul").css("height", "calc(100vh - 369px)");
-            });
-
-        });
-
-    </script>
+    
 @endpush
  
 @endsection    

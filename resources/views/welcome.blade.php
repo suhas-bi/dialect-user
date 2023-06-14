@@ -14,7 +14,6 @@
             </div>
         </header>
 
-
         <section class="container-fluid d-flex align-items-center login-sec">
             <div class="login-box">
                 <div class="container mt-2 mb-2 px-0">
@@ -28,18 +27,19 @@
                             <!-- Email Input -->
                             <div class="form-group row px-3 position-relative">
                                 <i class="email-ico"></i>
-                                <input name="email" type="text" placeholder="Email Address"
-                                    class="form-control border-info placeicon red-border" id="validationCustom03">
-                                    <div class="invalid-msg"> Please provide a valid email. </div>
+                                <input name="email" type="text" placeholder="Email Address" tabindex="1" autofocus="on"
+                                    class="form-control border-info placeicon" id="validationCustom03">
+                                    <div class="invalid-msg">@error('email'){{ $message }} @enderror</div>
                             </div>
                             
 
                             <!-- Password Input -->
                             <div class="form-group row px-3 position-relative">
                                 <i class="password-ico"></i>
-                                <input name="password" type="password" placeholder="Password"
+                                <input name="password" type="password" placeholder="Password" tabindex="2"
                                     class="form-control border-info placeicon">
                                 <i class="eye-ico"></i>
+                                <div class="invalid-msg">@error('password'){{ $message }} @enderror</div>
                             </div>
 
                             <!-- CheckBox Remember Me-->
@@ -52,12 +52,12 @@
 
                             <!-- Log in Button -->
                             <div class="form-group row justify-content-center">
-                                <input type="submit" value="Login" class="btn btn-primary">
+                                <input type="submit" value="Login" class="btn btn-primary" tabindex="3">
                             </div>
 
                             <!-- Forgot Password Link -->
                             <div class="row">
-                                <a href="forgot-password.html" class="forgot-pass">Forgot Password?</a>
+                                <a href="#" class="forgot-pass" tabindex="4">Forgot Password?</a>
                             </div>
 
                         </form>
@@ -65,8 +65,6 @@
                 </div>
             </div>
         </section>
-
-
 
         <footer id="footer">
             Copyright © 2022 dialectb2b.com. All rights reserved

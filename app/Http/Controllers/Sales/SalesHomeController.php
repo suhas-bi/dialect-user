@@ -25,8 +25,10 @@ class SalesHomeController extends Controller
     }
     
     public function index(){
+        $user = auth()->user();
+        $user->update(['token'=>'']);
         $company_id = auth()->user()->company_id;
-        return view('procurement.index');
+        return view('sales.index');
     }
 
 }

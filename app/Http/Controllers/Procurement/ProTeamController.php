@@ -23,10 +23,15 @@ class ProTeamController extends Controller
       $this->middleware('auth');
     }
     
-    public function index(){
+    public function approval(){
         $company_id = auth()->user()->company_id;
-        return view('procurement.draft.index');
+        return view('procurement.approval.index');
     }
+
+    public function team(){
+      $company_id = auth()->user()->company_id;
+      return view('procurement.team.index');
+  }
 
 }
 

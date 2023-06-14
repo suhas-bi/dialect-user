@@ -60,14 +60,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">
                                             <label for="name">Company Name <span class="mandatory">*</span></label>
-                                            <input id="name" type="text" name="name" class="form-control" placeholder="Company Name" maxlength="100">
+                                            <input id="name" type="text" name="name" class="form-control" placeholder="Company Name" maxlength="255">
                                             <div class="invalid-msg2"> </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group position-relative">
                                             <label for="email">Business Email <span class="mandatory">*</span></label>
-                                            <input id="email" type="text" name="email" class="form-control" placeholder="Business Email" maxlength="100">
+                                            <input id="email" type="text" name="email" class="form-control" placeholder="Business Email" maxlength="255">
                                             <div class="invalid-msg2"> </div>
                                         </div>   
                                     </div>
@@ -89,7 +89,7 @@
                                             <label>Mobile <span class="mandatory">*</span></label>
                                             <div class="d-flex">
                                                 <input id="country_code" type="text" name="country_code" class="form-control mobile-code"  value="+974"  readonly>
-                                                <input type="text" name="mobile" class="form-control mobile-number" placeholder="Mobile" onkeypress="allowNumbersOnly(event)" maxlength="20">
+                                                <input type="text" name="mobile" class="form-control mobile-number" placeholder="Mobile" onkeypress="allowNumbersOnly(event)" maxlength="20" pattern="[0-9]+" title="Alphabets and symbols are allowed">
                                             </div>
                                             <div class="invalid-msg2"></div>
                                         </div>    
@@ -144,6 +144,21 @@
                     console.log(data);
                 },
                 error: function(xhr, status, error) {
+                    if(xhr.responseJSON.status === false){
+                        Swal.fire({
+                            toast: true,
+                            icon: 'warning',
+                            title: 'Failed to send OTP. Try again',
+                            position: 'top-right',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+                    }
                     var response = JSON.parse(xhr.responseText);
                     if (response.errors) {
                         $.each(response.errors, function(field, errors) {

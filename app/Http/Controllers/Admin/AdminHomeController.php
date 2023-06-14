@@ -26,6 +26,8 @@ class AdminHomeController extends Controller
     }
     
     public function index(){
+        $user = auth()->user();
+        $user->update(['token'=>'']);
         $company_id = auth()->user()->company_id;
 
         $userCount = CompanyUser::where('company_id',$company_id)->whereNotNull('password')->count();

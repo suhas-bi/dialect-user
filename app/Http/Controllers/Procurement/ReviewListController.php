@@ -24,9 +24,14 @@ class ReviewListController extends Controller
       $this->middleware('auth');
     }
     
-    public function index(){
+    public function send(){
         $company_id = auth()->user()->company_id;
-        return view('procurement.reviewlist.index');
+        return view('procurement.reviewlist.send.index');
+    }
+
+    public function received(){
+      $company_id = auth()->user()->company_id;
+      return view('procurement.reviewlist.received.index');
     }
 
 }

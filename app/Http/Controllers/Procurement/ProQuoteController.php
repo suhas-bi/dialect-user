@@ -16,16 +16,21 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 
-class ProEventController extends Controller
+class ProQuoteController extends Controller
 {
     public function __construct() 
     {
       $this->middleware('auth');
     }
     
-    public function index(){
+    public function selectCategory(){
         $company_id = auth()->user()->company_id;
-        return view('procurement.event.index');
+        return view('procurement.quote.select-category');
+    }
+
+    public function compose(){
+      $company_id = auth()->user()->company_id;
+      return view('procurement.quote.compose');
     }
 
 }

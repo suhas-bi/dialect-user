@@ -23,21 +23,21 @@ class CompanyInfoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required'],
-            'pobox' => ['nullable'],
-            'address' => ['required'],
-            'zone' => ['required'],
-            'street' => ['required'],
-            'building' => ['required'],
-            'unit' => ['nullable'],
+            'name' => ['required','max:255'],
+            'pobox' => ['nullable','max:255'],
+            'address' => ['required','max:255'],
+            'zone' => ['required','max:255'],
+            'street' => ['required','max:255'],
+            'building' => ['required','max:255'],
+            'unit' => ['nullable','max:255'],
             'country_id' => ['required'],
             'region_id' => ['required','array',new AtLeastOneCheckboxSelected],
-            'domain' => ['nullable','regex:/^(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.[A-Za-z]{2,})+$/'],
-            'country_code' => ['required'],
-            'mobile' => ['required'],
-            'fax' => ['nullable'],
-            'document_no' => ['required'],
-            'expiry_date' => ['required'],
+            'domain' => ['nullable','regex:/^(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.[A-Za-z]{2,})+$/','max:255'],
+            'country_code' => ['required','max:255'],
+            'mobile' => ['required','max:255'],
+            'fax' => ['nullable','max:255'],
+            'document_no' => ['required','max:255'],
+            'expiry_date' => ['required','max:255'],
             'document' => ['required']
         ];
     }

@@ -35,11 +35,11 @@ class SignUpRequest extends FormRequest
  
 
         return [
-            'name' => ['required',],
-            'email' => ['required','email'],
-            'country_code' => ['required'],
-            'mobile' => ['required','numeric','digits_between:4,12',$rule_mobile_unique,$rule_phone_unique],
-            'country_id' => ['required']
+            'name' => ['required','max:255'],
+            'email' => ['required','email','max:255'],
+            'country_code' => ['required','max:255'],
+            'mobile' => ['required','numeric','digits_between:4,12'], //,$rule_mobile_unique,$rule_phone_unique
+            'country_id' => ['required','max:255']
         ];
     }
 

@@ -4,111 +4,291 @@
     @include('procurement.layouts.header')
     <!-- Header Ends -->
 
+
     <!-- Main Content -->
     <section class="container-fluid pleft-56">
         <div class="row">
             <div class="col-md-3 pr-0 bid-tap">
                 <div class="bid-inbox">
-                    <div class="bid-header d-flex align-items-center">
-                        <h1 class="mr-auto">Bid Inbox</h1>
-                        <a href="#" class="search-ico  float-right tablinks4"  onclick="openCity4(event, 'search')"></a>
-                        <a href="#" class="filter-ico float-right tablinks4"  onclick="openCity4(event, 'filter')"></a>
+                    <div class="review-list-header d-flex align-items-center">
+                        <h1 class="mr-auto">Review List</h1>
+                        <a href="#" class="search-ico float-right"></a>
+                        <a href="#" class="filter-ico float-right"></a>
                     </div>
-                    <div id="search" class="tabcontent4" style="display: none;">
-                    <div class="my-quotes-search d-flex align-items-center justify-content-between">
-                        <div class="account-search-box-main">
-                            <input type="text" placeholder="Search" class="form-control">
+
+                    <div class="d-flex w-100 justify-content-between b-bottom">
+                        <!-- Tabs navs -->
+                        <ul class="nav nav-tabs tab mb-2" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link tablinks3 active" href="{{ route('procurement.reviewList.send') }}">Sent</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link tablinks3" href="{{ route('procurement.reviewList.received') }}">Received</a>
+                            </li>
+                        </ul>
+                        <!-- Tabs navs -->
+                    </div>
+
+                    <div class="tabcontent3" id="sent" style="display: block;">
+                        <div class="list-group ">
+
+                            <a href="#"
+                                class="list-group-item list-group-item-action flex-column align-items-start active">
+                                <div class="list-item-inner blue-border">
+                                    <div class="d-flex justify-content-between">
+                                        <h2 class="mb-2 round-bullet d-flex">238459-39-2023 <i class="flag-ico"></i>
+                                        </h2>
+                                        <div class="square-alert-main d-flex align-items-center position-relative">
+                                            <small class="alert-count2"></small>
+                                            <span href="#" class="square-alert-btn">2</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h3>Windows Aircondition on rental basis...</h3>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <small class="bid-date">25 October, 2022</small>
+                                        <small
+                                            class="bid-count d-flex align-items-center justify-content-center">5</small>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start ">
+                                <div class="list-item-inner blue-border">
+                                    <div class="d-flex justify-content-between">
+                                        <h2 class="mb-2  bullet-light-blue d-flex">238459-39-2023 </h2>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h3>Windows Aircondition on rental basis...</h3>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <small class="bid-date">25 October, 2022</small>
+                                        <small
+                                            class="bid-count d-flex align-items-center justify-content-center">6</small>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start ">
+                                <div class="list-item-inner blue-border">
+                                    <div class="d-flex justify-content-between">
+                                        <h2 class="mb-2  bullet-light-blue d-flex">238459-39-2023 </h2>
+                                     
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h3>Windows Aircondition on rental basis...</h3>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <small class="bid-date">25 October, 2022</small>
+                                        <small
+                                            class="bid-count d-flex align-items-center justify-content-center">7</small>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start ">
+                                <div class="list-item-inner blue-border">
+                                    <div class="d-flex justify-content-between">
+                                        <h2 class="mb-2  bullet-light-blue d-flex">238459-39-2023 </h2>
+                                       
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h3>Windows Aircondition on rental basis...</h3>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <small class="bid-date">25 October, 2022</small>
+                                        <small
+                                            class="bid-count d-flex align-items-center justify-content-center">2</small>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start ">
+                                <div class="list-item-inner blue-border">
+                                    <div class="d-flex justify-content-between">
+                                        <h2 class="mb-2  bullet-light-blue d-flex">238459-39-2023 </h2>
+                                       
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h3>Windows Aircondition on rental basis...</h3>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <small class="bid-date">25 October, 2022</small>
+                                        <small
+                                            class="bid-count d-flex align-items-center justify-content-center">2</small>
+                                    </div>
+                                </div>
+                            </a>
+
+
+                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start ">
+                                <div class="list-item-inner blue-border">
+                                    <div class="d-flex justify-content-between">
+                                        <h2 class="mb-2  bullet-light-blue d-flex">238459-39-2023 </h2>
+                                        
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h3>Windows Aircondition on rental basis...</h3>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <small class="bid-date">25 October, 2022</small>
+                                        <small
+                                            class="bid-count d-flex align-items-center justify-content-center">2</small>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start ">
+                                <div class="list-item-inner blue-border">
+                                    <div class="d-flex justify-content-between">
+                                        <h2 class="mb-2  bullet-light-blue d-flex">238459-39-2023 </h2>
+                                        
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h3>Windows Aircondition on rental basis...</h3>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <small class="bid-date">25 October, 2022</small>
+                                        <small
+                                            class="bid-count d-flex align-items-center justify-content-center">2</small>
+                                    </div>
+                                </div>
+                            </a>
+
+
                         </div>
                     </div>
+
+                    <div class="tabcontent3" id="received" style="display: none;">
+                        <div class="list-group">
+
+
+                            <a href="#"
+                                class="list-group-item list-group-item-action flex-column align-items-start active">
+                                <div class="list-item-inner yellow-border">
+                                    <div class="d-flex justify-content-between">
+                                        <h2 class="mb-2 round-bullet d-flex">G-238459-39-2023 <i class="flag-ico"></i>
+                                        </h2>
+                                                  
+                                        <div id="mark-drop">
+                                            <button class="dots-ico2"></button>
+                                            <ul class="drop">
+                                                <li onclick="window.location.href = 'javascript:;'">Mark as Complete</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h3>Windows Aircondition on rental basis...</h3>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <small class="bid-date">25 October, 2022</small>
+                                        <small
+                                            class="bid-count d-flex align-items-center justify-content-center">5</small>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start ">
+                                <div class="list-item-inner yellow-border">
+                                    <div class="d-flex justify-content-between">
+                                        <h2 class="mb-2  bullet-light-blue d-flex">G-238459-39-2023 </h2>
+                                                  
+                                        <div id="mark-drop">
+                                            <button class="dots-ico2"></button>
+                                            <ul class="drop">
+                                                <li onclick="window.location.href = 'javascript:;'">Mark as Complete</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h3>Windows Aircondition on rental basis...</h3>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <small class="bid-date">25 October, 2022</small>
+                                        <small
+                                            class="bid-count d-flex align-items-center justify-content-center">6</small>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start ">
+                                <div class="list-item-inner yellow-border">
+                                    <div class="d-flex justify-content-between">
+                                        <h2 class="mb-2  bullet-light-blue d-flex">G-238459-39-2023 </h2>
+                                                  
+                                        <div id="mark-drop">
+                                            <button class="dots-ico2"></button>
+                                            <ul class="drop">
+                                                <li onclick="window.location.href = 'javascript:;'">Mark as Complete</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h3>Windows Aircondition on rental basis...</h3>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <small class="bid-date">25 October, 2022</small>
+                                        <small
+                                            class="bid-count d-flex align-items-center justify-content-center">6</small>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start ">
+                                <div class="list-item-inner yellow-border">
+                                    <div class="d-flex justify-content-between">
+                                        <h2 class="mb-2  bullet-light-blue d-flex">G-238459-39-2023 </h2>
+                                                  
+                                        <div id="mark-drop">
+                                            <button class="dots-ico2"></button>
+                                            <ul class="drop">
+                                                <li onclick="window.location.href = 'javascript:;'">Mark as Complete</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h3>Windows Aircondition on rental basis...</h3>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <small class="bid-date">25 October, 2022</small>
+                                        <small
+                                            class="bid-count d-flex align-items-center justify-content-center">6</small>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start ">
+                                <div class="list-item-inner yellow-border">
+                                    <div class="d-flex justify-content-between">
+                                        <h2 class="mb-2  bullet-light-blue d-flex">G-238459-39-2023 </h2>
+                                                  
+                                        <div id="mark-drop">
+                                            <button class="dots-ico2"></button>
+                                            <ul class="drop">
+                                                <li onclick="window.location.href = 'javascript:;'">Mark as Complete</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h3>Windows Aircondition on rental basis...</h3>
+                                    </div>
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <small class="bid-date">25 October, 2022</small>
+                                        <small
+                                            class="bid-count d-flex align-items-center justify-content-center">6</small>
+                                    </div>
+                                </div>
+                            </a>
+
+
+
+
+                        </div>
                     </div>
 
-                    <div id="filter" class="tabcontent4" style="display: none;">
-                        <div class="my-quotes-search d-flex align-items-center justify-content-left">
-                            
-                            <div class="custom-select" style="margin-left: 0;">
-                                <select>
-                                    <option value="0">Today</option>
-                                    <option value="1">Today</option>
-                                    <option value="2">Yesterday</option>
-                                    <option value="3">Last week</option>
-                                    <option value="4">Last month</option>
-                                </select>
-                            </div>
-                        </div>
-                        </div>
 
-                    <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
-                            <div class="list-item-inner blue-border">
-                                <h2 class="mb-2 round-bullet">238459-39-2023</h2>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h3>Windows Aircondition on rental basis...</h3>
-                                    <small class="bid-count d-flex align-items-center justify-content-center">5</small>
-                                </div>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <small class="bid-date">25 October, 2022</small>
-                                    <small class="bid-hours">2 Hours Left</small>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="list-item-inner yellow-border">
-                                <h2 class="mb-2 round-bullet">238459-39-2023</h2>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h3>Windows Aircondition on rental basis...</h3>
-                                    <small class="bid-count d-flex align-items-center justify-content-center">5</small>
-                                </div>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <small class="bid-date">25 October, 2022</small>
-                                    <small class="bid-hours">2 Hours Left</small>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="list-item-inner yellow-border">
-                                <h2 class="mb-2 bullet-light-blue">238459-39-2023</h2>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h3>Windows Aircondition on rental basis...</h3>
-                                    <small class="bid-count d-flex align-items-center justify-content-center">5</small>
-                                </div>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <small class="bid-date">25 October, 2022</small>
-                                    <small class="bid-hours">2 Hours Left</small>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="list-item-inner blue-border">
-                                <h2 class="mb-2 bullet-light-blue">238459-39-2023</h2>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h3>Windows Aircondition on rental basis...</h3>
-                                    <small class="bid-count d-flex align-items-center justify-content-center">5</small>
-                                </div>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <small class="bid-date">25 October, 2022</small>
-                                    <small class="bid-hours">2 Hours Left</small>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="list-item-inner yellow-border">
-                                <h2 class="mb-2 bullet-light-blue">238459-39-2023</h2>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h3>Windows Aircondition on rental basis...</h3>
-                                    <small class="bid-count d-flex align-items-center justify-content-center">5</small>
-                                </div>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <small class="bid-date">25 October, 2022</small>
-                                    <small class="bid-hours">2 Hours Left</small>
-                                </div>
-                            </div>
-                        </a>
-
-                    </div>
                 </div>
 
             </div>
@@ -121,18 +301,17 @@
                                 <small>Completed<br>Screening</small>
                                 <h1><span class="green">12</span><span class="grey">/</span>16</h1>
                             </div>
-
                             <div class="completed-screening d-flex align-items-center">
-                                <small>Accepted<br>Bids till</small>
-                                <h1>24</h1>
-                                <small class="date">FEB<br>2023</small>
-                                <a href="#" class="edit-ico"></a>
-                            </div>
-                            <div class="completed-screening d-flex align-items-center">
-                                <a href="#" class="share-btn" data-toggle="modal" data-target="#share-popup">Share</a>
+                                <a href="#" class="share-with" data-toggle="modal" data-target="#share-popup">
+                                    Shared with<br>
+                                    <span class="name">Muhammed.S...</span>
+                                </a>
                             </div>
                         </div>
                         <div class="scond-sec d-flex align-items-center">
+
+                            
+                            
                             <div class="completed-screening d-flex align-items-center position-relative">
                                 <small class="alert-count d-flex align-items-center justify-content-center">3</small>
 
@@ -190,6 +369,10 @@
                                     <a class="nav-link tablinks"
                                         onclick="openCity(event, 'shortlisted')">Shortlisted</a>
                                 </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link tablinks" onclick="openCity(event, 'selected')">Selected</a>
+                                </li>
                             </ul>
                             <!-- Tabs navs -->
 
@@ -200,7 +383,6 @@
                         <div id="all-bids" class="tabcontent" style="display: block;">
 
                             <div class="row bid-list-head d-flex align-items-center justify-content-center">
-                                
                                 <div class="col-md-6"><a href="#"> Company Name <i class="ic_sort"><img
                                                 src="images/ic_sort.svg"></i></a></div>
                                 <div class="col-md-3 d-flex align-items-center justify-content-center"><a href="#">Date
@@ -210,7 +392,7 @@
                                 </div>
                             </div>
                             <ul class="all-bid-ul">
-                                <li class="round-bullet2">
+                                <li>
                                     <div class="row all-bid-list d-flex align-items-center justify-content-center">
                                         <div class="col-md-6">
                                             <a href="#" class="bid-detail"> Al Abab Trading & Contracting WLL</a>
@@ -303,6 +485,50 @@
                                     </div>
                                 </li>
 
+                                <li>
+                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
+                                        <div class="col-md-6">
+                                            <a href="#"> Al Arab Trading Co WLL</a>
+                                            <p>Quotation for 15 Nos. Window ACs with
+                                                onsite installation. Also the warranty...</p>
+                                        </div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
+                                                class="date">27 Jan, 2022</span></div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
+                                                class="status-yellow">Pending Review</span></div>
+                                    </div>
+                                </li>
+
+
+                                <li>
+                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
+                                        <div class="col-md-6">
+                                            <a href="#"> Al Arab Trading Co WLL</a>
+                                            <p>Quotation for 15 Nos. Window ACs with
+                                                onsite installation. Also the warranty...</p>
+                                        </div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
+                                                class="date">27 Jan, 2022</span></div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
+                                                class="status-yellow">Pending Review</span></div>
+                                    </div>
+                                </li>
+
+
+                                <li>
+                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
+                                        <div class="col-md-6">
+                                            <a href="#"> Al Arab Trading Co WLL</a>
+                                            <p>Quotation for 15 Nos. Window ACs with
+                                                onsite installation. Also the warranty...</p>
+                                        </div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
+                                                class="date">27 Jan, 2022</span></div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
+                                                class="status-yellow">Pending Review</span></div>
+                                    </div>
+                                </li>
+
                             </ul>
 
 
@@ -330,8 +556,9 @@
                                         </div>
                                         <div class="col-md-3 d-flex align-items-center justify-content-center"><span
                                                 class="date">27 Jan, 2022</span></div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="status-yellow">Pending Review</span></div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                            <span class="status-yellow">Pending Review</span>
+                                        </div>
                                     </div>
                                 </li>
                                 <li>
@@ -356,8 +583,109 @@
                                         </div>
                                         <div class="col-md-3 d-flex align-items-center justify-content-center"><span
                                                 class="date">27 Jan, 2022</span></div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                            <span class="status-yellow">Pending Review</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+
+
+                        <!-- Tabs 3 -->
+                        <div id="selected" class="tabcontent">
+                            <div class="row bid-list-head d-flex align-items-center justify-content-center">
+                                <div class="col-md-6"><a href="#"> Company Name <i class="ic_sort"><img
+                                                src="images/ic_sort.svg"></i></a></div>
+                                <div class="col-md-3 d-flex align-items-center justify-content-center"><a href="#">Date
+                                        <i class="ic_sort"><img src="images/ic_sort.svg"></i></a></div>
+                                <div class="col-md-3 d-flex align-items-center justify-content-center"><a
+                                        href="#">Review Status <i class="ic_sort"><img src="images/ic_sort.svg"></i></a>
+                                </div>
+                            </div>
+
+                            <ul class="all-bid-ul">
+                                <li>
+                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
+                                        <div class="col-md-6">
+                                            <a href="#"> Al Abab Trading & Contracting WLL</a>
+                                            <p>Quotation for 15 Nos. Window ACs with
+                                                onsite installation. Also the warranty...</p>
+                                        </div>
                                         <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="status-red">Hold</span></div>
+                                                class="date">27 Jan, 2022</span></div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                            <span class="status-yellow">Pending Review</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
+                                        <div class="col-md-6 pl-5">
+                                            <a href="#"> Dulsco Qatar WLL</a>
+                                            <p>Quotation for 15 Nos. Window ACs with
+                                                onsite installation. Also the warranty...</p>
+                                        </div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
+                                                class="date">27 Jan, 2022</span></div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
+                                                class="status-green">Shortlisted</span></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
+                                        <div class="col-md-6 pl-5">
+                                            <a href="#"> Al Turki Trading WLL</a>
+                                            <p>Quotation for 15 Nos. Window ACs with
+                                                onsite installation. Also the warranty...</p>
+                                        </div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
+                                                class="date">27 Jan, 2022</span></div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                            <span class="status-yellow">Pending Review</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
+                                        <div class="col-md-6">
+                                            <a href="#"> Al Abab Trading & Contracting WLL</a>
+                                            <p>Quotation for 15 Nos. Window ACs with
+                                                onsite installation. Also the warranty...</p>
+                                        </div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
+                                                class="date">27 Jan, 2022</span></div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                            <span class="status-yellow">Pending Review</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
+                                        <div class="col-md-6 pl-5">
+                                            <a href="#"> Dulsco Qatar WLL</a>
+                                            <p>Quotation for 15 Nos. Window ACs with
+                                                onsite installation. Also the warranty...</p>
+                                        </div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
+                                                class="date">27 Jan, 2022</span></div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
+                                                class="status-green">Shortlisted</span></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
+                                        <div class="col-md-6 pl-5">
+                                            <a href="#"> Al Turki Trading WLL</a>
+                                            <p>Quotation for 15 Nos. Window ACs with
+                                                onsite installation. Also the warranty...</p>
+                                        </div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
+                                                class="date">27 Jan, 2022</span></div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                            <span class="status-yellow">Pending Review</span>
+                                        </div>
                                     </div>
                                 </li>
                             </ul>
@@ -382,11 +710,18 @@
                         <div class="add-hold-btn d-flex">
                             <a href="#" class="add-shortlist">Add to Shortlist</a>
                             <a href="#" class="hold-btn" data-toggle="modal" data-target="#hold-popup">Hold</a>
+                            <a href="#" class="tooltip-msg">
+                                <span class="tooltiptext">
+                                    <span class="tooltip-arrow"></span>
+                                    Please look in to this proposal.
+                                </span>
+                            </a>
+                            <div class="dropdown">
+                                <button class="dropbtn">Report</button>
+                            </div>
                         </div>
+                        <a href="#" class="question-asked">Questions Asked</a>
 
-                        <div class="dropdown">
-                            <button class="dropbtn">Report</button>
-                        </div>
 
                     </div>
                     <a href="#" class="cross-second"></a>
@@ -405,8 +740,8 @@
                     <p>For Al Abab Trading & Contracting WLL<br>
                         Sales Department</p>
 
-                    <h1 class="mt-4">Attachments</h1>
-                    <div class="d-flex flex-wrap align-items-center">
+                    <h1 class="mt-2">Attachments</h1>
+                    <div class="d-flex flex-column align-items-left float-start">
                         <a href="#" class="attachmets-list">Proposal - Quotation-AC...XV.PDF</a>
                         <a href="#" class="attachmets-list">Proposal - Quotation-AC-Dummy...XV.PDF</a>
                         <a href="#" class="attachmets-list">Proposal - Quotation-AC...XV.PDF</a>
@@ -623,16 +958,39 @@
                             </div>
 
 
+
                         </div>
 
                         <!-- Tabs 2 -->
-                        <div id="closed" class="tabcontent2 scroll-q-asked" style="display: none;">
+                        <div id="closed" class="tabcontent2" style="display: none;">
                             <div class="open-close-list">
                                 <h1>Can AC series s used or it be standard
                                     ACXD, or both for durability and quality?
                                 </h1>
                                 <small class="bid-date">24 February, 2023</small>
+                                <div class="colsed-description">
+                                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                                    tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero
+                                    eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+                                    takimata sanctus est Lorem ipsum dolor sit
 
+                                    <span>You Answered on 20/02/2023</span>
+                                </div>
+                                <a href="#" class="respond">Edit Response</a>
+                            </div>
+
+
+                            <div class="open-close-list">
+                                <h1>Can AC series s used or it be standard
+                                    ACXD, or both for durability and quality?
+                                </h1>
+                                <small class="bid-date">24 February, 2023</small>
+                                <div class="colsed-description">
+                                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                                    tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+                                    <span>You Answered on 20/02/2023</span>
+                                </div>
+                                <a href="#" class="respond">Edit Response</a>
                             </div>
 
                         </div>
