@@ -54,9 +54,6 @@ class BusinessCategoryController extends Controller
     public function getSubcategories(Request $request){
         //$comp = Cache::get('company');
         $comp = session('company');
-        if(!$comp){
-            return redirect('/');
-        }
         try {
             $category = Category::findOrFail($request->id);
             $subCategories = $category->subCategories;

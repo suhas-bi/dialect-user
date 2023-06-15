@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="194.667" height="195.667" viewBox="0 0 194.667 195.667">
+  <g id="pie" transform="translate(-434 -157.333)">
+    <text id="Total_Enquiries_Received" data-name="Total Enquiries Received" transform="translate(531.334 350)" fill="#071d49" font-size="14" font-family="Lato-Regular, Lato"><tspan x="-74.357" y="0">Total Enquiries Received</tspan></text>
+    <g id="Group_9053" data-name="Group 9053" transform="translate(17.744 45.077)">
+      <g id="Ellipse_196" data-name="Ellipse 196" transform="matrix(0.719, -0.695, 0.695, 0.719, 416.256, 207.891)" fill="none" stroke="#00aa60" stroke-width="20" stroke-dasharray="216 166">
+        <circle cx="68.836" cy="68.836" r="68.836" stroke="none"/>
+        <circle cx="68.836" cy="68.836" r="58.836" fill="none"/>
+      </g>
+      <g id="Ellipse_198" data-name="Ellipse 198" transform="matrix(0.122, 0.993, -0.993, 0.122, 573.523, 132.878)" fill="none" stroke="#d88405" stroke-width="20" stroke-dasharray="203 474">
+        <circle cx="68.836" cy="68.836" r="68.836" stroke="none"/>
+        <circle cx="68.836" cy="68.836" r="58.836" fill="none"/>
+      </g>
+      <g id="Ellipse_199" data-name="Ellipse 199" transform="matrix(-0.966, -0.259, 0.259, -0.966, 562.264, 293.896)" fill="none" stroke="#0087c4" stroke-width="20" stroke-dasharray="203 474">
+        <circle cx="68.836" cy="68.836" r="68.836" stroke="none"/>
+        <circle cx="68.836" cy="68.836" r="58.836" fill="none"/>
+      </g>
+      <text id="_31" data-name="31" transform="translate(513.256 224.923)" fill="#6e6e6e" font-size="38" font-family="Lato-Semibold, Lato" font-weight="600"><tspan x="-22.04" y="0">31</tspan></text>
+    </g>
+  </g>
+</svg>

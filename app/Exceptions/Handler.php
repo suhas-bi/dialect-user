@@ -24,7 +24,7 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-             \Log::stack(['single', 'slack'])->error('Error :'.$e->getMessage().PHP_EOL.' line :'.$e->getLine().PHP_EOL.'File :'.$e->getFile());
+             //\Log::stack(['single', 'slack'])->error('Error :'.$e->getMessage().PHP_EOL.' line :'.$e->getLine().PHP_EOL.'File :'.$e->getFile());
         });
     }
 }

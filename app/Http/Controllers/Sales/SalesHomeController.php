@@ -21,14 +21,14 @@ class SalesHomeController extends Controller
 {
     public function __construct() 
     {
-      $this->middleware('auth');
+      //$this->middleware('auth');
     }
     
     public function index(){
-        $user = auth()->user();
-        $user->update(['token'=>'']);
-        $company_id = auth()->user()->company_id;
-        return view('sales.index');
+        // $user = auth()->user();
+        // $user->update(['token'=>'']);
+        // $company_id = auth()->user()->company_id;
+        return view('sales.received.index');
     }
 
 }

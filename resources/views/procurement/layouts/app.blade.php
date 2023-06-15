@@ -34,12 +34,14 @@
 
 
     <!-- New Quote Button Start -->
+    @if(!request()->is('procurement/quote/*'))
     <a href="{{ route('procurement.quote.selectCategory') }}">
     <div class="create-qoute d-flex justify-content-end">
         <span>Create Quote</span>
         <div class="create-qoute-btn"></div>
     </div>
     </a>
+    @endif
     <!-- New Quote Button End -->
 
     <script type='text/javascript' src="{{ asset('assets/js/jquery.min.js') }}"></script>
