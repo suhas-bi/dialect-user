@@ -44,11 +44,9 @@ class ProQuoteController extends Controller
         DB::beginTransaction();
         try{
             $company_id = auth()->user()->company_id;
-            $ref_no = $this->referencoNo($company_id);
             $enquiry = Enquiry::create([
                 'company_id' => $company_id,
                 'sub_category_id' => $request->id,
-                'reference_no' => $ref_no,
                 'from_id' => auth()->user()->id
             ]);
             DB::commit();
@@ -202,6 +200,11 @@ class ProQuoteController extends Controller
               'message' => $e->getMessage()
           ], 500);
       }         
+    }
+
+    public function generateQuote(Request $request){
+        $company_id = auth()->user()->company_id;
+        $ref_no = $this->referenceNo($company_id);
     }
     
 

@@ -30,7 +30,8 @@ class ProTeamController extends Controller
 
     public function team(){
       $company_id = auth()->user()->company_id;
-      return view('procurement.team.index');
+      $members = CompanyUser::where('company_id',$company_id)->get();
+      return view('procurement.team.index',compact('members'));
   }
 
 }

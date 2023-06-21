@@ -75,6 +75,7 @@ class ReRegistrationController extends Controller
             //Cache::put('otp_count', $otp_count);
             session()->put('otp_count', $otp_count);
             if($otp_count > 3){
+                session()->forget('otp_count');
                 return response()->json([
                     'status' => false,
                     'type' => 1,
@@ -109,6 +110,7 @@ class ReRegistrationController extends Controller
             // Clear the OTP from cache
             //Cache::forget($email);
             session()->forget('company');
+            session()->forget('otp_count');
 
             //Cache::put('company', $checkCompanyExists);
             session()->put('company', $checkCompanyExists);
