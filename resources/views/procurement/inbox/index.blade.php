@@ -11,13 +11,13 @@
                 <div class="bid-inbox">
                     <div class="bid-header d-flex align-items-center">
                         <h1 class="mr-auto">Bid Inbox</h1>
-                        <a href="#" class="search-ico  float-right tablinks4"  onclick="openCity4(event, 'search')"></a>
-                        <a href="#" class="filter-ico float-right tablinks4"  onclick="openCity4(event, 'filter')"></a>
+                        <a href="#"  class="search-ico  float-right tablinks4 search_filter" data-option="search"></a>
+                        <a href="#"  class="filter-ico float-right tablinks4 search_filter" data-option="filter"></a>
                     </div>
                     <div id="search" class="tabcontent4" style="display: none;">
                     <div class="my-quotes-search d-flex align-items-center justify-content-between">
                         <div class="account-search-box-main">
-                            <input type="text" placeholder="Search" class="form-control">
+                            <input id="keyword" type="text" placeholder="Search by reference no." class="form-control">
                         </div>
                     </div>
                     </div>
@@ -25,88 +25,20 @@
                     <div id="filter" class="tabcontent4" style="display: none;">
                         <div class="my-quotes-search d-flex align-items-center justify-content-left">
                             
-                            <div class="custom-select" style="margin-left: 0;">
-                                <select>
-                                    <option value="0">Today</option>
-                                    <option value="1">Today</option>
-                                    <option value="2">Yesterday</option>
-                                    <option value="3">Last week</option>
-                                    <option value="4">Last month</option>
+                            <!-- <div class="custom-select" style="margin-left: 0; "> -->
+                                <select id="mode_filter" name="mode_filter" class="form-select">
+                                    <option value=" ">All</option>
+                                    <option value="today">Today </option>
+                                    <option value="yesterday">Yesterday </option>
+                                    <option value="last_week">Last week </option>
+                                    <option value="last_month">Last month </option>
                                 </select>
-                            </div>
+                            <!-- </div> -->
                         </div>
-                        </div>
+                    </div>
 
-                    <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
-                            <div class="list-item-inner blue-border">
-                                <h2 class="mb-2 round-bullet">238459-39-2023</h2>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h3>Windows Aircondition on rental basis...</h3>
-                                    <small class="bid-count d-flex align-items-center justify-content-center">5</small>
-                                </div>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <small class="bid-date">25 October, 2022</small>
-                                    <small class="bid-hours">2 Hours Left</small>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="list-item-inner yellow-border">
-                                <h2 class="mb-2 round-bullet">238459-39-2023</h2>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h3>Windows Aircondition on rental basis...</h3>
-                                    <small class="bid-count d-flex align-items-center justify-content-center">5</small>
-                                </div>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <small class="bid-date">25 October, 2022</small>
-                                    <small class="bid-hours">2 Hours Left</small>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="list-item-inner yellow-border">
-                                <h2 class="mb-2 bullet-light-blue">238459-39-2023</h2>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h3>Windows Aircondition on rental basis...</h3>
-                                    <small class="bid-count d-flex align-items-center justify-content-center">5</small>
-                                </div>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <small class="bid-date">25 October, 2022</small>
-                                    <small class="bid-hours">2 Hours Left</small>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="list-item-inner blue-border">
-                                <h2 class="mb-2 bullet-light-blue">238459-39-2023</h2>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h3>Windows Aircondition on rental basis...</h3>
-                                    <small class="bid-count d-flex align-items-center justify-content-center">5</small>
-                                </div>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <small class="bid-date">25 October, 2022</small>
-                                    <small class="bid-hours">2 Hours Left</small>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="list-item-inner yellow-border">
-                                <h2 class="mb-2 bullet-light-blue">238459-39-2023</h2>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h3>Windows Aircondition on rental basis...</h3>
-                                    <small class="bid-count d-flex align-items-center justify-content-center">5</small>
-                                </div>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <small class="bid-date">25 October, 2022</small>
-                                    <small class="bid-hours">2 Hours Left</small>
-                                </div>
-                            </div>
-                        </a>
+                    <div id="inbox-list" class="list-group">
+                        
 
                     </div>
                 </div>
@@ -116,21 +48,8 @@
             <div class="col-md-6 pl-0 pr-0 scnd-section-main">
                 <div class="mid-sec-main">
                     <div class="mid-sec-header d-flex justify-content-between  justify-content-center">
-                        <div class="first-sec d-flex align-items-center">
-                            <div class="completed-screening d-flex align-items-center">
-                                <small>Completed<br>Screening</small>
-                                <h1><span class="green">12</span><span class="grey">/</span>16</h1>
-                            </div>
-
-                            <div class="completed-screening d-flex align-items-center">
-                                <small>Accepted<br>Bids till</small>
-                                <h1>24</h1>
-                                <small class="date">FEB<br>2023</small>
-                                <a href="#" class="edit-ico"></a>
-                            </div>
-                            <div class="completed-screening d-flex align-items-center">
-                                <a href="#" class="share-btn" data-toggle="modal" data-target="#share-popup">Share</a>
-                            </div>
+                        <div class="first-sec d-flex align-items-center" id="quote-options">
+                            
                         </div>
                         <div class="scond-sec d-flex align-items-center">
                             <div class="completed-screening d-flex align-items-center position-relative">
@@ -158,24 +77,8 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="mid-second-sec">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h2>Windows Air Condition on rental basis...</h2>
-                            <small class="created-date"><span>Created on:</span><br>25 January, 2023</small>
-                            <a href="#" class="question-asked">Questions Asked</a>
-                        </div>
-                        <h3>Quote For: Al Nazer Mohammed, Admin IHRDS </h3>
-                        <div class="position-relative msg-expand-main" id="msg-expand">
-                            <p>Looking forward for installing 20 Air Conditioners in the 4th floor of our building, the lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
-
-                            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-                            <span>Al Nazer Mohammed</span> <br>
-                            <span>Admin, IHRDS</span>
-                            <a href="#" class="read-more">Read More</a>
-                            <a href="#" class="read-less">Read Less</a>
-                        </div>
+                    <div id="my-quote">
+                        
                     </div>
 
                     <div class="mid-third-sec">
@@ -202,11 +105,11 @@
                             <div class="row bid-list-head d-flex align-items-center justify-content-center">
                                 
                                 <div class="col-md-6"><a href="#"> Company Name <i class="ic_sort"><img
-                                                src="images/ic_sort.svg"></i></a></div>
+                                                src="{{ asset('assets/images/ic_sort.svg') }}"></i></a></div>
                                 <div class="col-md-3 d-flex align-items-center justify-content-center"><a href="#">Date
-                                        <i class="ic_sort"><img src="images/ic_sort.svg"></i></a></div>
+                                        <i class="ic_sort"><img src="{{ asset('assets/images/ic_sort.svg') }}"></i></a></div>
                                 <div class="col-md-3 d-flex align-items-center justify-content-center"><a
-                                        href="#">Review Status <i class="ic_sort"><img src="images/ic_sort.svg"></i></a>
+                                        href="#">Review Status <i class="ic_sort"><img src="{{ asset('assets/images/ic_sort.svg') }}"></i></a>
                                 </div>
                             </div>
                             <ul class="all-bid-ul">
@@ -312,11 +215,11 @@
                         <div id="shortlisted" class="tabcontent">
                             <div class="row bid-list-head d-flex align-items-center justify-content-center">
                                 <div class="col-md-6"><a href="#"> Company Name <i class="ic_sort"><img
-                                                src="images/ic_sort.svg"></i></a></div>
+                                                src="{{ asset('assets/images/ic_sort.svg') }}"></i></a></div>
                                 <div class="col-md-3 d-flex align-items-center justify-content-center"><a href="#">Date
-                                        <i class="ic_sort"><img src="images/ic_sort.svg"></i></a></div>
+                                        <i class="ic_sort"><img src="{{ asset('assets/images/ic_sort.svg') }}"></i></a></div>
                                 <div class="col-md-3 d-flex align-items-center justify-content-center"><a
-                                        href="#">Review Status <i class="ic_sort"><img src="images/ic_sort.svg"></i></a>
+                                        href="#">Review Status <i class="ic_sort"><img src="{{ asset('assets/images/ic_sort.svg') }}"></i></a>
                                 </div>
                             </div>
 
@@ -428,15 +331,12 @@
                             <!-- Tabs navs -->
                             <ul class="nav nav-tabs tab mb-2" role="tablist2">
                                 <li class="nav-item">
-
-                                    <a class="nav-link tablinks2 active" onclick="openCity2(event, 'open')">Open</a>
-                                    <small
-                                        class="tab-notf-count d-flex align-items-center justify-content-center">2</small>
+                                    <a class="nav-link tablinks2 faq active" data-option="open">Open</a>
+                                    <small id="open-count" class="tab-notf-count d-flex align-items-center justify-content-center">0</small>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link tablinks2" onclick="openCity2(event, 'closed')">Closed</a>
-                                    <small
-                                        class="tab-notf-count d-flex align-items-center justify-content-center">2</small>
+                                    <a class="nav-link tablinks2 faq" data-option="closed">Closed</a>
+                                    <small id="closed-count" class="tab-notf-count d-flex align-items-center justify-content-center">0</small>
                                 </li>
                             </ul>
                             <!-- Tabs navs -->
@@ -445,195 +345,14 @@
                         <!-- Tabs 1-->
 
                         <div id="open" class="tabcontent2 scroll-q-asked" style="display: block;">
-                            <div class="open-close-list">
-                                <h1>Can AC series s used or it be standard
-                                    ACXD, or both for durability and quality?
-                                </h1>
-                                <small class="bid-date">24 February, 2023</small>
-
-                                <div class="d-flex w-100 justify-content-between">
-                                    <div class="respo-skip-btn">
-                                        <a href="#" class="respond">Respond</a>
-                                        <a href="#" class="skip">Skiped</a>
-                                    </div>
-                                    <div class="dropdown">
-                                        <button onclick="myFunction()" class="dropbtn">Report</button>
-                                        <div id="myDropdown" class="dropdown-content">
-                                            <a href="#">Spam</a>
-                                            <a href="#">Illegal activity</a>
-                                            <a href="#">Advertisement</a>
-                                            <a href="#">Cyberbullying</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="open-close-list">
-                                <h1>Can AC series s used or it be standard
-                                    ACXD, or both for durability and quality?
-                                </h1>
-                                <small class="bid-date">24 February, 2023</small>
-
-                                <div class="d-flex w-100 justify-content-between">
-                                    <div class="respo-skip-btn">
-                                        <span class="skiped-status">Skiped</span>
-                                    </div>
-                                    <div class="dropdown">
-                                        <button onclick="myFunction()" class="dropbtn">Report</button>
-                                        <div id="myDropdown" class="dropdown-content">
-                                            <a href="#">Spam</a>
-                                            <a href="#">Illegal activity</a>
-                                            <a href="#">Advertisement</a>
-                                            <a href="#">Cyberbullying</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="open-close-list">
-                                <h1>Can AC series s used or it be standard
-                                    ACXD, or both for durability and quality?
-                                </h1>
-                                <small class="bid-date">24 February, 2023</small>
-
-                                <div class="d-flex w-100 justify-content-between">
-                                    <div class="respo-skip-btn">
-                                        <span class="skiped-status">Skiped</span>
-                                    </div>
-                                    <div class="dropdown">
-                                        <button onclick="myFunction()" class="dropbtn">Report</button>
-                                        <div id="myDropdown" class="dropdown-content">
-                                            <a href="#">Spam</a>
-                                            <a href="#">Illegal activity</a>
-                                            <a href="#">Advertisement</a>
-                                            <a href="#">Cyberbullying</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="open-close-list">
-                                <h1>Can AC series s used or it be standard
-                                    ACXD, or both for durability and quality?
-                                </h1>
-                                <small class="bid-date">24 February, 2023</small>
-
-                                <div class="d-flex w-100 justify-content-between">
-                                    <div class="respo-skip-btn">
-                                        <span class="skiped-status">Skiped</span>
-                                    </div>
-                                    <div class="dropdown">
-                                        <button onclick="myFunction()" class="dropbtn">Report</button>
-                                        <div id="myDropdown" class="dropdown-content">
-                                            <a href="#">Spam</a>
-                                            <a href="#">Illegal activity</a>
-                                            <a href="#">Advertisement</a>
-                                            <a href="#">Cyberbullying</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="open-close-list">
-                                <h1>Can AC series s used or it be standard
-                                    ACXD, or both for durability and quality?
-                                </h1>
-                                <small class="bid-date">24 February, 2023</small>
-
-                                <div class="d-flex w-100 justify-content-between">
-                                    <div class="respo-skip-btn">
-                                        <span class="skiped-status">Skiped</span>
-                                    </div>
-                                    <div class="dropdown">
-                                        <button onclick="myFunction()" class="dropbtn">Report</button>
-                                        <div id="myDropdown" class="dropdown-content">
-                                            <a href="#">Spam</a>
-                                            <a href="#">Illegal activity</a>
-                                            <a href="#">Advertisement</a>
-                                            <a href="#">Cyberbullying</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="open-close-list">
-                                <h1>Can AC series s used or it be standard
-                                    ACXD, or both for durability and quality?
-                                </h1>
-                                <small class="bid-date">24 February, 2023</small>
-
-                                <div class="d-flex w-100 justify-content-between">
-                                    <div class="respo-skip-btn">
-                                        <span class="skiped-status">Skiped</span>
-                                    </div>
-                                    <div class="dropdown">
-                                        <button onclick="myFunction()" class="dropbtn">Report</button>
-                                        <div id="myDropdown" class="dropdown-content">
-                                            <a href="#">Spam</a>
-                                            <a href="#">Illegal activity</a>
-                                            <a href="#">Advertisement</a>
-                                            <a href="#">Cyberbullying</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="open-close-list">
-                                <h1>Can AC series s used or it be standard
-                                    ACXD, or both for durability and quality?
-                                </h1>
-                                <small class="bid-date">24 February, 2023</small>
-
-                                <div class="d-flex w-100 justify-content-between">
-                                    <div class="respo-skip-btn">
-                                        <span class="skiped-status">Skiped</span>
-                                    </div>
-                                    <div class="dropdown">
-                                        <button onclick="myFunction()" class="dropbtn">Report</button>
-                                        <div id="myDropdown" class="dropdown-content">
-                                            <a href="#">Spam</a>
-                                            <a href="#">Illegal activity</a>
-                                            <a href="#">Advertisement</a>
-                                            <a href="#">Cyberbullying</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="open-close-list">
-                                <h1>Can AC series s used or it be standard
-                                    ACXD, or both for durability and quality?
-                                </h1>
-                                <small class="bid-date">24 February, 2023</small>
-
-                                <div class="d-flex w-100 justify-content-between">
-                                    <div class="respo-skip-btn">
-                                        <span class="skiped-status">Skiped</span>
-                                    </div>
-                                    <div class="dropdown">
-                                        <button onclick="myFunction()" class="dropbtn">Report</button>
-                                        <div id="myDropdown" class="dropdown-content">
-                                            <a href="#">Spam</a>
-                                            <a href="#">Illegal activity</a>
-                                            <a href="#">Advertisement</a>
-                                            <a href="#">Cyberbullying</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
 
 
                         </div>
 
                         <!-- Tabs 2 -->
                         <div id="closed" class="tabcontent2 scroll-q-asked" style="display: none;">
-                            <div class="open-close-list">
-                                <h1>Can AC series s used or it be standard
-                                    ACXD, or both for durability and quality?
-                                </h1>
-                                <small class="bid-date">24 February, 2023</small>
-
-                            </div>
+                          
 
                         </div>
                     </div>
@@ -643,7 +362,354 @@
         </div>
     </section>
     <!-- End Main Content -->
-@push('scripts')
+
+    <!-- Accepted Till Model Starts -->
+         <!-- Modal -->
+         <div class="modal fade" id="change-date-model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="exampleModalLongTitle">Accepted Bids till</h1>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body row">
+                    <div class="col-md-12 common-popup">
+                        <label>Accepted Bids till<span class="mandatory"> *</span></label>
+                        <input id="enquiry_id" type="hidden" value="">
+                        <input id="expire_at" type="text" placeholder="Date (DD-MM-YY)" class="form-control choose-category calendar-ico" autocomplete="off">
+                    
+                        <label>Remarks</label>
+                        <textarea class="remarks"></textarea>
+                    </div>
+                </div>
+                
+                <div class="modal-footer model-footer-padd">
+                    <div class="d-flex justify-content-end">
+                        <div class="form-group proceed-btn">
+                            <button type="button" class="btn btn-third cancel-change" data-dismiss="modal">Cancel</button>
+                        </div>
+                        <div class="form-group proceed-btn">
+                            <input id="save-date-change" type="button" value="Save" class="btn btn-secondary">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Accepted till model ends -->
+    <input type="hidden" id="change-date-url" value="{{ route('procurement.quote.editAcceptedDate') }}" />
+    @push('scripts')
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $( function() {
+            
+            loadBidInboxList();
+
+            $( "#expire_at" ).datepicker({
+                minDate: 0,
+                dateFormat: 'dd-mm-yy',
+            });
+
+            $('body').on('click','.search_filter',function(){
+            
+                var search_filter = $(this).data('option');
+
+                if(search_filter === "search"){
+                    $('#filter').hide();
+                    $('#search').show();
+                }
+                else if(search_filter === "filter"){
+                    $('#filter').show();
+                    $('#search').hide();
+                }
+                else{
+                    $('#filter').hide();
+                    $('#search').hide();
+                }
+            });
+
+            $('body').on('click','.faq',function(){
+                $('.faq').removeClass('active');
+                $(this).addClass('active');
+                var faq_filter = $(this).data('option');
+                
+                if(faq_filter === "open"){
+                    $('#closed').hide();
+                    $('#open').show();
+                }
+                else if(faq_filter === "closed"){
+                    $('#closed').show();
+                    $('#open').hide();
+                }
+                else{
+                    $('#closed').hide();
+                    $('#open').hide();
+                }
+            });
+
+            
+
+            $('body').on('keyup','#keyword',function(){
+                loadBidInboxList();
+            });
+
+            $('body').on('change','#mode_filter',function(){
+                loadBidInboxList();
+            });
+
+            $('body').on('click','.enquiry_item',function(){
+                var id = $(this).data('id');
+                $('.enquiry_item').removeClass("active");
+                $("#enquiry-"+id).addClass("active");
+                openEnquiry(id);
+            }); 
+
+            $('body').on('click','.read-more',function () {
+                $('#msg-expand').removeClass('msg-expand-main');
+                $('#msg-expand').addClass('msg-less-main');
+                $('.read-more').hide();
+                $('.read-less').show();
+                $("ul.all-bid-ul").css("height", "calc(100vh - 646px)");
+            });
+
+            $('body').on('click','.read-less',function () {
+                $('#msg-expand').addClass('msg-expand-main');
+                $('#msg-expand').removeClass('msg-less-main');
+                $('.read-more').show();
+                $('.read-less').hide();
+                $("ul.all-bid-ul").css("height", "calc(100vh - 369px)");
+            });
+
+            $('body').on('click','.cross',function () {
+                $('.questions-ask').hide('300');
+                $('.scnd-section-main').addClass('col-md-9');
+                $('.scnd-section-main').removeClass('col-md-6');
+                $('.question-asked').show();
+            });
+
+            $('body').on('click','.question-asked',function () {
+                $('.questions-ask').show('300');
+                $('.scnd-section-main').removeClass('col-md-9');
+                $('.scnd-section-main').addClass('col-md-6');
+                $('.question-asked').hide();
+            });
+
+            $('body').on('click','#change-date',function () {
+                var id = $(this).data('id');
+                $('#enquiry_id').val(id);
+                $('#change-date-model').modal('show');
+            });
+            
+            $('body').on('click','.close, .cancel-change',function () {
+                $('#change-date-model').modal('hide');
+            });
+
+            $('body').on('click','#save-date-change',function () {
+                var changeExpiryAction = $('#change-date-url').val();
+                var expire_at = $('#expire_at').val();
+                var id = $('#enquiry_id').val();
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Do you want to change expiry date!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                }).then(function (willUpdate) {
+                    if (willUpdate.isConfirmed === true) {
+                        axios.post(changeExpiryAction, {id:id, expire_at : expire_at})
+                             .then((response) => {
+                                // Handle success response
+                                Swal.fire({
+                                    toast: true,
+                                    icon: 'success',
+                                    title: "Updated",
+                                    animation: false,
+                                    position: 'top-right',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                });
+                                openEnquiry(id);
+                                $('#change-date-model').modal('hide');
+                             })
+                             .catch((error) => { 
+                                // Handle error response
+                                console.log(error);
+                                openEnquiry(id);
+                                $('#change-date-model').modal('hide');
+                             });
+                    }
+                    else{
+                        Swal.fire({
+                            title: 'Cancelled',
+                            icon: "error",
+                        });
+                    }
+                });
+            });
+                 
+                 
+        });
+
+       
+
+        
+
+        function openEnquiry(id){
+            var fetchEnquiryAction = "{{ route('procurement.fetchEnquiry') }}";
+            axios.post(fetchEnquiryAction, {id:id})
+                 .then((response) => {
+                    // Handle success response
+                    let enquiry = response.data.enquiry;
+                    $('#my-quote').empty();
+                    $('#quote-options').empty();
+                    $('#open').empty();
+                    $('#closed').empty();
+                    $('#open-count').text(enquiry.open_faqs.length);
+                    $('#closed-count').text(enquiry.closed_faqs.length);
+                    var content = `<div class="mid-second-sec">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h2>${enquiry.subject}</h2>
+                                <small class="created-date"><span>Created on:</span><br>${enquiry.created_at}</small>
+                                <a href="#" class="question-asked">Questions Asked</a>
+                            </div>
+                            <h3>Quote For: Al Nazer Mohammed, Admin IHRDS </h3>
+                            <div class="position-relative msg-expand-main" id="msg-expand">
+                                <pre>${enquiry.body}</pre>
+                                <h1 class="mt-2">${enquiry.attachments.length != 0 ? 'Attachments' : '' }</h1>
+                                <div class="d-flex flex-column align-items-left float-start mt-2 attachments">
+                            
+                                </div>
+                                <a href="#" class="read-more">Read More</a>
+                                <a href="#" class="read-less">Read Less</a>
+                            </div>
+                            
+                        </div>`;
+                    $('#my-quote').append(content);  
+                    
+                    enquiry.attachments.forEach(function(attachment) {
+                    $('.attachments').append(`<span class="d-flex doc-preview align-items-center justify-content-between mb-2">
+                                                    ${attachment.file_name}
+                                                    <div class="d-flex align-items-center">
+                                                        <a id="doc-preview-link" href="{{ config('setup.application_url') }}${attachment.path}" class="doc-preview-view" target="_blank"></a>
+                                                    </div>
+                                                </span>`);
+                    });  
+
+                    var ribbon = `<div class="completed-screening d-flex align-items-center">
+                                        <small>Completed<br>Screening</small>
+                                        <h1><span class="green">${enquiry.action_count}</span><span class="grey">/</span>${enquiry.reply_count}</h1>
+                                  </div>
+
+                                  <div class="completed-screening d-flex align-items-center">
+                                     <small>Accepted<br>Bids till</small>
+                                     <h1>${enquiry.expiry.day}</h1>
+                                     <small class="date">${enquiry.expiry.month}<br>${enquiry.expiry.year}</small>
+                                     <a href="#" id="change-date" data-id="${enquiry.id}" class="edit-ico"></a>
+                                 </div>
+                                 <div class="completed-screening d-flex align-items-center">
+                                       <a href="#" class="share-btn" data-toggle="modal" data-target="#share-popup">Share</a>
+                                 </div>`;
+                    $('#quote-options').append(ribbon); 
+                    $('.question-asked').hide();
+
+                        enquiry.open_faqs.forEach(function(open_faq) {
+                            $('#open').append(`<div class="open-close-list">
+                                <h1>${open_faq.question}</h1>
+                                <small class="bid-date">${open_faq.created_at}</small>
+
+                                <div class="d-flex w-100 justify-content-between">
+                                    <div class="respo-skip-btn">
+                                    ${open_faq.status === 0 ?
+                                        `<a href="#" class="respond">Respond</a>
+                                         <a href="#" class="skip">Skip</a>` :
+                                        `<span class="skiped-status">Skipped</span>`
+
+                                    }
+                                    </div>
+                                    <div class="dropdown">
+                                        <button onclick="myFunction()" class="dropbtn">Report</button>
+                                        <div id="myDropdown" class="dropdown-content">
+                                            <a href="#">Spam</a>
+                                            <a href="#">Illegal activity</a>
+                                            <a href="#">Advertisement</a>
+                                            <a href="#">Cyberbullying</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`);
+                        });
+
+                        enquiry.closed_faqs.forEach(function(open_faq) {
+                            $('#closed').append(`<div class="open-close-list">
+                                <h1>${open_faq.question}</h1>
+                                <small class="bid-date">${open_faq.created_at}</small>
+                                <div class="colsed-description">
+                                    ${open_faq.answer}
+                                    <span>You Answered on ${open_faq.answered_at}</span>
+                                </div>
+                                <a href="#" class="respond">Edit Response</a>
+                            </div>`);
+                        });
+                 })
+                 .catch((error) => { 
+                    // Handle error response
+                    console.log(error);
+                 });
+        }
+
+        function loadBidInboxList(){
+            var fetchSendItemsAction = "{{ route('procurement.fetchAllEnquiries') }}";
+            var mode_filter = $('#mode_filter option:selected').val();
+            var keyword = $('#keyword').val();
+            axios.post(fetchSendItemsAction, {mode_filter:mode_filter, keyword:keyword})
+                 .then((response) => {
+                    // Handle success response
+                    if(response.data.status === true){
+                        let enquiries = response.data.enquiries;
+                        $('#inbox-list').empty();
+                        enquiries.forEach(function(enquiry) {
+                            var content = `<a id="enquiry-${enquiry.id}" href="#" data-id="${enquiry.id}" class="list-group-item list-group-item-action flex-column align-items-start enquiry_item">
+                                                <div class="list-item-inner blue-border">
+                                                    <h2 class="mb-2 round-bullet">${enquiry.reference_no}</h2>
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                        <h3>${enquiry.subject}</h3>
+                                                        <small class="bid-count d-flex align-items-center justify-content-center">${enquiry.reply_count}</small>
+                                                    </div>
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                        <small class="bid-date">${enquiry.date}</small>
+                                                        <small class="bid-hours">${enquiry.expire_in}</small>
+                                                    </div>
+                                                </div>
+                                            </a>`;
+                            $('#inbox-list').append(content);
+                        });
+
+                        
+                        
+                    }
+                 })
+                 .then(() => {
+                    var id = $('.enquiry_item').data('id');
+                    $("#enquiry-"+id).addClass("active");
+                    openEnquiry(id);
+                 })
+                 .catch((error) => { 
+                    // Handle error response
+                    console.log(error);
+                 });
+        }
+
+        
+
+        
+    </script>     
     
 @endpush
  

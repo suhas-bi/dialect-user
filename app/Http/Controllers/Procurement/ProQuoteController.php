@@ -15,6 +15,8 @@ use App\Models\SubCategory;
 use App\Models\CompanyActivity;
 use App\Models\Enquiry;
 use App\Models\EnquiryAttachment;
+use App\Models\EnquiryRelation;
+use App\Models\RelativeSubCategory;
 use Carbon\Carbon;
 use DB;
 use Auth;
@@ -86,14 +88,6 @@ class ProQuoteController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
-    }
-
-    public function referencoNo($company_id){
-        $company = Company::with('document')->find($company_id);
-        $doc = $company->document->doc_number;
-        $year = date('Y');
-        $enquiryCount = Enquiry::where('company_id',$company->id)->whereYear('created_at', '=', $year)->distinct()->count('reference_no') + 1;
-        return $doc.'-'.$enquiryCount.'-'.$year;
     }
 
     public function compose($id){
@@ -205,6 +199,110 @@ class ProQuoteController extends Controller
     public function generateQuote(Request $request){
         $company_id = auth()->user()->company_id;
         $ref_no = $this->referenceNo($company_id);
+        DB::beginTransaction();
+        try{
+            $enquiry = Enquiry::find($request->enquiry_id);
+            $enquiry->update([
+                    'reference_no' => $ref_no,
+                    'subject' => $request->subject,
+                    'body' => $request->body,
+                    'is_draft' => 0,
+                    'is_limited' => $request->is_limited == 1 ? 1 : 0,
+                    'country_id' => $request->country_id,
+                    'region_id' => $request->region_id,
+                    'expired_at' => Carbon::parse($request->expired_at)->format('Y-m-d'),
+                    'mail_type' => 1,
+                    'sender_type' => auth()->user()->role,
+                    'approve_status' => 0,
+                    'verified_by' => auth()->user()->id,
+                    'verified_at' => now(),
+            ]);
+
+            $recipients = $this->fetchRecipients($enquiry->sub_category_id, $request->country_id, $request->region_id);
+
+            $recipient_chunks = array_chunk($recipients, 100); // Split records into chunks for batch processing
+
+            foreach ($recipient_chunks as $recipient) {
+                foreach($recipient as $res){
+                    EnquiryRelation::insert([
+                        'enquiry_id' => $enquiry->id,
+                        'recipient_company_id' => $res['company_id'],
+                        'to_id' =>	$res['id'],
+                        'is_read' => 0,	
+                        'is_replied' => 0
+                    ]);
+                }
+            }
+
+            DB::commit();
+      
+            return response()->json([
+                'status' => true,
+                'message' => 'Saved as draft!',
+            ], 200);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function referenceNo($company_id){
+        $company = Company::with('document')->find($company_id);
+        $doc = $company->document->doc_number;
+        $year = date('Y');
+        $enquiryCount = Enquiry::where('company_id',$company->id)->whereYear('created_at', '=', $year)->distinct()->count('reference_no') + 1;
+        return $doc.'-'.$enquiryCount.'-'.$year;
+    }
+
+    public function fetchRecipients($sub_category_id, $country_id, $region_id){
+        $role = 3; // sales
+        $categories = RelativeSubCategory::where('sub_category_id',$sub_category_id)->pluck('relative_id');
+        $query = Company::where('company_users.role', '=', $role)
+                        ->where('companies.country_id', $country_id);
+                        if($categories->count() > 0){
+                            $categories = $categories->prepend($sub_category_id)->toArray();
+                            $query->whereIn('company_activities.activity_id',$categories);
+                        }
+                        else{
+                            $query->where('company_activities.activity_id',$sub_category_id);
+                        }
+                        $query->select( 'company_users.company_id', 'company_users.email', 'company_users.id')
+                        ->join('company_users', 'company_users.company_id', '=', 'companies.id')
+                        ->join('company_activities', 'company_activities.company_id', '=', 'companies.id');                    
+        if($region_id != 0){
+            $query->join('company_locations', 'company_locations.company_id', '=', 'companies.id')
+                  ->where('company_locations.region_id',$region_id);
+        }                 
+        $data = $query->get(); 
+
+        return $recipients = $data->toArray();
+    }
+
+    public function editAcceptedDate(Request $request){
+        DB::beginTransaction();
+        try{
+            $company_id = auth()->user()->company_id;
+            Enquiry::findOrFail($request->id)->update([
+                'expired_at' => Carbon::parse($request->expire_at)->format('Y-m-d')
+            ]);
+
+            $enquiry = Enquiry::findOrFail($request->id);
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'data' => $enquiry
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
     
 

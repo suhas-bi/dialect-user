@@ -20,7 +20,11 @@
                     <!-- Main Heading -->
 
                     <h1 class="justify-content-center d-flex align-items-center">Login</h1>
-
+                    @if (session('status'))
+                        <div class="mb-4 font-medium text-sm text-green-600">
+                            {{ session('status') }}
+                        </div>
+                    @endif   
                     <div class="p-4">
                         <form class="form-horizontal" action="{{ route('login') }}" method="post">
                             @csrf
@@ -57,7 +61,7 @@
 
                             <!-- Forgot Password Link -->
                             <div class="row">
-                                <a href="#" class="forgot-pass" tabindex="4">Forgot Password?</a>
+                                <a href="{{ route('password.forgot') }}" class="forgot-pass" tabindex="4">Forgot Password?</a>
                             </div>
 
                         </form>

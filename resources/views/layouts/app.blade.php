@@ -180,7 +180,7 @@
                 icon: 'warning',
                 title: "{{ Session::get('warning') }}",
                 animation: false,
-                position: 'top',
+                position: 'top-rigth',
                 showConfirmButton: false,
                 timer: 3000,
                 timerProgressBar: true,
@@ -195,7 +195,7 @@
                 icon: 'success',
                 title: "{{ Session::get('success') }}",
                 animation: false,
-                position: 'top',
+                position: 'top-right',
                 showConfirmButton: false,
                 timer: 3000,
                 timerProgressBar: true,
@@ -204,6 +204,21 @@
                     toast.addEventListener('mouseleave', Swal.resumeTimer)
                 }
             });
+        @elseif(Session::has('status'))
+            Swal.fire({
+                toast: true,
+                icon: 'success',
+                title: "{{ Session::get('status') }}",
+                animation: false,
+                position: 'top-right',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });    
         @endif
     </script>
 </body>

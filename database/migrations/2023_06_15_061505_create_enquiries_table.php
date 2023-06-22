@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('sub_category_id');
             $table->unsignedBigInteger('from_id');
-            $table->unsignedBigInteger('to_id')->nullable();
             $table->string('reference_no')->nullable();
             $table->string('parent_reference_no')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
@@ -27,8 +26,6 @@ return new class extends Migration
             $table->integer('is_limited')->default(0); /* 1 => Limited Participant Enquiry , 0 => Normal Enquiry */
             $table->integer('limited_status')->default(0); /* 0 => Pending, 1 => Approved , 2 => Rejected */
             $table->integer('is_draft')->default(1); /* 1 => Draft , 0 => Send */
-            $table->integer('is_read')->default(0); /* 1 => Read , 0 => Not Read */
-            $table->integer('is_replied')->default(0); /* 1 => Replied , 0 => Not Replied */
             $table->integer('approve_status')->default(0); /* 0 => Pending, 1=> Approved, 2 => Rejected */ 
             $table->unsignedBigInteger('verified_by')->nullable();
             $table->datetime('verified_at')->nullable();

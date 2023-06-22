@@ -104,7 +104,7 @@ function myFunction() {
                 $('.bid-open').hide('300');
             });
             $('.question-asked').hide();
-            $('.cross').click(function () {
+            $('body').on('click','.cross',function () {
                 $('.questions-ask').hide('300');
                 $('.scnd-section-main').addClass('col-md-9');
                 $('.scnd-section-main').removeClass('col-md-6');
@@ -169,22 +169,9 @@ function myFunction() {
             });
 
             
-            $('.read-more').click(function () {
-                $('#msg-expand').removeClass('msg-expand-main');
-                $('#msg-expand').addClass('msg-less-main');
-                $('.read-more').hide();
-                $('.read-less').show();
-                $("ul.all-bid-ul").css("height", "calc(100vh - 646px)");
-                
-            });
+            
 
-            $('.read-less').click(function () {
-                $('#msg-expand').addClass('msg-expand-main');
-                $('#msg-expand').removeClass('msg-less-main');
-                $('.read-more').show();
-                $('.read-less').hide();
-                $("ul.all-bid-ul").css("height", "calc(100vh - 369px)");
-            });
+            
 
         });
 
@@ -330,7 +317,7 @@ function myFunction() {
                 icon: 'warning',
                 title: "{{ Session::get('warning') }}",
                 animation: false,
-                position: 'top',
+                position: 'top-right',
                 showConfirmButton: false,
                 timer: 3000,
                 timerProgressBar: true,
@@ -345,7 +332,7 @@ function myFunction() {
                 icon: 'success',
                 title: "{{ Session::get('success') }}",
                 animation: false,
-                position: 'top',
+                position: 'top-right',
                 showConfirmButton: false,
                 timer: 3000,
                 timerProgressBar: true,

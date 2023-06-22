@@ -35,6 +35,11 @@ use App\Http\Controllers\Sales\{
     SalesEventsController
 };
 
+use App\Http\Controllers\Auth\{
+    ForgotPasswordController,
+    ResetPasswordController
+};
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -111,6 +116,12 @@ Route::get('/login', function(){
     return redirect('/');
 });
 
+Route::get('/forgot-password', [ForgotPasswordController::class,'showForgotPasswordForm'])->name('password.forgot');
+Route::post('/forgot-password', [ForgotPasswordController::class,'sendResetLinkEmail'])->name('password.email');
+Route::get('/reset-password/{token}', [ResetPasswordController::class,'showResetPasswordForm'])->name('password.reset');
+Route::post('/reset-password', [ResetPasswordController::class,'resetPassword'])->name('password.update');
+
+
 
 
 // Procurement Start 
@@ -125,9 +136,13 @@ Route::post('/procurement/quote/compose/upload-attachment', [ProQuoteController:
 Route::post('/procurement/quote/compose/fetch-attachment', [ProQuoteController::class,'getEnquiryAttachments'])->name('procurement.getEnquiryAttachments');
 Route::post('/procurement/quote/compose/attchments/delete', [ProQuoteController::class,'deleteAttachments'])->name('procurement.quote.deleteAttachments');
 Route::post('/procurement/quote/compose/save-as-draft', [ProQuoteController::class,'saveAsDraft'])->name('procurement.quote.saveAsDraft');
+Route::post('/procurement/quote/compose/generate-quote', [ProQuoteController::class,'generateQuote'])->name('procurement.quote.generateQuote');
+Route::post('/procurement/quote/compose/edit-accepted-till', [ProQuoteController::class,'editAcceptedDate'])->name('procurement.quote.editAcceptedDate');
 
 // Inbox
-Route::get('/procurement/dashboard', [ProcurementHomeController::class,'index'])->name('procurement.dashboard');
+Route::any('/procurement/dashboard', [ProcurementHomeController::class,'index'])->name('procurement.dashboard');
+Route::any('/procurement/fetch-all-enquiries', [ProcurementHomeController::class,'fetchAllEnquiries'])->name('procurement.fetchAllEnquiries');
+Route::any('/procurement/fetch-enquiry', [ProcurementHomeController::class,'fetchEnquiry'])->name('procurement.fetchEnquiry');
 
 // Team Settings & Approvals Start
 Route::get('/procurement/review-list/send', [ReviewListController::class,'send'])->name('procurement.reviewList.send');

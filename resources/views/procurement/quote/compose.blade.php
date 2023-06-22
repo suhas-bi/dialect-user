@@ -240,6 +240,22 @@
             });
         });
 
+        $('#generate').on('click',function(){
+            var formData = $('#enquiry_form').serialize();
+            var action = "{{ route('procurement.quote.generateQuote') }}";
+            axios.post(action, formData)
+            .then((response) => {
+                // Handle success response
+                if(response.data.status === true){
+                    window.location.href = '/procurement/dashboard';
+                }
+            })
+            .catch((error) => {
+                // Handle error response
+                console.log(error);
+            });
+        });
+
         function getAttchments(enquiry_id){
             var attchmentAction = "{{ route('procurement.getEnquiryAttachments') }}";
             axios.post(attchmentAction, {enquiry_id:enquiry_id})
