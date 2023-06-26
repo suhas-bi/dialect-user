@@ -150,14 +150,16 @@ Route::post('/reset-password', [ResetPasswordController::class,'resetPassword'])
     Route::post('/procurement/quote/compose/edit-accepted-till', [ProQuoteController::class,'editAcceptedDate'])->name('procurement.quote.editAcceptedDate');
 
     Route::post('/procurement/report', [ProcurementHomeController::class,'report'])->name('procurement.report');
-
+    
 // Inbox
     Route::any('/procurement/dashboard', [ProcurementHomeController::class,'index'])->name('procurement.dashboard');
     Route::any('/procurement/fetch-all-enquiries', [ProcurementHomeController::class,'fetchAllEnquiries'])->name('procurement.fetchAllEnquiries');
     Route::any('/procurement/fetch-enquiry', [ProcurementHomeController::class,'fetchEnquiry'])->name('procurement.fetchEnquiry');
     Route::any('/procurement/skip-faq', [ProcurementHomeController::class,'skipFaq'])->name('procurement.skipFaq');
     Route::any('/procurement/answer-faq', [ProcurementHomeController::class,'answerFaq'])->name('procurement.answerFaq');
-
+    Route::post('/procurement/read-reply',[ProcurementHomeController::class,'readReply'])->name('procurement.readReply');
+    Route::post('/procurement/shortlist',[ProcurementHomeController::class,'shortlist'])->name('procurement.shortlist');
+    Route::post('/procurement/hold',[ProcurementHomeController::class,'hold'])->name('procurement.hold');
 // Review List Start
     Route::get('/procurement/review-list/send', [ReviewListController::class,'send'])->name('procurement.reviewList.send');
     Route::get('/procurement/review-list/received', [ReviewListController::class,'received'])->name('procurement.reviewList.received');
@@ -233,6 +235,9 @@ Route::post('/reset-password', [ResetPasswordController::class,'resetPassword'])
     Route::any('/member/fetch-enquiry', [MemberHomeController::class,'fetchEnquiry'])->name('member.fetchEnquiry');
     Route::any('/member/skip-faq', [MemberHomeController::class,'skipFaq'])->name('member.skipFaq');
     Route::any('/member/answer-faq', [MemberHomeController::class,'answerFaq'])->name('member.answerFaq');
+    Route::post('/member/read-reply',[MemberHomeController::class,'readReply'])->name('member.readReply');
+
+    Route::post('/member/report', [MemberHomeController::class,'report'])->name('member.report');
 // Bid Inboc Ends
 
 // Generate Quote Request Starts

@@ -21,7 +21,7 @@ class BidInboxListResource extends JsonResource
             'subject' => substr($this->subject,0,40).'...',
             'date' => Carbon::parse($this->created_at)->format('d F, Y'),
             'expire_in' => Carbon::parse($this->expired_at)->diffForHumans(),
-            'reply_count' => count($this->replies)
+            'reply_count' => count($this->all_replies)
         ];
     }
 }

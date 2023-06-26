@@ -24,14 +24,18 @@ class EnquiryResource extends JsonResource
             'open_faqs' => FaqResource::collection($this->open_faqs),
             'closed_faqs' => FaqResource::collection($this->closed_faqs),
             'created_at' => Carbon::parse($this->created_at)->format('d F, Y'),
+            'expire_at' => Carbon::parse($this->expired_at)->format('d F, Y'),
             'expiry' => array(
                 'day' => Carbon::parse($this->expired_at)->format('d'),
                 'month' => Carbon::parse($this->expired_at)->format('F'),
                 'year' => Carbon::parse($this->expired_at)->format('Y'),
             ),
-            'reply_count' => count($this->replies),
-            'action_count' => count($this->replies),
-            'sender' => $this->sender
+            'reply_count' => count($this->all_replies),
+            'action_count' => count($this->action_replies),
+            'sender' => $this->sender,
+            'all_replies' => EnquiryReplyResource::collection($this->all_replies),
+            'shortlisted' => EnquiryReplyResource::collection($this->shortlisted_replies),
+            'pending_replies' => EnquiryReplyResource::collection($this->pending_replies),
         ];
     }
 }

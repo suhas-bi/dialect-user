@@ -30,9 +30,12 @@ class EnquiryResource extends JsonResource
                 'month' => Carbon::parse($this->expired_at)->format('F'),
                 'year' => Carbon::parse($this->expired_at)->format('Y'),
             ),
-            'reply_count' => count($this->replies),
-            'action_count' => count($this->replies),
-            'sender' => $this->sender
+            'reply_count' => count($this->all_replies),
+            'action_count' => count($this->action_replies),
+            'sender' => $this->sender,
+            'all_replies' => EnquiryReplyResource::collection($this->all_replies),
+            'shortlisted' => EnquiryReplyResource::collection($this->shortlisted_replies),
+            'pending_replies' => EnquiryReplyResource::collection($this->pending_replies),
         ];
     }
 }

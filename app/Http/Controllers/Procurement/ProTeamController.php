@@ -14,6 +14,8 @@ use App\Mail\OTP;
 use App\Models\Company;
 use App\Models\CompanyUser;
 use App\Models\Enquiry;
+use App\Models\EnquiryRelation;
+use App\Models\RelativeSubCategory;
 use DB;
 use Auth;
 use Carbon\Carbon; 
@@ -35,7 +37,8 @@ class ProTeamController extends Controller
 
     public function fetchAllApprovalEnquiries(Request $request){
         $user = auth()->user();
-        $query = Enquiry::where('verified_by',0)->where('is_draft',0); //->where('is_closed',0)
+        $company_id = auth()->user()->company_id;
+        $query = Enquiry::where('company_id',$company_id)->where('verified_by',0)->where('is_draft',0); //->where('is_closed',0)
         if(!is_null($request->keyword)){
             $query->where('reference_no','like','%'.$request->keyword.'%');
             $query->orwhere('subject','like','%'.$request->keyword.'%');
@@ -72,6 +75,23 @@ class ProTeamController extends Controller
             ]);
 
             $enquiry = Enquiry::findOrFail($request->id);
+
+            $recipients = $this->fetchRecipients($enquiry->sub_category_id, $enquiry->country_id, $enquiry->region_id);
+
+            $recipient_chunks = array_chunk($recipients, 100); // Split records into chunks for batch processing
+
+            foreach ($recipient_chunks as $recipient) {
+                foreach($recipient as $res){
+                    EnquiryRelation::insert([
+                        'enquiry_id' => $enquiry->id,
+                        'recipient_company_id' => $res['company_id'],
+                        'to_id' =>	$res['id'],
+                        'is_read' => 0,	
+                        'is_replied' => 0
+                    ]);
+                }
+            }
+
             DB::commit();
             return response()->json([
                 'status' => true,
@@ -86,6 +106,31 @@ class ProTeamController extends Controller
             ], 500);
         }
     } 
+
+    public function fetchRecipients($sub_category_id, $country_id, $region_id){
+        $role = 3; // sales
+        $categories = RelativeSubCategory::where('sub_category_id',$sub_category_id)->pluck('relative_id');
+        $query = Company::where('company_users.role', '=', $role)
+                        ->where('companies.country_id', $country_id);
+                        if($categories->count() > 0){
+                            $categories = $categories->prepend($sub_category_id)->toArray();
+                            $query->whereIn('company_activities.activity_id',$categories);
+                        }
+                        else{
+                            $query->where('company_activities.activity_id',$sub_category_id);
+                        }
+                        $query->select( 'company_users.company_id', 'company_users.email', 'company_users.id')
+                        ->join('company_users', 'company_users.company_id', '=', 'companies.id')
+                        ->join('company_activities', 'company_activities.company_id', '=', 'companies.id');                    
+        if($region_id != 0){
+            $query->join('company_locations', 'company_locations.company_id', '=', 'companies.id')
+                  ->where('company_locations.region_id',$region_id);
+        }                 
+        $data = $query->get(); 
+
+        return $recipients = $data->toArray();
+    }
+
 
     public function team(){
        $company_id = auth()->user()->company_id;

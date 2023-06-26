@@ -53,20 +53,13 @@
                         </div>
                         <div class="scond-sec d-flex align-items-center">
                             <div class="completed-screening d-flex align-items-center position-relative">
-                                <small class="alert-count d-flex align-items-center justify-content-center">3</small>
+                                <small class="alert-count d-flex align-items-center justify-content-center" id="pending-count">0</small>
 
                                 <a href="#" class="alert-btn"></a>
                                 <div id="mark-drop3">
                                 <a href="#" class="dummy-btn d-flex"></a>
-                                    <ul class="drop-notf">
-                                        <li onclick="window.location.href = 'javascript:;'">
-                                            New Bid request from Al Abab...
-                                            <span class="time">5 minutes ago</span>
-                                        </li>
-                                        <li onclick="window.location.href = 'javascript:;'">
-                                            New Bid request from Dulsco Q...
-                                            <span class="time">15 minutes ago</span>
-                                        </li>
+                                    <ul class="drop-notf" id="notify">
+                                     
                                     </ul>
                                 </div>
                                 
@@ -112,99 +105,11 @@
                                         href="#">Review Status <i class="ic_sort"><img src="{{ asset('assets/images/ic_sort.svg') }}"></i></a>
                                 </div>
                             </div>
-                            <ul class="all-bid-ul">
-                                <li class="round-bullet2">
-                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
-                                        <div class="col-md-6">
-                                            <a href="#" class="bid-detail"> Al Abab Trading & Contracting WLL</a>
-                                            <p>Quotation for 15 Nos. Window ACs with
-                                                onsite installation. Also the warranty...</p>
-                                        </div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="date">27 Jan, 2022</span></div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="status-yellow">Pending Review</span></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
-                                        <div class="col-md-6 pl-5">
-                                            <a href="#"> Dulsco Qatar WLL</a>
-                                            <p>Quotation for 15 Nos. Window ACs with
-                                                onsite installation. Also the warranty...</p>
-                                        </div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="date">27 Jan, 2022</span></div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="status-green">Shortlisted</span></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
-                                        <div class="col-md-6 pl-5">
-                                            <a href="#"> Al Turki Trading WLL</a>
-                                            <p>Quotation for 15 Nos. Window ACs with
-                                                onsite installation. Also the warranty...</p>
-                                        </div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="date">27 Jan, 2022</span></div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="status-red">Hold</span></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
-                                        <div class="col-md-6">
-                                            <a href="#"> AL Ansari Trading & Contracting WLL</a>
-                                            <p>Quotation for 15 Nos. Window ACs with
-                                                onsite installation. Also the warranty...</p>
-                                        </div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="date">27 Jan, 2022</span></div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="status-yellow">Pending Review</span></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
-                                        <div class="col-md-6 pl-5">
-                                            <a href="#"> Star Group WLL</a>
-                                            <p>Quotation for 15 Nos. Window ACs with
-                                                onsite installation. Also the warranty...</p>
-                                        </div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="date">27 Jan, 2022</span></div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="status-green">Shortlisted</span></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
-                                        <div class="col-md-6 pl-5">
-                                            <a href="#">Dialtech WLL</a>
-                                            <p>Quotation for 15 Nos. Window ACs with
-                                                onsite installation. Also the warranty...</p>
-                                        </div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="date">27 Jan, 2022</span></div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="status-red">Hold</span></div>
-                                    </div>
-                                </li>
+                            <ul id="all_replies_list" class="all-bid-ul">
+                                
+                                
 
-                                <li>
-                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
-                                        <div class="col-md-6">
-                                            <a href="#"> Al Arab Trading Co WLL</a>
-                                            <p>Quotation for 15 Nos. Window ACs with
-                                                onsite installation. Also the warranty...</p>
-                                        </div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="date">27 Jan, 2022</span></div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="status-yellow">Pending Review</span></div>
-                                    </div>
-                                </li>
+                                
 
                             </ul>
 
@@ -223,46 +128,8 @@
                                 </div>
                             </div>
 
-                            <ul class="all-bid-ul">
-                                <li>
-                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
-                                        <div class="col-md-6">
-                                            <a href="#"> Al Abab Trading & Contracting WLL</a>
-                                            <p>Quotation for 15 Nos. Window ACs with
-                                                onsite installation. Also the warranty...</p>
-                                        </div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="date">27 Jan, 2022</span></div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="status-yellow">Pending Review</span></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
-                                        <div class="col-md-6 pl-5">
-                                            <a href="#"> Dulsco Qatar WLL</a>
-                                            <p>Quotation for 15 Nos. Window ACs with
-                                                onsite installation. Also the warranty...</p>
-                                        </div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="date">27 Jan, 2022</span></div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="status-green">Shortlisted</span></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
-                                        <div class="col-md-6 pl-5">
-                                            <a href="#"> Al Turki Trading WLL</a>
-                                            <p>Quotation for 15 Nos. Window ACs with
-                                                onsite installation. Also the warranty...</p>
-                                        </div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="date">27 Jan, 2022</span></div>
-                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="status-red">Hold</span></div>
-                                    </div>
-                                </li>
+                            <ul id="shortlisted_list" class="all-bid-ul">
+                               
                             </ul>
 
                         </div>
@@ -273,49 +140,7 @@
             </div>
 
             <div class="col-md-6 pl-0 bid-open">
-                <div class="bid-detail-head">
-                    <div class="d-flex">
-                        <h1>Al Abab Trading & Contracting WLL</h1>
-                        <span class="verified">Verified</span>
-                    </div>
-                    <div class="d-flex date-status">
-                        Date <h2>25 October, 2022</h2> <span class="status">Pending Review</span>
-                    </div>
-                    <div class="d-flex mt-3 justify-content-between">
-                        <div class="add-hold-btn d-flex">
-                            <a href="#" class="add-shortlist">Add to Shortlist</a>
-                            <a href="#" class="hold-btn" data-toggle="modal" data-target="#hold-popup">Hold</a>
-                        </div>
-
-                        <div class="dropdown">
-                            <button class="dropbtn">Report</button>
-                        </div>
-
-                    </div>
-                    <a href="#" class="cross-second"></a>
-                </div>
-
-                <div class="bid-detail-content">
-                    <p>Dear Sir,</p>
-
-                    <p>Pleased to inform our rate for one Window AC with onsite installation on monthly rent is QAR
-                        145/-</p>
-
-                    <p>attached more detailes about our service. .</p>
-
-                    <p>Thanks and regards,</p>
-
-                    <p>For Al Abab Trading & Contracting WLL<br>
-                        Sales Department</p>
-
-                    <h1 class="mt-4">Attachments</h1>
-                    <div class="d-flex flex-wrap align-items-center">
-                        <a href="#" class="attachmets-list">Proposal - Quotation-AC...XV.PDF</a>
-                        <a href="#" class="attachmets-list">Proposal - Quotation-AC-Dummy...XV.PDF</a>
-                        <a href="#" class="attachmets-list">Proposal - Quotation-AC...XV.PDF</a>
-                    </div>
-
-                </div>
+                
             </div>
 
             <div class="col-md-3 pl-0 questions-ask">
@@ -460,7 +285,7 @@
             var maxDate = new Date();
             maxDate.setMonth(currentDate.getMonth() + 1);
 
-            $( "#expire_at" ).datepicker({
+            $("#expire_at").datepicker({
                 minDate: 0,
                 dateFormat: 'dd-mm-yy',
                 maxDate: maxDate
@@ -535,6 +360,7 @@
                 $('.read-less').hide();
                 $("ul.all-bid-ul").css("height", "calc(100vh - 369px)");
             });
+ 
 
             $('body').on('click','.cross',function () {
                 $('.questions-ask').hide('300');
@@ -559,6 +385,36 @@
             $('body').on('click','.close, .cancel-change',function () {
                 $('#change-date-model').modal('hide');
                 $('#answer-question').modal('hide');
+            });
+
+            $('body').on('click','.report',function () {
+                 var category = $(this).data('category');
+                 var type = $(this).data('type');
+                 var enquiry_id = $(this).data('enquiry_id');
+                 var question_id = $(this).data('question_id');
+                 var reportAction = "{{ route('member.report') }}";
+                 axios.post(reportAction, {category:category,type:type,enquiry_id:enquiry_id,question_id:question_id})
+                    .then((response) => {
+                    // Handle success response
+                    Swal.fire({
+                        toast: true,
+                        icon: 'success',
+                        title: response.data.message,
+                        animation: false,
+                        position: 'top-right',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                    })
+                    .catch((error) => { 
+                    // Handle error response
+                    console.log(error);
+                    });
             });
 
             $('body').on('click','.respond',function () {
@@ -695,6 +551,80 @@
                         }      
                     });
             });
+
+            $('body').on('click','.bid-detail',function () {
+                $('.bid-open').empty();
+                $('.bid-tap, .questions-ask').hide('500');
+                $('.bid-open').show('500');
+
+                $('.scnd-section-main').removeClass('col-md-9');
+                $('.scnd-section-main').addClass('col-md-6');
+                var reply_id = $(this).data('reply_id');
+                var readReplyAction = "{{ route('member.readReply') }}";
+                axios.post(readReplyAction, {reply_id:reply_id})
+                    .then((response) => {
+                        var reply = response.data.reply;
+                                $('.bid-open').append(`<div class="bid-detail-head">
+                                    <div class="d-flex">
+                                        <h1>${reply.sender_company.name}</h1>
+                                        <span class="verified">Verified</span>
+                                    </div>
+                                    <div class="d-flex date-status">
+                                        Date <h2>${reply.created_at}</h2> <span class="status">${reply.status_text}</span>
+                                    </div>
+                                    <div class="d-flex mt-3 justify-content-between">
+                                    
+                                        <div class="add-hold-btn d-flex">
+                                        ${reply.status == 0 ? `
+                                            <a href="#" class="add-shortlist">Add to Shortlist</a>
+                                            <a href="#" class="hold-btn" data-toggle="modal" data-target="#hold-popup">Hold</a>
+                                            ` : ``}
+                                        </div>
+
+                                        <div class="dropdown">
+                                            <button onclick="myFunction()" class="dropbtn">Report</button>
+                                            <div id="myDropdown" class="dropdown-content">
+                                                <a href="#" class="report" data-category="reply" data-type="Spam" data-enquiry_id="${reply.enquiry_id}" data-question_id="${reply.id}">Spam</a>
+                                                <a href="#" class="report" data-category="reply" data-type="Illegal activity" data-enquiry_id="${reply.enquiry_id}" data-question_id="${reply.id}">Illegal activity</a>
+                                                <a href="#" class="report" data-category="reply" data-type="Advertisement" data-enquiry_id="${reply.enquiry_id}" data-question_id="${reply.id}">Advertisement</a>
+                                                <a href="#" class="report" data-category="reply" data-type="Cyberbullying" data-enquiry_id="${reply.enquiry_id}" data-question_id="${reply.id}">Cyberbullying</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <a href="#" class="cross-second"></a>
+                                </div>
+
+                                <div class="bid-detail-content">
+                                    <pre>${reply.body}</pre>
+
+                                    <h1 class="mt-2">${reply.attachments.length != 0 ? 'Attachments' : '' }</h1>
+                                    <div class="d-flex flex-wrap align-items-center reply-attachments">
+                                       
+                                    </div>
+
+                                </div>`);
+
+                                reply.attachments.forEach(function(attachment) {
+                                $('.reply-attachments').append(`<span class="d-flex doc-preview align-items-center justify-content-between mb-2 attachmets-list">
+                                                                ${attachment.file_name}
+                                                                <div class="d-flex align-items-center">
+                                                                    <a id="doc-preview-link" href="{{ config('setup.application_url') }}${attachment.path}" class="doc-preview-view" target="_blank"></a>
+                                                                    <a id="doc-preview-link" href="{{ config('setup.application_url') }}${attachment.path}" class="" download>D</a>
+                                                                </div>
+                                                            </span>`);
+                    });  
+                    })
+                    .catch((error) => { 
+                        // Handle error response
+                        
+                    });
+            });
+
+            $('body').on('click','.cross-second',function () {
+                $('.bid-tap, .questions-ask').show('300');
+                $('.bid-open').hide('300');
+            });
                  
                  
         });
@@ -713,8 +643,12 @@
                     $('#quote-options').empty();
                     $('#open').empty();
                     $('#closed').empty();
+                    $('#all_replies_list').empty();
+                    $('#shortlisted_list').empty();
+                    $('.bid-open').empty();
                     $('#open-count').text(enquiry.open_faqs.length);
                     $('#closed-count').text(enquiry.closed_faqs.length);
+                    $('#pending-count').text(enquiry.pending_replies.length);
                     var content = `<div class="mid-second-sec">
                             <div class="d-flex w-100 justify-content-between">
                                 <h2>${enquiry.subject}</h2>
@@ -760,6 +694,14 @@
                                        <a href="#" class="share-btn" data-toggle="modal" data-target="#share-popup">Share</a>
                                  </div>`;
                     $('#quote-options').append(ribbon); 
+
+                    enquiry.pending_replies.forEach(function(pending) {
+                        $('#notify').append(`<li>
+                                            New Bid request from ${pending.sender_company.name}
+                                            <span class="time"> ${pending.created_time}</span>
+                                        </li>`);
+                    });
+
                     $('.question-asked').hide();
 
                         enquiry.open_faqs.forEach(function(open_faq) {
@@ -777,10 +719,10 @@
                                     <div class="dropdown">
                                         <button onclick="myFunction()" class="dropbtn">Report</button>
                                         <div id="myDropdown" class="dropdown-content">
-                                            <a href="#">Spam</a>
-                                            <a href="#">Illegal activity</a>
-                                            <a href="#">Advertisement</a>
-                                            <a href="#">Cyberbullying</a>
+                                            <a href="#" class="report" data-category="question" data-type="Spam" data-enquiry_id="${enquiry.id}" data-question_id="${open_faq.id}">Spam</a>
+                                            <a href="#" class="report" data-category="question" data-type="Illegal activity" data-enquiry_id="${enquiry.id}" data-question_id="${open_faq.id}">Illegal activity</a>
+                                            <a href="#" class="report" data-category="question" data-type="Advertisement" data-enquiry_id="${enquiry.id}" data-question_id="${open_faq.id}">Advertisement</a>
+                                            <a href="#" class="report" data-category="question" data-type="Cyberbullying" data-enquiry_id="${enquiry.id}" data-question_id="${open_faq.id}">Cyberbullying</a>
                                         </div>
                                     </div>
                                 </div>
@@ -798,6 +740,40 @@
                                 <a href="#" class="respond" data-id="${open_faq.id}" data-question="${open_faq.question}" data-answer="${open_faq.answer}">Edit Response</a>
                             </div>`);
                         });
+
+                        /* All Bids Starts */
+                        enquiry.all_replies.forEach(function(all_reply) {
+                            $('#all_replies_list').append(`<li>
+                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
+                                        <div class="col-md-6">
+                                            <a href="#" class="bid-detail" data-reply_id="${all_reply.id}">${all_reply.sender_company.name}</a>
+                                            <p>${all_reply.body}</p>
+                                        </div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
+                                                class="date">${all_reply.created_at}</span></div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
+                                                class="status-${all_reply.status_color}">${all_reply.status_text}</span></div>
+                                    </div>
+                                </li>`);
+                        });
+                        /* All Bids Ends */
+
+                        /* Shortlisted Starts */
+                        enquiry.shortlisted.forEach(function(shortlist) {
+                            $('#shortlisted_list').append(`<li>
+                                    <div class="row all-bid-list d-flex align-items-center justify-content-center">
+                                        <div class="col-md-6">
+                                            <a href="#" class="bid-detail" data-reply_id="${shortlist.id}">${shortlist.sender_company.name}</a>
+                                            <p>${shortlist.body}</p>
+                                        </div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
+                                                class="date">${shortlist.created_at}</span></div>
+                                        <div class="col-md-3 d-flex align-items-center justify-content-center"><span
+                                                class="status-${shortlist.status_color}">${shortlist.status_text}</span></div>
+                                    </div>
+                                </li>`);
+                        });
+                        /* Shortlisted Ends */
                  })
                  .catch((error) => { 
                     // Handle error response

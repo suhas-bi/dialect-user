@@ -47,9 +47,23 @@ class Enquiry extends Model
         return $this->hasMany(EnquiryFaq::class,'enquiry_id','id')->where('created_by',auth()->user()->id);
     }
 
-    public function replies(){
-        return $this->hasMany(Enquiry::class,'parent_reference_no','reference_no')->where('is_draft',0)->where('from_id','!=',auth()->user()->id)->with('company')->latest();
+    public function all_replies(){
+        return $this->hasMany(EnquiryReply::class,'enquiry_id','id')->latest();
     }
+
+    public function shortlisted_replies(){
+        return $this->hasMany(EnquiryReply::class,'enquiry_id','id')->where('status',1)->latest();
+    }
+
+    public function action_replies(){
+        return $this->hasMany(EnquiryReply::class,'enquiry_id','id')->where('status','>',0)->latest();
+    }
+
+    public function pending_replies(){
+        return $this->hasMany(EnquiryReply::class,'enquiry_id','id')->where('status',0)->latest();
+    }
+
+
 
     public function scopeVerified($query)
     {

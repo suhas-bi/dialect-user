@@ -74,7 +74,7 @@ class MemberQuoteController extends Controller
         DB::beginTransaction();
         try{
             $company_id = auth()->user()->company_id;
-            $ref_no = $this->referencoNo($company_id);
+            $ref_no = $this->referenceNo($company_id);
             Enquiry::findOrFail($request->enquiry_id)->update([
                 'sub_category_id' => $request->id
             ]);
@@ -263,7 +263,7 @@ class MemberQuoteController extends Controller
         $doc = $company->document->doc_number;
         $year = date('Y');
         $enquiryCount = Enquiry::where('company_id',$company->id)->whereYear('created_at', '=', $year)->distinct()->count('reference_no') + 1;
-        return $doc.'-'.$enquiryCount.'-'.$year;
+        return 'G-'.$doc.'-'.$enquiryCount.'-'.$year;
     }
 
     public function fetchRecipients($sub_category_id, $country_id, $region_id){

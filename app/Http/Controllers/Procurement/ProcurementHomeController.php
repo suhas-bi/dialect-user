@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Procurement\BidInboxListResource;
 use App\Http\Resources\Procurement\EnquiryResource;
 use App\Http\Requests\Procurement\AnswerFaqRequest;
+use App\Http\Resources\Procurement\EnquiryReplyResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Cache;
@@ -15,6 +16,7 @@ use App\Models\Company;
 use App\Models\CompanyUser;
 use App\Models\Enquiry;
 use App\Models\EnquiryFaq;
+use App\Models\EnquiryReply;
 use App\Models\ReportedIssue;
 use DB;
 use Auth;
@@ -39,7 +41,7 @@ class ProcurementHomeController extends Controller
 
     public function fetchAllEnquiries(Request $request){
         $user = auth()->user();
-        $query = Enquiry::with('replies')->verified()->where('from_id',$user->id)->where('is_draft',0); //->where('is_closed',0)
+        $query = Enquiry::with('all_replies')->verified()->where('from_id',$user->id)->where('is_draft',0); //->where('is_closed',0)
         if(!is_null($request->keyword)){
             $query->where('reference_no','like','%'.$request->keyword.'%');
             $query->orwhere('subject','like','%'.$request->keyword.'%');
@@ -67,7 +69,7 @@ class ProcurementHomeController extends Controller
     }
 
     public function fetchEnquiry(Request $request){
-        $enquiry = Enquiry::with('replies','sender','sender.company')->findOrFail($request->id);
+        $enquiry = Enquiry::with('all_replies','sender','sender.company')->findOrFail($request->id);
         return response()->json([
             'status' => true,
             'enquiry' => new EnquiryResource($enquiry),
@@ -88,6 +90,50 @@ class ProcurementHomeController extends Controller
                 'status' => true,
                 'message' => 'Question has been skipped',
                 'faq' => $faq
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function readReply (Request $request){
+        DB::beginTransaction();
+        try{
+            $reply = EnquiryReply::with('sender')->findOrFail($request->reply_id);
+            DB::commit();
+            
+            return response()->json([
+                'status' => true,
+                'message' => 'Fetched Reply',
+                'reply' => new EnquiryReplyResource($reply)
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function shortlist (Request $request){
+        DB::beginTransaction();
+        try{
+            EnquiryReply::findOrFail($request->reply_id)->update([
+                'status' => 1
+            ]);
+
+            $reply = EnquiryReply::findOrFail($request->reply_id);
+            DB::commit();
+            
+            return response()->json([
+                'status' => true,
+                'message' => 'Shortlisted Bid',
+                'reply' => new EnquiryReplyResource($reply)
             ], 200);
         } catch (\Exception $e) {
             DB::rollback();
