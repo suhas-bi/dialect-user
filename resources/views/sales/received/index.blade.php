@@ -7,197 +7,51 @@
     <!-- Main Content Starts -->
     <section class="container-fluid pleft-56">
         <div class="row">
+
+            <!-- Left Pane (Received List) Starts -->
             <div class="col-md-3 pr-0 bid-tap">
-                <div class="bid-inbox">
+                <div class="bid-inbox"> 
                     <div class="bid-header d-flex align-items-center">
                         <h1 class="mr-auto">Received</h1>
-                        <a href="#" class="search-ico  float-right tablinks4"  onclick="openCity4(event, 'search')"></a>
-                        <a href="#" class="filter-ico float-right tablinks4"  onclick="openCity4(event, 'filter')"></a>
+                        <a href="#"  class="search-ico  float-right tablinks4 search_filter" data-option="search"></a>
+                        <a href="#"  class="filter-ico float-right tablinks4 search_filter" data-option="filter"></a>
                     </div>
+                    
                     <div id="search" class="tabcontent4" style="display: none;">
-                    <div class="my-quotes-search d-flex align-items-center justify-content-between">
-                        <div class="account-search-box-main">
-                            <input type="text" placeholder="Search" class="form-control">
+                        <div class="my-quotes-search d-flex align-items-center justify-content-between">
+                            <div class="account-search-box-main">
+                                <input id="keyword" type="text" placeholder="Search by reference no." class="form-control">
+                            </div>
                         </div>
-                    </div>
-                    </div>
+                    </div>  
 
                     <div id="filter" class="tabcontent4" style="display: none;">
                         <div class="my-quotes-search d-flex align-items-center justify-content-left">
                             
-                            <div class="custom-select" style="margin-left: 0;">
-                                <select>
-                                    <option value="0">Today</option>
-                                    <option value="1">Today</option>
-                                    <option value="2">Yesterday</option>
-                                    <option value="3">Last week</option>
-                                    <option value="4">Last month</option>
+                            <!-- <div class="custom-select" style="margin-left: 0; "> -->
+                                <select id="mode_filter" name="mode_filter" class="form-select">
+                                    <option value=" ">All</option>
+                                    <option value="today">Today </option>
+                                    <option value="yesterday">Yesterday </option>
+                                    <option value="last_week">Last week </option>
+                                    <option value="last_month">Last month </option>
                                 </select>
-                            </div>
+                            <!-- </div> -->
                         </div>
-                        </div>
+                    </div>
 
-                        <div>
-                            <div class="my-quotes-search d-flex align-items-center justify-content-end border-white-top">
-                                
-                                <div class="custom-select" style="margin-left: 0;">
-                                    <select>
-                                        <option value="0">Sort with Date</option>
-                                        <option value="1">Today</option>
-                                        <option value="2">Yesterday</option>
-                                        <option value="3">Last week</option>
-                                        <option value="4">Last month</option>
-                                    </select>
-                                </div>
-                            </div>
-                            </div>
-
-                    <div class="list-group">
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
-                            <div class="list-item-inner blue-border">
-                                <h2 class="mb-2 round-bullet">Air Conditions & Service</h2>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h3>Dulsco Qatar WLL</h3>
-                                    
-                                </div>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <div>
-                                        <small class="bid-date">Posted: 25 February, 2023</small>
-                                        <small class="bid-date">Expiry: 16 March, 2023</small>
-                                    </div>
-                                    <small class="bid-hours">2 Hours Left</small>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="list-item-inner yellow-border">
-                                <h2 class="mb-2 round-bullet">Windows Aircondition</h2>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h3>Al Turki Trading WLL</h3>
-                                    
-                                </div>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <div>
-                                        <small class="bid-date">Posted: 25 February, 2023</small>
-                                        <small class="bid-date">Expiry: 16 March, 2023</small>
-                                    </div>
-                                    <small class="bid-hours">15 Hours Left</small>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="list-item-inner yellow-border">
-                                <h2 class="mb-2 bullet-light-blue">Desktop Computers</h2>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h3>Star Group WLL</h3>
-                                </div>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <div>
-                                        <small class="bid-date">Posted: 25 February, 2023</small>
-                                        <small class="bid-date">Expiry: 16 March, 2023</small>
-                                    </div>
-                                    <small class="bid-hours2">3 Days Left</small>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="list-item-inner blue-border">
-                                <h2 class="mb-2 bullet-light-blue">Rental</h2>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h3>Al Abab Trading & Contracting WLL</h3>
-                                </div>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <div>
-                                        <small class="bid-date">Posted: 25 February, 2023</small>
-                                        <small class="bid-date">Expiry: 16 March, 2023</small>
-                                    </div>
-                                    <small class="bid-hours2">7 Days Left</small>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="list-item-inner yellow-border">
-                                <h2 class="mb-2 bullet-light-blue">Aircondition</h2>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h3>Dialtech WLL</h3>
-                                </div>
-                                <div class="d-flex w-100 justify-content-between">
-                                    <div>
-                                        <small class="bid-date">Posted: 25 February, 2023</small>
-                                        <small class="bid-date">Expiry: 16 March, 2023</small>
-                                    </div>
-                                    <small class="bid-hours2">11 Days Left</small>
-                                </div>
-                            </div>
-                        </a>
-
+                    <div id="received-list" class="list-group">
+                        
                     </div>
                 </div>
 
             </div>
+            <!-- Left Pane (Received List) Ends -->
 
-            <div class="col-md-6 pl-0 received-open" style="display: block;">
-                <div class="bid-detail-head">
-                        <div class="d-flex justify-content-between">
-                            <h1>Dulsco Qatar WLL</h1>
-                            <div class="d-flex date-status">
-                                Expiry:<h2>2023-03-05</h2>
-                            </div>
-                         </div>
+            <div id="quote-content" class="col-md-6 pl-0 received-open" style="display: block;">
+                
 
-                    <div class="d-flex date-status justify-content-between mt-2">
-                        <div class="d-flex">Date <h2>Date :2023-02-05 | Time: 02:37:31</h2></div>
-
-                        <div class="d-flex">
-                       
-                        <div class="dropdown">
-                            <button class="dropbtn">Report</button>
-                        </div>
-                        <span class="verified">Verified</span>
-                        </div>
-                    </div>
-                    
-                </div>
-
-                <div class="bid-detail-content">
-                    
-                    <div class="d-flex justify-content-between">
-                        <h3 class="mb-3">
-                        Country :Qatar<br>
-                        Region :Al-Shahaniya<br>
-                        Reference No :G-M-D12398-36-2023
-                        </h3>
-                        <div class="form-group proceed-btn float-right">
-                            <input type="submit" value="Reply" class="btn btn-secondary" onclick="window.location.href = '';">
-                        </div>
-                    </div>
-
-                    <p>Dear Sir,</p>
-
-                    <p>
-                        Request for Window AC with onsite installation on monthly rent is QAR 145/-
-                        </p>
-
-                    <p>attached more details about our service. .</p>
-
-                    <p>Thanks and regards,</p>
-
-                    <p class="mb-0">For Al Abab Trading &amp; Contracting WLL</p>
-                    
-                    <h3> Sales Department</h3>
-
-                    <h1 class="mt-4">Attachments</h1>
-                    <div class="d-flex flex-wrap align-items-center">
-                        <a href="#" class="attachmets-list">Proposal - Quotation-AC...XV.PDF</a>
-                        <a href="#" class="attachmets-list">Proposal - Quotation-AC-Dummy...XV.PDF</a>
-                        <a href="#" class="attachmets-list">Proposal - Quotation-AC...XV.PDF</a>
-                    </div>
-
-                </div>
+                
             </div>
 
             
@@ -208,8 +62,8 @@
 
                         <div class="d-flex justify-content-between last-sec-header">
                             <h1>Questions Asked</h1>
-                            <div class="form-group">
-                                <input type="submit" value="Raise Question" data-toggle="modal" data-target="#raise-question" class="btn btn-third">
+                            <div id="new-question-area" class="form-group">
+                            
                             </div>
                         </div>
 
@@ -218,10 +72,10 @@
                             <ul class="nav nav-tabs tab mb-2" role="tablist2">
                                 <li class="nav-item">
 
-                                    <a class="nav-link tablinks2 active" onclick="openCity2(event, 'open')">All</a>
+                                    <a class="nav-link tablinks2 faq active" data-option="open">All</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link tablinks2" onclick="openCity2(event, 'closed')">My Questions</a>
+                                    <a class="nav-link tablinks2 faq" data-option="closed">My Questions</a>
                                 </li>
                             </ul>
                             <!-- Tabs navs -->
@@ -230,33 +84,12 @@
                         <!-- Tabs 1-->
 
                         <div id="open" class="tabcontent2 scroll-q-asked" style="display: block;">
-                            <div class="open-close-list">
-                                <h1>Can AC series s used or it be standard
-                                    ACXD, or both for durability and  quality?
-                                </h1>
-                                <h3>AL Ansari Trading & Contracting WLL</h3>
-                                <small class="bid-date">24 February, 2023</small>
-                            </div>
-
-                            <div class="open-close-list">
-                                <h1>Can AC series s used or it be standard
-                                    ACXD, or both for durability and  quality?
-                                </h1>
-                                <h3>AL Ansari Trading & Contracting WLL</h3>
-                                <small class="bid-date">24 February, 2023</small>
-                            </div>
 
                         </div>
 
                         <!-- Tabs 2 -->
                         <div id="closed" class="tabcontent2 scroll-q-asked" style="display: none;">
-                            <div class="open-close-list">
-                                <h1>Can AC series s used or it be standard
-                                    ACXD, or both for durability and quality?
-                                </h1>
-                                <small class="bid-date">24 February, 2023</small>
-
-                            </div>
+                            
 
                         </div>
                     </div>
@@ -266,4 +99,293 @@
         </div>
     </section>
     <!-- Main Content Ends -->
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="raise-question-model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form action="" method="post">
+                    @csrf
+                    <div class="modal-header">
+                        <h1 class="modal-title" id="exampleModalLongTitle">Raise Question</h1>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body row">
+                        <input id="enquiry_id" name="enquiry_id" type="hidden" />
+                        <div class="col-md-12 common-popup">
+                            <label>Question</label>
+                            <textarea id="question" name="question" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer model-footer-padd">
+                        <div class="d-flex justify-content-end">
+                            <div class="form-group proceed-btn">
+                                <button type="button" class="btn btn-third cancel-change" data-dismiss="modal">Cancel</button>
+                            </div>
+
+                            <div class="form-group proceed-btn">
+                                <input id="save-question" type="button" value="Submit" class="btn btn-secondary">
+                            </div>
+                        </div>
+                    </div>
+                </form>    
+            </div>
+        </div>
+    </div>
+    <!-- Model Ends -->
+@push('scripts')
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $( function() {
+
+        loadReceivedList();
+
+
+        $('body').on('click','.search_filter',function(){
+            
+            var search_filter = $(this).data('option');
+
+            if(search_filter === "search"){
+                $('#filter').hide();
+                $('#search').show();
+            }
+            else if(search_filter === "filter"){
+                $('#filter').show();
+                $('#search').hide();
+            }
+            else{
+                $('#filter').hide();
+                $('#search').hide();
+            }
+        });
+
+        $('body').on('keyup','#keyword',function(){
+            loadReceivedList();
+        });
+
+        $('body').on('change','#mode_filter',function(){
+            loadReceivedList();
+        });
+
+        $('body').on('click','.enquiry_item',function(){
+            var id = $(this).data('id');
+            $('.enquiry_item').removeClass("active");
+            $("#enquiry-"+id).addClass("active");
+            openEnquiry(id);
+        }); 
+
+        $('body').on('click','.faq',function(){
+            $('.faq').removeClass('active');
+            $(this).addClass('active');
+            var faq_filter = $(this).data('option');
+            
+            if(faq_filter === "open"){
+                $('#closed').hide();
+                $('#open').show();
+            }
+            else if(faq_filter === "closed"){
+                $('#closed').show();
+                $('#open').hide();
+            }
+            else{
+                $('#closed').hide();
+                $('#open').hide();
+            }
+        });
+
+        $('body').on('click','#raise-question',function () {
+            var enquiry_id = $(this).data('enquiry_id');
+            $('#enquiry_id').val(enquiry_id);
+            $('#raise-question-model').modal('show');
+        });
+        
+        $('body').on('click','.close, .cancel-change',function () {
+            $('#raise-question-model').modal('hide');
+        });
+
+        $('body').on('click','#save-question',function () {
+                var questionFaqAction = "{{ route('sales.saveQuestion') }}";
+                var enquiry_id = $('#enquiry_id').val();
+                var question = $('#question').val();
+                axios.post(questionFaqAction, {enquiry_id:enquiry_id, question : question})
+                    .then((response) => {
+                        // Handle success response
+                        Swal.fire({
+                            toast: true,
+                            icon: 'success',
+                            title: "Updated",
+                            animation: false,
+                            position: 'top-right',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        });
+                        openEnquiry(response.data.faq.enquiry_id);
+                        $('#raise-question-model').modal('hide');
+                    })
+                    .catch((error) => { 
+                        // Handle error response
+                        if (error.response.status == 422) {
+                            $.each(error.response.data.errors, function(field, errors) {
+                                var textarea = $('textarea[name="' + field + '"]');
+                                textarea.addClass('red-border');
+                                var textareafeedback = textarea.siblings('.invalid-msg2');
+                                textareafeedback.text(errors[0]).show();
+                            });
+                        }      
+                    });
+            });
+
+
+    }); 
+
+    function loadReceivedList(){
+            var fetchReceivedItemsAction = "{{ route('sales.fetchAllEnquiries') }}";
+            var mode_filter = $('#mode_filter option:selected').val();
+            var keyword = $('#keyword').val();
+            axios.post(fetchReceivedItemsAction, {mode_filter:mode_filter, keyword:keyword})
+                 .then((response) => {
+                    // Handle success response
+                    if(response.data.status === true){
+                        let enquiries = response.data.enquiries;
+                        $('#received-list').empty();
+                        enquiries.forEach(function(enquiry) {
+                            var content = `<a id="enquiry-${enquiry.id}" href="#" data-id="${enquiry.id}" class="list-group-item list-group-item-action flex-column align-items-start enquiry_item">
+                                                <div class="list-item-inner blue-border">
+                                                    <h2 class="mb-2 round-bullet">${enquiry.category}</h2>
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                        <h3>${enquiry.company}</h3>
+                                                        
+                                                    </div>
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                        <div>
+                                                            <small class="bid-date">Posted: ${enquiry.date}</small>
+                                                            <small class="bid-date">Expiry: ${enquiry.expiry_date}</small>
+                                                        </div>
+                                                        <small class="bid-hours">${enquiry.expire_in}</small>
+                                                    </div>
+                                                </div>
+                                            </a>`;
+                            $('#received-list').append(content);
+                        });
+
+                        
+                        
+                    }
+                 })
+                 .then(() => {
+                    var id = $('.enquiry_item').data('id');
+                    $("#enquiry-"+id).addClass("active");
+                    openEnquiry(id);
+                 })
+                 .catch((error) => { 
+                    // Handle error response
+                    console.log(error);
+                 });
+        } 
+
+
+        function openEnquiry(id){
+            var fetchEnquiryAction = "{{ route('sales.fetchEnquiry') }}";
+            axios.post(fetchEnquiryAction, {id:id})
+                 .then((response) => {
+                    // Handle success response
+                    let enquiry = response.data.enquiry;
+                    $('#quote-content').empty();
+                    $('#open').empty();
+                    $('#closed').empty();
+                    $('#new-question-area').empty();
+                    var content = `<div class="bid-detail-head">
+                                        <div class="d-flex justify-content-between">
+                                            <h1>${enquiry.sender.company.name}</h1>
+                                            <div class="d-flex date-status">
+                                                Expiry: <h2>${enquiry.expire_at}</h2>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex date-status justify-content-between mt-2">
+                                            <div class="d-flex">Date <h2>Date : ${enquiry.created_date} | Time : ${enquiry.created_time}</h2></div>
+                                            <div class="d-flex">
+                                                <div class="dropdown">
+                                                    <button class="dropbtn">Report</button>
+                                                </div>
+                                                <span class="verified">Verified</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bid-detail-content">
+                                        <div class="d-flex justify-content-between">
+                                            <h3 class="mb-3">
+                                            Country : ${enquiry.country}<br>
+                                            Region : ${enquiry.region}<br>
+                                            Reference No : ${enquiry.reference_no}
+                                            </h3>
+                                            <div class="form-group proceed-btn float-right">
+                                                <a href="" class="btn btn-secondary">Reply</a>
+                                            </div>
+                                        </div>
+                                        <pre>${enquiry.body}</pre>
+                                        <h1 class="mt-4">${enquiry.attachments.length != 0 ? 'Attachments' : '' }</h1>
+                                        <div class="d-flex flex-wrap align-items-center attachments">
+                                            
+                                        </div>
+                                    </div>`;
+                    $('#quote-content').append(content);  
+                    
+                    enquiry.attachments.forEach(function(attachment) {
+                    $('.attachments').append(`<span class="d-flex doc-preview align-items-center justify-content-between mb-2">
+                                                    ${attachment.file_name}
+                                                    <div class="d-flex align-items-center">
+                                                        <a id="attachmets-list" href="{{ config('setup.application_url') }}${attachment.path}" class="doc-preview-view" target="_blank"></a>
+                                                        <a id="attachmets-list" href="{{ config('setup.application_url') }}${attachment.path}" class="" download>D</a>
+                                                    </div>
+                                                </span>`);
+                    });  
+
+                    $('#new-question-area').append(`<input type="button" id="raise-question" class="btn btn-third" data-enquiry_id="${enquiry.enquiry_id}" value="Raise Question">`);
+
+                    enquiry.all_faqs.forEach(function(all_faq) {
+                            $('#open').append(`<div class="open-close-list">
+                                <h1>${all_faq.question}</h1>
+                                <h3>${all_faq.created_by}</h3>
+                                <small class="bid-date">${all_faq.created_at}</small>
+                                <div class="colsed-description" ${!all_faq.answer ? 'hidden' : ''}>
+                                    ${all_faq.answer}
+                                </div>
+                            </div>`);
+                        });
+
+                        enquiry.my_faqs.forEach(function(my_faq) {
+                            $('#closed').append(`<div class="open-close-list">
+                                    <h1>${my_faq.question}</h1>
+                                    <small class="bid-date">${my_faq.created_at}</small>
+                                    <div class="colsed-description" ${!my_faq.answer ? 'hidden' : ''}>
+                                        ${my_faq.answer}
+                                    </div>
+                                </div>`);
+                        });
+
+                        
+
+                    
+                 })
+                 .catch((error) => { 
+                    // Handle error response
+                    console.log(error);
+                 });
+        }
+</script>
+@endpush    
+                
 @endsection    

@@ -17,6 +17,10 @@ use App\Models\Enquiry;
 use App\Models\EnquiryAttachment;
 use App\Models\EnquiryRelation;
 use App\Models\RelativeSubCategory;
+use App\Http\Requests\Procurement\NewQuoteRequest;
+use App\Http\Requests\Procurement\DraftRequest;
+use App\Http\Requests\Procurement\AttachmentUploadRequest;
+use App\Http\Requests\Procurement\TimeFrameRequest;
 use Carbon\Carbon;
 use DB;
 use Auth;
@@ -101,7 +105,7 @@ class ProQuoteController extends Controller
       return view('procurement.quote.compose',compact('enquiry','countries'));
     }
 
-    public function uploadAttachment(Request $request){
+    public function uploadAttachment(AttachmentUploadRequest $request){
       DB::beginTransaction();
       try{
           $company_id = auth()->user()->company_id;
@@ -167,7 +171,7 @@ class ProQuoteController extends Controller
       }
     }
     
-    public function saveAsDraft(Request $request){
+    public function saveAsDraft(DraftRequest $request){
       DB::beginTransaction();
       try{
         Enquiry::find($request->enquiry_id)
@@ -196,7 +200,7 @@ class ProQuoteController extends Controller
       }         
     }
 
-    public function generateQuote(Request $request){
+    public function generateQuote(NewQuoteRequest $request){
         $company_id = auth()->user()->company_id;
         $ref_no = $this->referenceNo($company_id);
         DB::beginTransaction();
@@ -282,7 +286,7 @@ class ProQuoteController extends Controller
         return $recipients = $data->toArray();
     }
 
-    public function editAcceptedDate(Request $request){
+    public function editAcceptedDate(TimeFrameRequest $request){
         DB::beginTransaction();
         try{
             $company_id = auth()->user()->company_id;

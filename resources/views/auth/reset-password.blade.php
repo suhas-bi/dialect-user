@@ -39,15 +39,17 @@
 
                             <div class="form-group row px-3 position-relative">
                                 <i class="password-ico"></i>
-                                <input type="password" placeholder="Password" name="password"
+                                <input id="password" type="password" placeholder="Password" name="password"
                                     class="form-control border-info placeicon">
+                                    <i id="show-hide-password" class="eye-ico"></i>
                                     <div class="invalid-msg">@error('password'){{ $message }} @enderror</div>
                             </div>
 
                             <div class="form-group row px-3 position-relative">
                                 <i class="password-ico"></i>
-                                <input type="password" placeholder="Confirm Password" name="password_confirmation"
+                                <input id="confirm-password" type="password" placeholder="Confirm Password" name="password_confirmation"
                                     class="form-control border-info placeicon">
+                                <i id="show-hide-confirm-password" class="eye-ico"></i>    
                             </div>
                             <!-- Log in Button -->
                             <div class="form-group row justify-content-center">
@@ -63,5 +65,24 @@
         Copyright © 2022 dialectb2b.com. All rights reserved
     </footer>
 </div>       
-
+@push('scripts')
+<script>
+    $('#show-hide-password').on('click', function() {
+         if($('#password').attr('type') === 'password'){
+            $('#password').attr('type','text')
+         } 
+         else{
+            $('#password').attr('type','password')
+         }
+    });
+    $('#show-hide-confirm-password').on('click', function() {
+         if($('#confirm-password').attr('type') === 'password'){
+            $('#confirm-password').attr('type','text')
+         } 
+         else{
+            $('#confirm-password').attr('type','password')
+         }
+    });
+</script>
+@endpush
 @endsection    

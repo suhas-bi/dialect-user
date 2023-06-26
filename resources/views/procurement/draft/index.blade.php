@@ -124,7 +124,7 @@
                             </div>
                            
                             <div class="d-flex mt-2">
-                                <h3> ${draft.sub_category.name} </h3>
+                                <h3> Quote For: ${draft.sender.name}, ${draft.sender.designation}, ${draft.sender.company.name} </h3>
                             </div>
 
                             

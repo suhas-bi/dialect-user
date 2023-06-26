@@ -24,7 +24,8 @@ use App\Http\Controllers\Procurement\{
     ProDraftController,
     ProCompletedBiddingController,
     ProTeamController,
-    ProEventController
+    ProEventController,
+    ProProfileController
 };
 
 use App\Http\Controllers\Sales\{
@@ -38,6 +39,15 @@ use App\Http\Controllers\Sales\{
 use App\Http\Controllers\Auth\{
     ForgotPasswordController,
     ResetPasswordController
+};
+
+use App\Http\Controllers\Member\{
+    MemberHomeController,
+    MemberQuoteController,
+    MemberDraftController,
+    MemberReviewListController,
+    MemberCompletedBiddingController,
+    MemberEventController
 };
 
 /*
@@ -124,58 +134,138 @@ Route::post('/reset-password', [ResetPasswordController::class,'resetPassword'])
 
 
 
-// Procurement Start 
+/*****************************************  Procurement Start **************************************/ 
 
 // Generate Quote Request
-Route::get('/procurement/quote/select-category', [ProQuoteController::class,'selectCategory'])->name('procurement.quote.selectCategory');
-Route::get('/procurement/quote/change-category/{id}', [ProQuoteController::class,'changeCategory'])->name('procurement.quote.changeCategory');
-Route::post('/procurement/quote/save-category', [ProQuoteController::class,'saveCategory'])->name('procurement.quote.saveCategory');
-Route::post('/procurement/quote/update-category', [ProQuoteController::class,'updateCategory'])->name('procurement.quote.updateCategory');
-Route::get('/procurement/quote/compose/{id}', [ProQuoteController::class,'compose'])->name('procurement.quote.compose');
-Route::post('/procurement/quote/compose/upload-attachment', [ProQuoteController::class,'uploadAttachment'])->name('procurement.quote.uploadAttachment');
-Route::post('/procurement/quote/compose/fetch-attachment', [ProQuoteController::class,'getEnquiryAttachments'])->name('procurement.getEnquiryAttachments');
-Route::post('/procurement/quote/compose/attchments/delete', [ProQuoteController::class,'deleteAttachments'])->name('procurement.quote.deleteAttachments');
-Route::post('/procurement/quote/compose/save-as-draft', [ProQuoteController::class,'saveAsDraft'])->name('procurement.quote.saveAsDraft');
-Route::post('/procurement/quote/compose/generate-quote', [ProQuoteController::class,'generateQuote'])->name('procurement.quote.generateQuote');
-Route::post('/procurement/quote/compose/edit-accepted-till', [ProQuoteController::class,'editAcceptedDate'])->name('procurement.quote.editAcceptedDate');
+    Route::get('/procurement/quote/select-category', [ProQuoteController::class,'selectCategory'])->name('procurement.quote.selectCategory');
+    Route::get('/procurement/quote/change-category/{id}', [ProQuoteController::class,'changeCategory'])->name('procurement.quote.changeCategory');
+    Route::post('/procurement/quote/save-category', [ProQuoteController::class,'saveCategory'])->name('procurement.quote.saveCategory');
+    Route::post('/procurement/quote/update-category', [ProQuoteController::class,'updateCategory'])->name('procurement.quote.updateCategory');
+    Route::get('/procurement/quote/compose/{id}', [ProQuoteController::class,'compose'])->name('procurement.quote.compose');
+    Route::post('/procurement/quote/compose/upload-attachment', [ProQuoteController::class,'uploadAttachment'])->name('procurement.quote.uploadAttachment');
+    Route::post('/procurement/quote/compose/fetch-attachment', [ProQuoteController::class,'getEnquiryAttachments'])->name('procurement.getEnquiryAttachments');
+    Route::post('/procurement/quote/compose/attchments/delete', [ProQuoteController::class,'deleteAttachments'])->name('procurement.quote.deleteAttachments');
+    Route::post('/procurement/quote/compose/save-as-draft', [ProQuoteController::class,'saveAsDraft'])->name('procurement.quote.saveAsDraft');
+    Route::post('/procurement/quote/compose/generate-quote', [ProQuoteController::class,'generateQuote'])->name('procurement.quote.generateQuote');
+    Route::post('/procurement/quote/compose/edit-accepted-till', [ProQuoteController::class,'editAcceptedDate'])->name('procurement.quote.editAcceptedDate');
+
+    Route::post('/procurement/report', [ProcurementHomeController::class,'report'])->name('procurement.report');
 
 // Inbox
-Route::any('/procurement/dashboard', [ProcurementHomeController::class,'index'])->name('procurement.dashboard');
-Route::any('/procurement/fetch-all-enquiries', [ProcurementHomeController::class,'fetchAllEnquiries'])->name('procurement.fetchAllEnquiries');
-Route::any('/procurement/fetch-enquiry', [ProcurementHomeController::class,'fetchEnquiry'])->name('procurement.fetchEnquiry');
+    Route::any('/procurement/dashboard', [ProcurementHomeController::class,'index'])->name('procurement.dashboard');
+    Route::any('/procurement/fetch-all-enquiries', [ProcurementHomeController::class,'fetchAllEnquiries'])->name('procurement.fetchAllEnquiries');
+    Route::any('/procurement/fetch-enquiry', [ProcurementHomeController::class,'fetchEnquiry'])->name('procurement.fetchEnquiry');
+    Route::any('/procurement/skip-faq', [ProcurementHomeController::class,'skipFaq'])->name('procurement.skipFaq');
+    Route::any('/procurement/answer-faq', [ProcurementHomeController::class,'answerFaq'])->name('procurement.answerFaq');
 
-// Team Settings & Approvals Start
-Route::get('/procurement/review-list/send', [ReviewListController::class,'send'])->name('procurement.reviewList.send');
-Route::get('/procurement/review-list/received', [ReviewListController::class,'received'])->name('procurement.reviewList.received');
+// Review List Start
+    Route::get('/procurement/review-list/send', [ReviewListController::class,'send'])->name('procurement.reviewList.send');
+    Route::get('/procurement/review-list/received', [ReviewListController::class,'received'])->name('procurement.reviewList.received');
 
-// Team Settings & Approvals End
+// Review List End
 
 
 // Draft Starts
-Route::get('/procurement/draft', [ProDraftController::class,'index'])->name('procurement.draft');
-Route::post('/procurement/open-draft', [ProDraftController::class,'openDraft'])->name('procurement.openDraft');
-Route::post('/procurement/discard-draft', [ProDraftController::class,'discardDraft'])->name('procurement.discardDraft');
+    Route::get('/procurement/draft', [ProDraftController::class,'index'])->name('procurement.draft');
+    Route::post('/procurement/open-draft', [ProDraftController::class,'openDraft'])->name('procurement.openDraft');
+    Route::post('/procurement/discard-draft', [ProDraftController::class,'discardDraft'])->name('procurement.discardDraft');
 // Draft Ends
 
-Route::get('/procurement/completed-bidding', [ProCompletedBiddingController::class,'index'])->name('procurement.completedBidding');
+// Completed Bidding Starts
+    Route::get('/procurement/completed-bidding', [ProCompletedBiddingController::class,'index'])->name('procurement.completedBidding');
+// Completed Bidding Ends
 
 // Team Settings & Approvals Start
-Route::get('/procurement/team-account/approval', [ProTeamController::class,'approval'])->name('procurement.teamAccount.approval');
-Route::get('/procurement/team-account/settings', [ProTeamController::class,'team'])->name('procurement.teamAccount.settings');
+    Route::get('/procurement/team-account/approval', [ProTeamController::class,'approval'])->name('procurement.teamAccount.approval');
+    Route::get('/procurement/team-account/settings', [ProTeamController::class,'team'])->name('procurement.teamAccount.settings');
+    Route::post('/procurement/team-account/save-member', [ProTeamController::class,'saveMember'])->name('procurement.teamAccount.saveMember');
+    Route::post('/procurement/team-account/update-member', [ProTeamController::class,'updateMember'])->name('procurement.teamAccount.updateMember');
+    Route::post('/procurement/team-account/approval/all', [ProTeamController::class,'fetchAllApprovalEnquiries'])->name('procurement.teamAccount.fetchAllApprovalEnquiries');
+    Route::post('/procurement/team-account/approve-quote', [ProTeamController::class,'approveQuote'])->name('procurement.teamAccount.approveQuote');
 // Team Settings & Approvals End
 
+// Upcoming Events Starts
+    Route::get('/procurement/upcoming-events', [ProEventController::class,'index'])->name('procurement.upcomingEvents');
+// Upcoming Events Ends
 
-Route::get('/procurement/upcoming-events', [ProEventController::class,'index'])->name('procurement.upcomingEvents');
+// Profile Starts
+    Route::get('/procurement/profile', [ProProfileController::class,'index'])->name('procurement.profile');
+// Profile Ends
+
+/*****************************************  Procurement Ends **************************************/ 
 
 
-// Procurement Ends
 
-// Sales Starts
-Route::get('/sales/dashboard', [SalesHomeController::class,'index'])->name('sales.dashboard');
-Route::get('/sales/replied-enquiry', [SalesRepliedEnquiryController::class,'index'])->name('sales.repliedEnquiry');
-Route::get('/sales/expired-enquiry', [SalesExpiredEnquiryController::class,'index'])->name('sales.expiredEnquiry');
-Route::get('/sales/draft', [SalesDraftController::class,'index'])->name('sales.draft');
-Route::get('/sales/upcoming-events', [SalesEventsController::class,'index'])->name('sales.events');
 
-// Sales Ends
+/*****************************************  Sales Starts ******************************************/
 
+// Received List Starts
+    Route::get('/sales/dashboard', [SalesHomeController::class,'index'])->name('sales.dashboard');
+    Route::any('/sales/fetch-all-enquiries', [SalesHomeController::class,'fetchAllEnquiries'])->name('sales.fetchAllEnquiries');
+    Route::any('/sales/fetch-enquiry', [SalesHomeController::class,'fetchEnquiry'])->name('sales.fetchEnquiry');
+    Route::any('/sales/save-question', [SalesHomeController::class,'saveQuestion'])->name('sales.saveQuestion');
+    Route::any('/sales/compose-reply', [SalesHomeController::class,'composeReply'])->name('sales.composeReply');
+// Received List Ends
+
+//Replied Enquiries Starts
+    Route::get('/sales/replied-enquiry', [SalesRepliedEnquiryController::class,'index'])->name('sales.repliedEnquiry');
+//Replied Enquiries Ends
+
+//Expired Enquiries Starts
+    Route::get('/sales/expired-enquiry', [SalesExpiredEnquiryController::class,'index'])->name('sales.expiredEnquiry');
+//Expired Enquiries Ends
+
+//Draft Starts
+    Route::get('/sales/draft', [SalesDraftController::class,'index'])->name('sales.draft');
+//Draft Ends
+
+//Upcoming Events Starts
+    Route::get('/sales/upcoming-events', [SalesEventsController::class,'index'])->name('sales.events');
+//Upcoming Events Ends
+
+/*****************************************  Sales Ends ******************************************/
+
+/************************************** Member Starts **************************************/
+
+// Bid Inbox Starts
+    Route::get('/member/dashboard', [MemberHomeController::class,'index'])->name('member.dashboard');
+    Route::any('/member/fetch-all-enquiries', [MemberHomeController::class,'fetchAllEnquiries'])->name('member.fetchAllEnquiries');
+    Route::any('/member/fetch-enquiry', [MemberHomeController::class,'fetchEnquiry'])->name('member.fetchEnquiry');
+    Route::any('/member/skip-faq', [MemberHomeController::class,'skipFaq'])->name('member.skipFaq');
+    Route::any('/member/answer-faq', [MemberHomeController::class,'answerFaq'])->name('member.answerFaq');
+// Bid Inboc Ends
+
+// Generate Quote Request Starts
+    Route::get('/member/quote/select-category', [MemberQuoteController::class,'selectCategory'])->name('member.quote.selectCategory');
+    Route::get('/member/quote/change-category/{id}', [MemberQuoteController::class,'changeCategory'])->name('member.quote.changeCategory');
+    Route::post('/member/quote/save-category', [MemberQuoteController::class,'saveCategory'])->name('member.quote.saveCategory');
+    Route::post('/member/quote/update-category', [MemberQuoteController::class,'updateCategory'])->name('member.quote.updateCategory');
+    Route::get('/member/quote/compose/{id}', [MemberQuoteController::class,'compose'])->name('member.quote.compose');
+    Route::post('/member/quote/compose/upload-attachment', [MemberQuoteController::class,'uploadAttachment'])->name('member.quote.uploadAttachment');
+    Route::post('/member/quote/compose/fetch-attachment', [MemberQuoteController::class,'getEnquiryAttachments'])->name('member.getEnquiryAttachments');
+    Route::post('/member/quote/compose/attchments/delete', [MemberQuoteController::class,'deleteAttachments'])->name('member.quote.deleteAttachments');
+    Route::post('/member/quote/compose/save-as-draft', [MemberQuoteController::class,'saveAsDraft'])->name('member.quote.saveAsDraft');
+    Route::post('/member/quote/compose/generate-quote', [MemberQuoteController::class,'generateQuote'])->name('member.quote.generateQuote');
+    Route::post('/member/quote/compose/edit-accepted-till', [MemberQuoteController::class,'editAcceptedDate'])->name('member.quote.editAcceptedDate');
+// Generate Quote Request Ends
+
+// Draft Starts
+    Route::get('/member/draft', [MemberDraftController::class,'index'])->name('member.draft');
+    Route::post('/member/open-draft', [MemberDraftController::class,'openDraft'])->name('member.openDraft');
+    Route::post('/member/discard-draft', [MemberDraftController::class,'discardDraft'])->name('member.discardDraft');
+// Draft Ends
+
+// Review List Start
+    Route::get('/member/review-list/send', [MemberReviewListController::class,'send'])->name('member.reviewList.send');
+    Route::get('/member/review-list/received', [MemberReviewListController::class,'received'])->name('member.reviewList.received');
+// Review List Ends
+
+// Completed Bidding Starts
+    Route::get('/member/completed-bidding', [MemberCompletedBiddingController::class,'index'])->name('member.completedBidding');
+// Completed Bidding ENds
+
+// Upcoming Events Starts
+    Route::get('/member/upcoming-events', [MemberEventController::class,'index'])->name('member.upcomingEvents');
+// Upcoming Events Ends
+
+/************************************** Member Ends **************************************/

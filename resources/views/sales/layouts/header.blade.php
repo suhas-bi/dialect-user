@@ -57,7 +57,7 @@
                         </div>
                 </span>
                 <div id="mark-drop4">
-                    <a href="#" class="" style="float: right;">John Doe</a>
+                    <a href="#" class="" style="float: right;">{{ auth()->user()->name ?? '' }}</a>
                     <ul class="drop-profile2">
                         <li onclick="window.location.href = 'javascript:;'">Profile Settings</li>
                         <li onclick="window.location.href = 'javascript:;'">Subscriptions</li>

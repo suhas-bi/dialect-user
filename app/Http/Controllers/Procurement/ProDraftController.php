@@ -36,7 +36,7 @@ class ProDraftController extends Controller
       try{
         $company_id = auth()->user()->company_id;
         $user_id = auth()->user()->id;
-        $draft = Enquiry::with('sub_category','attachments')->find($request->id);
+        $draft = Enquiry::with('sub_category','attachments','sender','sender.company')->find($request->id);
 
         DB::commit();
       

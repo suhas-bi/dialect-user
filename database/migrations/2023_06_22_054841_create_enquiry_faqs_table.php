@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('answer')->nullable();
             $table->datetime('answered_at')->nullable();
             $table->integer('status')->default(0); /* 0 => pending, 1 => answered, 2 => skipped */
+            $table->unsignedBigInteger('created_by')->nullable();
             $table->timestamps();
         });
     }

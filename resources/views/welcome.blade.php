@@ -40,9 +40,9 @@
                             <!-- Password Input -->
                             <div class="form-group row px-3 position-relative">
                                 <i class="password-ico"></i>
-                                <input name="password" type="password" placeholder="Password" tabindex="2"
+                                <input id="password" name="password" type="password" placeholder="Password" tabindex="2"
                                     class="form-control border-info placeicon">
-                                <i class="eye-ico"></i>
+                                <i class="eye-ico" id="show-hide"></i>
                                 <div class="invalid-msg">@error('password'){{ $message }} @enderror</div>
                             </div>
 
@@ -75,4 +75,17 @@
         </footer>
 
     </div>
+
+    @push('scripts')
+    <script>
+        $('#show-hide').on('click', function() {
+             if($('#password').attr('type') === 'password'){
+                $('#password').attr('type','text')
+             } 
+             else{
+                $('#password').attr('type','password')
+             }
+        });
+    </script>
+    @endpush
 @endsection

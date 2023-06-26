@@ -15,12 +15,12 @@
                         <a href="#"  class="filter-ico float-right tablinks4 search_filter" data-option="filter"></a>
                     </div>
                     <div id="search" class="tabcontent4" style="display: none;">
-                    <div class="my-quotes-search d-flex align-items-center justify-content-between">
-                        <div class="account-search-box-main">
-                            <input id="keyword" type="text" placeholder="Search by reference no." class="form-control">
+                        <div class="my-quotes-search d-flex align-items-center justify-content-between">
+                            <div class="account-search-box-main">
+                                <input id="keyword" type="text" placeholder="Search by reference no." class="form-control">
+                            </div>
                         </div>
-                    </div>
-                    </div>
+                    </div>  
 
                     <div id="filter" class="tabcontent4" style="display: none;">
                         <div class="my-quotes-search d-flex align-items-center justify-content-left">
@@ -364,8 +364,7 @@
     <!-- End Main Content -->
 
     <!-- Accepted Till Model Starts -->
-         <!-- Modal -->
-         <div class="modal fade" id="change-date-model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="change-date-model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -374,12 +373,12 @@
                 </div>
                 <div class="modal-body row">
                     <div class="col-md-12 common-popup">
-                        <label>Accepted Bids till<span class="mandatory"> *</span></label>
                         <input id="enquiry_id" type="hidden" value="">
-                        <input id="expire_at" type="text" placeholder="Date (DD-MM-YY)" class="form-control choose-category calendar-ico" autocomplete="off">
-                    
-                        <label>Remarks</label>
-                        <textarea class="remarks"></textarea>
+                        <div class="form-group position-relative">
+                            <label>Accepted Bids till<span class="mandatory"> *</span></label>
+                            <input id="expire_at" name="expire_at" type="text" placeholder="Date (DD-MM-YY)" class="form-control choose-category calendar-ico" autocomplete="off">
+                            <div class="invalid-msg2"></div>
+                        </div>
                     </div>
                 </div>
                 
@@ -397,7 +396,53 @@
         </div>
     </div>
     <!-- Accepted till model ends -->
+
+    <!-- Faq answer model starts -->
+    <div class="modal fade" id="answer-question" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form  action="" method="post">
+                    @csrf
+                    <div class="modal-header">
+                        <h1 class="modal-title" id="exampleModalLongTitle">Respond</h1>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        </button>
+                    </div>
+                    <div class="modal-body row">
+                        <div class="col-md-12 common-popup">
+                            <label>Question</label>
+                            <h3 id="question">This is question</h3>
+                            <input type="hidden" id="faq_id" />
+                        </div>
+                        <div class="col-md-12 common-popup">
+                            <div class="form-group position-relative">
+                                <label>Answer</label>
+                                <textarea class="form-control" id="answer" rows="3" name="answer"></textarea>
+                                <div class="invalid-msg2"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer model-footer-padd">
+                        <div class="d-flex justify-content-end">
+                            <div class="form-group proceed-btn">
+                                <button type="button" class="btn btn-third cancel-change" data-dismiss="modal">Cancel</button>
+                            </div>
+
+                            <div class="form-group proceed-btn">
+                                <input id="save-answer" type="button" value="Submit" class="btn btn-secondary">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Faq answer model ends -->
+
     <input type="hidden" id="change-date-url" value="{{ route('procurement.quote.editAcceptedDate') }}" />
+    <input type="hidden" id="answer-faq-url" value="{{ route('procurement.answerFaq') }}" />
+    <input type="hidden" id="skip-faq-url" value="{{ route('procurement.skipFaq') }}" />
     @push('scripts')
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -408,9 +453,17 @@
             
             loadBidInboxList();
 
+            // Get the current date
+            var currentDate = new Date();
+
+            // Calculate the maximum date (1 month from today)
+            var maxDate = new Date();
+            maxDate.setMonth(currentDate.getMonth() + 1);
+
             $( "#expire_at" ).datepicker({
                 minDate: 0,
                 dateFormat: 'dd-mm-yy',
+                maxDate: maxDate
             });
 
             $('body').on('click','.search_filter',function(){
@@ -505,26 +558,66 @@
             
             $('body').on('click','.close, .cancel-change',function () {
                 $('#change-date-model').modal('hide');
+                $('#answer-question').modal('hide');
             });
 
-            $('body').on('click','#save-date-change',function () {
-                var changeExpiryAction = $('#change-date-url').val();
-                var expire_at = $('#expire_at').val();
-                var id = $('#enquiry_id').val();
+            $('body').on('click','.report',function () {
+                 var category = $(this).data('category');
+                 var type = $(this).data('type');
+                 var enquiry_id = $(this).data('enquiry_id');
+                 var question_id = $(this).data('question_id');
+                 var reportAction = "{{ route('procurement.report') }}";
+                 axios.post(reportAction, {category:category,type:type,enquiry_id:enquiry_id,question_id:question_id})
+                    .then((response) => {
+                    // Handle success response
+                    Swal.fire({
+                        toast: true,
+                        icon: 'success',
+                        title: response.data.message,
+                        animation: false,
+                        position: 'top-right',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                    })
+                    .catch((error) => { 
+                    // Handle error response
+                    console.log(error);
+                    });
+            });
+
+            $('body').on('click','.respond',function () {
+                var id = $(this).data('id');
+                var question = $(this).data('question');
+                var answer = $(this).data('answer');
+                $('#faq_id').val(id);
+                $('#question').text(question);
+                $('#answer').text(answer);
+                $('#answer-question').modal('show');
+            });
+
+            $('body').on('click','.skip',function () {
+                var skipFaqAction = $('#skip-faq-url').val();
+                var id = $(this).data('id');
                 Swal.fire({
                     title: "Are you sure?",
-                    text: "Do you want to change expiry date!",
+                    text: "Do you want to skip this question!",
                     icon: 'warning',
                     showCancelButton: true,
                 }).then(function (willUpdate) {
                     if (willUpdate.isConfirmed === true) {
-                        axios.post(changeExpiryAction, {id:id, expire_at : expire_at})
+                        axios.post(skipFaqAction, {id:id})
                              .then((response) => {
                                 // Handle success response
                                 Swal.fire({
                                     toast: true,
                                     icon: 'success',
-                                    title: "Updated",
+                                    title: response.data.message,
                                     animation: false,
                                     position: 'top-right',
                                     showConfirmButton: false,
@@ -535,14 +628,11 @@
                                         toast.addEventListener('mouseleave', Swal.resumeTimer)
                                     }
                                 });
-                                openEnquiry(id);
-                                $('#change-date-model').modal('hide');
+                                openEnquiry(response.data.faq.enquiry_id);
                              })
                              .catch((error) => { 
                                 // Handle error response
                                 console.log(error);
-                                openEnquiry(id);
-                                $('#change-date-model').modal('hide');
                              });
                     }
                     else{
@@ -552,6 +642,88 @@
                         });
                     }
                 });
+                
+            });
+
+            $('body').on('click','#save-date-change',function () {
+                var changeExpiryAction = $('#change-date-url').val();
+                var expire_at = $('#expire_at').val();
+                var id = $('#enquiry_id').val();
+                axios.post(changeExpiryAction, {id:id, expire_at : expire_at})
+                    .then((response) => {
+                    // Handle success response
+                        Swal.fire({
+                            toast: true,
+                            icon: 'success',
+                            title: "Updated",
+                            animation: false,
+                            position: 'top-right',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        });
+                        openEnquiry(id);
+                        $('#change-date-model').modal('hide');
+                    })
+                    .catch((error) => { 
+                        // Handle error response
+                        // console.log(error);
+                        if (error.response.status == 422) {
+                            $.each(error.response.data.errors, function(field, errors) {
+                                var input = $('input[name="' + field + '"]');
+                                input.addClass('red-border');
+                                var feedback = input.siblings('.invalid-msg2');
+                                feedback.text(errors[0]).show();
+                            });
+                        }   
+                        else{
+                            openEnquiry(id);
+                            $('#change-date-model').modal('hide');
+                        }   
+                        
+                    });
+            });
+
+
+            $('body').on('click','#save-answer',function () {
+                var answerFaqAction = $('#answer-faq-url').val();
+                var answer = $('#answer').val();
+                var id = $('#faq_id').val();
+                axios.post(answerFaqAction, {id:id, answer : answer})
+                    .then((response) => {
+                        // Handle success response
+                        Swal.fire({
+                            toast: true,
+                            icon: 'success',
+                            title: "Updated",
+                            animation: false,
+                            position: 'top-right',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        });
+                        openEnquiry(response.data.faq.enquiry_id);
+                        $('#answer-question').modal('hide');
+                    })
+                    .catch((error) => { 
+                        // Handle error response
+                        if (error.response.status == 422) {
+                            $.each(error.response.data.errors, function(field, errors) {
+                                var textarea = $('textarea[name="' + field + '"]');
+                                textarea.addClass('red-border');
+                                var textareafeedback = textarea.siblings('.invalid-msg2');
+                                textareafeedback.text(errors[0]).show();
+                            });
+                        }      
+                    });
             });
                  
                  
@@ -579,7 +751,7 @@
                                 <small class="created-date"><span>Created on:</span><br>${enquiry.created_at}</small>
                                 <a href="#" class="question-asked">Questions Asked</a>
                             </div>
-                            <h3>Quote For: Al Nazer Mohammed, Admin IHRDS </h3>
+                            <h3>Quote For: ${enquiry.sender.name}, ${enquiry.sender.designation}, ${enquiry.sender.company.name} </h3>
                             <div class="position-relative msg-expand-main" id="msg-expand">
                                 <pre>${enquiry.body}</pre>
                                 <h1 class="mt-2">${enquiry.attachments.length != 0 ? 'Attachments' : '' }</h1>
@@ -598,6 +770,7 @@
                                                     ${attachment.file_name}
                                                     <div class="d-flex align-items-center">
                                                         <a id="doc-preview-link" href="{{ config('setup.application_url') }}${attachment.path}" class="doc-preview-view" target="_blank"></a>
+                                                        <a id="doc-preview-link" href="{{ config('setup.application_url') }}${attachment.path}" class="" download>D</a>
                                                     </div>
                                                 </span>`);
                     });  
@@ -623,23 +796,21 @@
                             $('#open').append(`<div class="open-close-list">
                                 <h1>${open_faq.question}</h1>
                                 <small class="bid-date">${open_faq.created_at}</small>
-
                                 <div class="d-flex w-100 justify-content-between">
                                     <div class="respo-skip-btn">
                                     ${open_faq.status === 0 ?
-                                        `<a href="#" class="respond">Respond</a>
-                                         <a href="#" class="skip">Skip</a>` :
+                                        `<a href="#" class="respond" data-id="${open_faq.id}" data-question="${open_faq.question}">Respond</a>
+                                         <a href="#" class="skip" data-id="${open_faq.id}">Skip</a>` :
                                         `<span class="skiped-status">Skipped</span>`
-
                                     }
                                     </div>
                                     <div class="dropdown">
                                         <button onclick="myFunction()" class="dropbtn">Report</button>
                                         <div id="myDropdown" class="dropdown-content">
-                                            <a href="#">Spam</a>
-                                            <a href="#">Illegal activity</a>
-                                            <a href="#">Advertisement</a>
-                                            <a href="#">Cyberbullying</a>
+                                            <a href="#" class="report" data-category="question" data-type="Spam" data-enquiry_id="${enquiry.id}" data-question_id="${open_faq.id}">Spam</a>
+                                            <a href="#" class="report" data-category="question" data-type="Illegal activity" data-enquiry_id="${enquiry.id}" data-question_id="${open_faq.id}">Illegal activity</a>
+                                            <a href="#" class="report" data-category="question" data-type="Advertisement" data-enquiry_id="${enquiry.id}" data-question_id="${open_faq.id}">Advertisement</a>
+                                            <a href="#" class="report" data-category="question" data-type="Cyberbullying" data-enquiry_id="${enquiry.id}" data-question_id="${open_faq.id}">Cyberbullying</a>
                                         </div>
                                     </div>
                                 </div>
@@ -654,7 +825,7 @@
                                     ${open_faq.answer}
                                     <span>You Answered on ${open_faq.answered_at}</span>
                                 </div>
-                                <a href="#" class="respond">Edit Response</a>
+                                <a href="#" class="respond" data-id="${open_faq.id}" data-question="${open_faq.question}" data-answer="${open_faq.answer}">Edit Response</a>
                             </div>`);
                         });
                  })

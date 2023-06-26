@@ -15,6 +15,18 @@ class Enquiry extends Model
         return $this->belongsTo(SubCategory::class);
     }
 
+    public function country(){
+        return $this->belongsTo(Country::class);
+    }
+
+    public function region(){
+        return $this->belongsTo(Region::class);
+    }
+
+    public function sender(){
+        return $this->belongsTo(CompanyUser::class,'from_id','id');
+    }
+
     public function attachments(){
         return $this->hasMany(EnquiryAttachment::class,'enquiry_id','id');
     }
@@ -27,6 +39,14 @@ class Enquiry extends Model
         return $this->hasMany(EnquiryFaq::class,'enquiry_id','id')->where('status',1);
     }
 
+    public function all_faqs(){
+        return $this->hasMany(EnquiryFaq::class,'enquiry_id','id');
+    }
+
+    public function my_faqs(){
+        return $this->hasMany(EnquiryFaq::class,'enquiry_id','id')->where('created_by',auth()->user()->id);
+    }
+
     public function replies(){
         return $this->hasMany(Enquiry::class,'parent_reference_no','reference_no')->where('is_draft',0)->where('from_id','!=',auth()->user()->id)->with('company')->latest();
     }
@@ -35,4 +55,6 @@ class Enquiry extends Model
     {
         return $query->where('verified_by','!=',0);
     }
+
+   
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Procurement;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Procurement\BidInboxListResource;
 use App\Http\Resources\Procurement\EnquiryResource;
+use App\Http\Requests\Procurement\AnswerFaqRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Cache;
@@ -13,6 +14,8 @@ use App\Mail\OTP;
 use App\Models\Company;
 use App\Models\CompanyUser;
 use App\Models\Enquiry;
+use App\Models\EnquiryFaq;
+use App\Models\ReportedIssue;
 use DB;
 use Auth;
 use Carbon\Carbon;
@@ -42,26 +45,19 @@ class ProcurementHomeController extends Controller
             $query->orwhere('subject','like','%'.$request->keyword.'%');
         }
         if($request->mode_filter == 'today'){
-            $query->whereDate('created_at', Carbon::today());
+            $query->whereDate('enquiries.created_at', Carbon::today());
         }
         else if($request->mode_filter == 'yesterday'){
-            $query->whereDate('created_at', Carbon::yesterday());
+            $query->whereDate('enquiries.created_at', Carbon::yesterday());
         }
         else if($request->mode_filter == 'last_week'){
-            $query->whereBetween('created_at',[Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->subWeek()->endOfWeek()]);
+            $query->whereBetween('enquiries.created_at',[Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->subWeek()->endOfWeek()]);
         }
         else if($request->mode_filter == 'last_month'){
-            $query->whereBetween('created_at',[Carbon::now()->subMonth()->startOfMonth(), Carbon::now()->subMonth()->endOfMonth()]);
-        }
-        else if($request->mode_filter == 'by_month'){
-            if(!is_null($request->second_filter)){
-                $query->whereMonth('created_at', $request->second_filter)->whereYear('created_at', date('Y'));
-            }
-        }
-        else if($request->mode_filter == 'by_year'){
-            if(!is_null($request->second_filter)){
-                $query->whereYear('created_at', $request->second_filter);
-            }
+            $startOfMonth = now()->subMonth()->startOfMonth();
+            $endOfMonth = now()->subMonth()->endOfMonth();
+        
+            $query->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
         }
         $enquiries = $query->whereNull('parent_reference_no')->groupBy('reference_no')->latest()->get();
         return response()->json([
@@ -71,11 +67,87 @@ class ProcurementHomeController extends Controller
     }
 
     public function fetchEnquiry(Request $request){
-        $enquiry = Enquiry::with('replies')->findOrFail($request->id);
+        $enquiry = Enquiry::with('replies','sender','sender.company')->findOrFail($request->id);
         return response()->json([
             'status' => true,
             'enquiry' => new EnquiryResource($enquiry),
         ], 200);
+    }
+
+    public function skipFaq(Request $request){
+        DB::beginTransaction();
+        try{
+            EnquiryFaq::findOrFail($request->id)->update([
+                 'status' => 2
+            ]);
+
+            $faq = EnquiryFaq::findOrFail($request->id);
+            DB::commit();
+            
+            return response()->json([
+                'status' => true,
+                'message' => 'Question has been skipped',
+                'faq' => $faq
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function answerFaq(AnswerFaqRequest $request){
+        DB::beginTransaction();
+        try{
+            EnquiryFaq::findOrFail($request->id)->update([
+                'answer' => $request->answer,
+                'answered_at' => now(),
+                'status' => 1
+            ]);
+
+            $faq = EnquiryFaq::findOrFail($request->id);
+            DB::commit();
+            
+            return response()->json([
+                'status' => true,
+                'message' => 'Question has been answered',
+                'faq' => $faq
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function report(Request $request){
+        DB::beginTransaction();
+        try{
+            ReportedIssue::create([
+                'category' => $request->category,
+                'type' => $request->type,
+                'enquiry_id' => $request->enquiry_id,
+                'question_id' => $request->question_id,
+                'reported_by' => auth()->user()->id,
+                'reported_at' => now()
+            ]);
+            DB::commit();
+            
+            return response()->json([
+                'status' => true,
+                'message' => 'Reported Content',
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
 }

@@ -8,9 +8,9 @@
                 <small class="notification-count d-flex align-items-center justify-content-center"></small>
             </span>
             <div id="mark-drop4">
-                <a href="#" class="" style="float: right;">John Doe</a>
+                <a href="#" class="" style="float: right;">{{ auth()->user()->name ?? '' }}</a>
                 <ul class="drop-profile2">
-                    <li onclick="window.location.href = 'javascript:;'">Profile Settings</li>
+                    <li onclick="window.location.href = '{{ route('procurement.profile') }}'">Profile Settings</li>
                     <li onclick="window.location.href = 'javascript:;'">Subscriptions</li>
                     <li><a href="{{ route('logout') }}" class="text-white">Logout</a></li>
                 </ul>

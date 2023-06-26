@@ -7,7 +7,7 @@
 
             <div class="header-right-inner">
                 <div id="mark-drop2">
-                    <a href="#" class="" style="float: right;">{{ 'Administrator' }}</a>
+                    <a href="#" class="" style="float: right;">{{ auth()->user()->name ?? 'Administrator' }}</a>
                     <ul class="drop-profile">
                         <li onclick="#">Profile Settings</li>
                         <li onclick="#">Subscriptions</li>
