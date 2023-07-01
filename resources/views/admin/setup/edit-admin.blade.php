@@ -83,21 +83,21 @@
                                                     <div class="col-md-4">
                                                         <div class="input-group position-relative">
                                                             <label>Name  <span class="mandatory">*</span></label>
-                                                            <input id="admin-name" type="text" name="admin_name" value="{{ old('admin_name') ?? $admin->name ?? '' }}" placeholder="Name" class="form-control">
+                                                            <input id="admin-name" type="text" name="admin_name" value="{{ old('admin_name') ?? $admin->name ?? '' }}" placeholder="Name" class="form-control @error('name') red-border @enderror" autofocus>
                                                             <div class="invalid-msg2">@error('admin_name'){{ $message }}@enderror</div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="input-group position-relative">
                                                             <label>Designation<span class="mandatory">*</span></label>
-                                                            <input id="admin-designation" type="text" name="admin_designation" value="{{ old('admin_designation') ?? $admin->designation ?? '' }}" placeholder="Designation" class="form-control">
+                                                            <input id="admin-designation" type="text" name="admin_designation" value="{{ old('admin_designation') ?? $admin->designation ?? '' }}" placeholder="Designation" class="form-control @error('admin_designation') red-border @enderror">
                                                             <div class="invalid-msg2">@error('admin_designation'){{ $message }}@enderror</div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="input-group position-relative">
                                                             <label>Email<span class="mandatory">*</span></label>
-                                                            <input id="admin-email" type="text" name="admin_email" value="{{ old('admin_email') ?? $admin->email ?? '' }}" placeholder="Email" class="form-control">
+                                                            <input id="admin-email" type="text" name="admin_email" value="{{ old('admin_email') ?? $admin->email ?? '' }}" placeholder="Email" class="form-control @error('admin_email') red-border @enderror">
                                                             <div class="invalid-msg2">@error('admin_email'){{ $message }}@enderror</div>
                                                         </div>
                                                     </div>
@@ -105,7 +105,7 @@
                                                         <label>Mobile <span class="mandatory">*</span></label>
                                                         <div class="d-flex">
                                                             <input type="text" value="+974" placeholder="+974" class="form-control mobile-code" readonly>
-                                                            <input id="admin-mobile" type="text" name="admin_mobile" value="{{ old('admin_mobile') ?? $admin->mobile ?? '' }}" placeholder="Mobile" class="form-control mobile-number">
+                                                            <input id="admin-mobile" type="text" name="admin_mobile" value="{{ old('admin_mobile') ?? $admin->mobile ?? '' }}" placeholder="Mobile" class="form-control mobile-number @error('admin_mobile') red-border @enderror">
                                                         </div>
                                                         <div class="invalid-msg2">@error('admin_mobile'){{ $message }}@enderror</div>
                                                     </div>
@@ -113,13 +113,13 @@
                                                         <label>Land LIne </label>
                                                         <div class="d-flex">
                                                             <input type="text" value="+974" placeholder="+974" class="form-control mobile-code" readonly>
-                                                            <input id="admin-landline" type="text" name="admin_landline" value="{{ old('admin_landline') ?? $admin->landline ?? '' }}" placeholder="Landline" class="form-control mobile-number">
+                                                            <input id="admin-landline" type="text" name="admin_landline" value="{{ old('admin_landline') ?? $admin->landline ?? '' }}" placeholder="Landline" class="form-control mobile-number @error('admin_landline') red-border @enderror">
                                                         </div>
                                                         <div class="invalid-msg2">@error('admin_landline'){{ $message }}@enderror</div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label>Extension</label>
-                                                        <input id="admin_extension" type="text" name="admin_extension" value="{{ old('admin_extension') ?? $admin->extension ?? '' }}" placeholder="Extension" class="form-control">
+                                                        <input id="admin_extension" type="text" name="admin_extension" value="{{ old('admin_extension') ?? $admin->extension ?? '' }}" placeholder="Extension" class="form-control @error('admin_extension') red-border @enderror">
                                                         <div class="invalid-msg2">@error('admin_extension'){{ $message }}@enderror</div>
                                                     </div>
 

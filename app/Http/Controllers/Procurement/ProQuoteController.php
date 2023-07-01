@@ -74,7 +74,6 @@ class ProQuoteController extends Controller
         DB::beginTransaction();
         try{
             $company_id = auth()->user()->company_id;
-            $ref_no = $this->referencoNo($company_id);
             Enquiry::findOrFail($request->enquiry_id)->update([
                 'sub_category_id' => $request->id
             ]);
@@ -258,7 +257,7 @@ class ProQuoteController extends Controller
         $company = Company::with('document')->find($company_id);
         $doc = $company->document->doc_number;
         $year = date('Y');
-        $enquiryCount = Enquiry::where('company_id',$company->id)->whereYear('created_at', '=', $year)->distinct()->count('reference_no') + 1;
+        $enquiryCount = Enquiry::where('company_id',$company->id)->where('from_id',auth()->user()->id)->whereYear('created_at', '=', $year)->distinct()->count('reference_no') + 1;
         return $doc.'-'.$enquiryCount.'-'.$year;
     }
 
@@ -266,6 +265,7 @@ class ProQuoteController extends Controller
         $role = 3; // sales
         $categories = RelativeSubCategory::where('sub_category_id',$sub_category_id)->pluck('relative_id');
         $query = Company::where('company_users.role', '=', $role)
+                        ->where('company_users.company_id','!=',auth()->user()->company_id)
                         ->where('companies.country_id', $country_id);
                         if($categories->count() > 0){
                             $categories = $categories->prepend($sub_category_id)->toArray();

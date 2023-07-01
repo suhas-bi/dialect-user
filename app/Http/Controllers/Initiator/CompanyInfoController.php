@@ -15,7 +15,9 @@ use App\Models\CompanyLocation;
 use App\Models\Country;
 use App\Models\Region;
 use App\Models\Document;
+use App\Models\RegistrationToken;
 use DB;
+use Mail;
 
 class CompanyInfoController extends Controller
 {
@@ -89,6 +91,18 @@ class CompanyInfoController extends Controller
                     'region_id' => $region
                 ]);
             }
+
+            $company = Company::find($comp->id);
+            $token = RegistrationToken::where('company_id',$company->id)->first();
+            
+            $details = [
+                'name' =>  $company->name ?? 'User',
+                'subject' =>'DialectB2B Registration Process.',
+                'body' => "<div><p>We're excited to tell you that you've successfully updated your company registration document at Dialectb2b.com.<br><p>To proceed with the registration please follow the link below.</p></div></div>",
+                'link'	=> url('registration/'.$token->token),
+            ];
+            
+            \Mail::to($company->email)->send(new \App\Mail\CommonMail($details));
 
             DB::commit();
 

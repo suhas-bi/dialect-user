@@ -163,15 +163,16 @@
 
                                 <div class="col-md-12">
                                     <div id="declaration-upload-area" class="document-upload3 {{ $company->decleration ? 'd-none' : '' }}">
-                                        <label>Upload the duly signed Registration form here.</label>
-                                        <div class="clearfix"></div>
-                                        <input type="file" id="upload" hidden="" name="declaration_file">
-                                        <label for="upload" class="upload-file">Upload Files</label>
-                                        <label>Or Drop Files</label>
-                                        <span class="max-file-size align-bottom">Format: pdf, jpeg, jpg, png, pdf.<br>
-                                            Max-Size: 4MB </span>
-                                        <div class="clearfix"></div>
-                                        
+                                    <div id="drop-area" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+                                            <label>Upload the duly signed Registration form here.</label>
+                                            <div class="clearfix"></div>
+                                            <input type="file" id="upload" hidden="" name="declaration_file">
+                                            <label for="upload" class="upload-file">Upload Files</label>
+                                            <label>Or Drop Files</label>
+                                            <span class="max-file-size align-bottom">Format: pdf, jpeg, jpg, png, pdf.<br>
+                                                Max-Size: 4MB </span>
+                                            <div class="clearfix"></div>
+                                        </div>   
                                     </div>
                                     <div id="declaration-preview" class="mt-4">
                                         <span class="d-flex doc-preview align-items-center justify-content-between {{ !$company->decleration ? 'd-none' : '' }}">
@@ -253,6 +254,7 @@
                     declarationUploadArea.classList.add('d-none');
                     declarationDownloadArea.classList.add('d-none');
                     progressBar.style.display = 'none';
+                    $("#upload").val("");
                 })
                 .catch((error) => {
                     // Handle error response
@@ -285,10 +287,10 @@
                     axios.post(docDeleteAction, id)
                     .then((response) => {
                         // Handle success response
-                        console.log(response);
                         declarationPreview.classList.add('d-none');
                         declarationUploadArea.classList.remove('d-none');
                         declarationDownloadArea.classList.remove('d-none');
+                        $("#upload").val("");
                     })
                     .catch((error) => {
                         // Handle error response
@@ -322,6 +324,37 @@
         });
 
     });
+
+    function handleFileSelect(event) {
+        // Handle file selection here
+        var files = event.target.files;
+        // Access selected files from the 'files' variable and process them as needed
+    }
+
+    function handleDragOver(event) {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = "copy";
+        // Add any visual indicators or styles to indicate valid drop target
+    }
+
+    function handleDragLeave(event) {
+        event.preventDefault();
+        // Remove any visual indicators or styles when leaving the drop target
+    }
+
+    function handleDrop(event) {
+        event.preventDefault();
+        // Handle dropped files here
+        var files = event.dataTransfer.files;
+        // Access dropped files from the 'files' variable and process them as needed
+        
+        // Manually trigger file selection for the file input element
+        var fileInput = document.getElementById("upload");
+        fileInput.files = files;
+        // Optionally, you can also trigger the 'change' event on the file input element
+        var changeEvent = new Event("change");
+        fileInput.dispatchEvent(changeEvent);
+    }
 </script>
 @endpush
 @endsection

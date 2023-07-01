@@ -33,7 +33,8 @@ use App\Http\Controllers\Sales\{
     SalesRepliedEnquiryController,
     SalesExpiredEnquiryController,
     SalesDraftController,
-    SalesEventsController
+    SalesEventsController,
+    SalesProfileController
 };
 
 use App\Http\Controllers\Auth\{
@@ -108,7 +109,7 @@ Route::get('registration/{token}',  [ReRegistrationController::class,'registrati
 Route::get('/register/verify', [ReRegistrationController::class,'verify'])->name('registration.reVerify');
 Route::post('/register/verify-otp', [ReRegistrationController::class,'verifyOtp'])->name('registration.verify-otp');
 
-// Administrator
+/*****************************************  Administrator Start **************************************/ 
 Route::get('/admin/dashboard', [AdminHomeController::class,'index'])->name('admin.dashboard');
 
 
@@ -118,6 +119,10 @@ Route::post('/admin/update-admin/{id}', [AdminHomeController::class,'adminUpdate
 Route::get('/admin/create-procurement', [AdminHomeController::class,'procurementCreate'])->name('admin.procurementCreate');
 Route::get('/admin/create-sales', [AdminHomeController::class,'salesCreate'])->name('admin.salesCreate');
 Route::post('/admin/update-user', [AdminHomeController::class,'createUpdateUser'])->name('admin.createUpdateUser');
+
+
+/*****************************************  Administrator Start **************************************/ 
+
 
 Route::get('/logout', [AdminHomeController::class,'logout'])->name('logout');
 
@@ -135,6 +140,8 @@ Route::post('/reset-password', [ResetPasswordController::class,'resetPassword'])
 
 
 /*****************************************  Procurement Start **************************************/ 
+
+Route::group(['middleware' => 'check.role:2'],function() {
 
 // Generate Quote Request
     Route::get('/procurement/quote/select-category', [ProQuoteController::class,'selectCategory'])->name('procurement.quote.selectCategory');
@@ -194,6 +201,7 @@ Route::post('/reset-password', [ResetPasswordController::class,'resetPassword'])
     Route::get('/procurement/profile', [ProProfileController::class,'index'])->name('procurement.profile');
 // Profile Ends
 
+});
 /*****************************************  Procurement Ends **************************************/ 
 
 
@@ -201,20 +209,26 @@ Route::post('/reset-password', [ResetPasswordController::class,'resetPassword'])
 
 /*****************************************  Sales Starts ******************************************/
 
+Route::group(['middleware' => 'check.role:3'],function() {
+
 // Received List Starts
     Route::get('/sales/dashboard', [SalesHomeController::class,'index'])->name('sales.dashboard');
     Route::any('/sales/fetch-all-enquiries', [SalesHomeController::class,'fetchAllEnquiries'])->name('sales.fetchAllEnquiries');
     Route::any('/sales/fetch-enquiry', [SalesHomeController::class,'fetchEnquiry'])->name('sales.fetchEnquiry');
     Route::any('/sales/save-question', [SalesHomeController::class,'saveQuestion'])->name('sales.saveQuestion');
-    Route::any('/sales/compose-reply', [SalesHomeController::class,'composeReply'])->name('sales.composeReply');
+    Route::post('/sales/send-bid', [SalesHomeController::class,'sendBid'])->name('sales.sendBid');
 // Received List Ends
 
 //Replied Enquiries Starts
     Route::get('/sales/replied-enquiry', [SalesRepliedEnquiryController::class,'index'])->name('sales.repliedEnquiry');
+    Route::post('/sales/replied/fetch-all-enquiries', [SalesRepliedEnquiryController::class,'fetchAllEnquiries'])->name('sales.replied.fetchAllEnquiries');
+    Route::post('/sales/replied/fetch-enquiry', [SalesRepliedEnquiryController::class,'fetchEnquiry'])->name('sales.replied.fetchEnquiry');
 //Replied Enquiries Ends
 
 //Expired Enquiries Starts
     Route::get('/sales/expired-enquiry', [SalesExpiredEnquiryController::class,'index'])->name('sales.expiredEnquiry');
+    Route::post('/sales/expired/fetch-all-enquiries', [SalesExpiredEnquiryController::class,'fetchAllEnquiries'])->name('sales.expired.fetchAllEnquiries');
+    Route::post('/sales/expired/fetch-enquiry', [SalesExpiredEnquiryController::class,'fetchEnquiry'])->name('sales.expired.fetchEnquiry');
 //Expired Enquiries Ends
 
 //Draft Starts
@@ -225,10 +239,17 @@ Route::post('/reset-password', [ResetPasswordController::class,'resetPassword'])
     Route::get('/sales/upcoming-events', [SalesEventsController::class,'index'])->name('sales.events');
 //Upcoming Events Ends
 
+// Profile Starts
+    Route::get('/sales/profile', [SalesProfileController::class,'index'])->name('sales.profile');
+// Profile Ends
+
+});
+
 /*****************************************  Sales Ends ******************************************/
 
 /************************************** Member Starts **************************************/
 
+Route::group(['middleware' => 'check.role:4'],function() {
 // Bid Inbox Starts
     Route::get('/member/dashboard', [MemberHomeController::class,'index'])->name('member.dashboard');
     Route::any('/member/fetch-all-enquiries', [MemberHomeController::class,'fetchAllEnquiries'])->name('member.fetchAllEnquiries');
@@ -236,6 +257,8 @@ Route::post('/reset-password', [ResetPasswordController::class,'resetPassword'])
     Route::any('/member/skip-faq', [MemberHomeController::class,'skipFaq'])->name('member.skipFaq');
     Route::any('/member/answer-faq', [MemberHomeController::class,'answerFaq'])->name('member.answerFaq');
     Route::post('/member/read-reply',[MemberHomeController::class,'readReply'])->name('member.readReply');
+    Route::post('/member/shortlist',[MemberHomeController::class,'shortlist'])->name('member.shortlist');
+    Route::post('/member/hold',[MemberHomeController::class,'hold'])->name('member.hold');
 
     Route::post('/member/report', [MemberHomeController::class,'report'])->name('member.report');
 // Bid Inboc Ends
@@ -273,4 +296,10 @@ Route::post('/reset-password', [ResetPasswordController::class,'resetPassword'])
     Route::get('/member/upcoming-events', [MemberEventController::class,'index'])->name('member.upcomingEvents');
 // Upcoming Events Ends
 
+// Profile Starts
+Route::get('/member/profile', [MemberProfileController::class,'index'])->name('member.profile');
+// Profile Ends
+
+
+});
 /************************************** Member Ends **************************************/

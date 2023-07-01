@@ -25,6 +25,7 @@ class EnquiryReplyResource extends JsonResource
             'status' => $this->status,
             'status_text' => $this->status_text($this->status),
             'status_color' => $this->status_color($this->status),
+            'hold_reason' => $this->hold_reason,
             'attachments' => $this->attachments  
         ];
     }

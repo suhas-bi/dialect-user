@@ -26,7 +26,8 @@ class MemberReviewListController extends Controller
     
     public function send(){
         $company_id = auth()->user()->company_id;
-        return view('member.reviewlist.send.index');
+        return view('member.event.index');
+        //return view('member.reviewlist.send.index');
     }
 
     public function received(){

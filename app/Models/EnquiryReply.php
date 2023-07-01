@@ -19,4 +19,6 @@ class EnquiryReply extends Model
         return $this->hasMany(EnquiryAttachment::class,'reply_id','id');
     }
 
+    
+
 }

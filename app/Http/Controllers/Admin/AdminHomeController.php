@@ -53,7 +53,7 @@ class AdminHomeController extends Controller
     public function adminUpdate(Request $request,$id){
         $request->validate([
             'admin_name' => 'required|string|max:50',
-            'admin_email' => 'required|email:rfc,dns|unique:company_users,email,'.$id,
+            'admin_email' => 'required|email|unique:company_users,email,'.$id,
             'admin_designation' => 'required|string|max:50',
             'admin_mobile' => 'nullable|different:landline,extension|digits_between:4,13|unique:company_users,mobile,'.$id,
             'admin_landline' => 'different:mobile,extension|nullable|digits_between:4,13|unique:company_users,landline',
@@ -69,6 +69,7 @@ class AdminHomeController extends Controller
             'extension' => $request->admin_extension,
             'designation' => $request->admin_designation,
             'email' => $request->admin_email,
+            'approval_status' => 1,
             'token' => hash('sha256', $plaintext),
         ]);
 
@@ -96,7 +97,7 @@ class AdminHomeController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:50',
-            'email' => 'required|email:rfc,dns|unique:company_users,email,'.$id,
+            'email' => 'required|email|unique:company_users,email,'.$id,
             'designation' => 'required|string|max:50',
             'mobile' => 'nullable|different:landline,extension|digits_between:4,13|unique:company_users,mobile,'.$id,
             'landline' => 'different:mobile,extension|nullable|digits_between:4,13|unique:company_users,landline',
@@ -117,6 +118,7 @@ class AdminHomeController extends Controller
             'extension' => $request->extension,
             'designation' => $request->designation,
             'email' => $request->email,
+            'approval_status' => 1,
             'token' => hash('sha256', $plaintext),
         ]);
 

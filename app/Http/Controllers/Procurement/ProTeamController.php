@@ -58,7 +58,7 @@ class ProTeamController extends Controller
         
             $query->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
         }
-        $enquiries = $query->groupBy('reference_no')->latest()->get();
+        $enquiries = $query->latest()->get();
         return response()->json([ 
             'status' => true,
             'enquiries' => BidInboxListResource::collection($enquiries),
@@ -111,6 +111,7 @@ class ProTeamController extends Controller
         $role = 3; // sales
         $categories = RelativeSubCategory::where('sub_category_id',$sub_category_id)->pluck('relative_id');
         $query = Company::where('company_users.role', '=', $role)
+                        ->where('company_users.company_id','!=',auth()->user()->company_id)
                         ->where('companies.country_id', $country_id);
                         if($categories->count() > 0){
                             $categories = $categories->prepend($sub_category_id)->toArray();

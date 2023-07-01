@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Member;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Member\BidInboxListResource;
 use App\Http\Resources\Member\EnquiryResource;
+use App\Http\Resources\Member\EnquiryReplyResource;
 use App\Http\Requests\Member\AnswerFaqRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -60,7 +61,7 @@ class MemberHomeController extends Controller
         
             $query->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
         }
-        $enquiries = $query->whereNull('parent_reference_no')->groupBy('reference_no')->latest()->get();
+        $enquiries = $query->latest()->get();
         return response()->json([
             'status' => true,
             'enquiries' => BidInboxListResource::collection($enquiries),
@@ -134,6 +135,55 @@ class MemberHomeController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Fetched Reply',
+                'reply' => new EnquiryReplyResource($reply)
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function shortlist (Request $request){
+        DB::beginTransaction();
+        try{
+            EnquiryReply::findOrFail($request->reply_id)->update([
+                'status' => 1
+            ]);
+
+            $reply = EnquiryReply::findOrFail($request->reply_id);
+            DB::commit();
+            
+            return response()->json([
+                'status' => true,
+                'message' => 'Shortlisted Bid',
+                'reply' => new EnquiryReplyResource($reply)
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function hold (Request $request){
+        DB::beginTransaction();
+        try{
+            EnquiryReply::findOrFail($request->reply_id)->update([
+                'status' => 2,
+                'hold_reason' => $request->reason
+            ]);
+
+            $reply = EnquiryReply::findOrFail($request->reply_id);
+            DB::commit();
+            
+            return response()->json([
+                'status' => true,
+                'message' => 'Shortlisted Bid',
                 'reply' => new EnquiryReplyResource($reply)
             ], 200);
         } catch (\Exception $e) {

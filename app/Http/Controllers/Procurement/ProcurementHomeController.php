@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Procurement\BidInboxListResource;
 use App\Http\Resources\Procurement\EnquiryResource;
 use App\Http\Requests\Procurement\AnswerFaqRequest;
+use App\Http\Requests\Procurement\HoldRequest;
 use App\Http\Resources\Procurement\EnquiryReplyResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -125,6 +126,31 @@ class ProcurementHomeController extends Controller
         try{
             EnquiryReply::findOrFail($request->reply_id)->update([
                 'status' => 1
+            ]);
+
+            $reply = EnquiryReply::findOrFail($request->reply_id);
+            DB::commit();
+            
+            return response()->json([
+                'status' => true,
+                'message' => 'Shortlisted Bid',
+                'reply' => new EnquiryReplyResource($reply)
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function hold (HoldRequest $request){
+        DB::beginTransaction();
+        try{
+            EnquiryReply::findOrFail($request->reply_id)->update([
+                'status' => 2,
+                'hold_reason' => $request->reason
             ]);
 
             $reply = EnquiryReply::findOrFail($request->reply_id);

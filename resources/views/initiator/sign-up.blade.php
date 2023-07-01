@@ -141,7 +141,7 @@
                         localStorage.setItem('data', JSON.stringify(data.user));
                         window.location.href = '/sign-up/verify';
                     }
-                    console.log(data);
+                    //console.log(data);
                 },
                 error: function(xhr, status, error) {
                     if(xhr.responseJSON.status === false){
@@ -160,6 +160,7 @@
                         })
                     }
                     var response = JSON.parse(xhr.responseText);
+                    var firstErrorField = null;
                     if (response.errors) {
                         $.each(response.errors, function(field, errors) {
                             if(field === 'mobile'){
@@ -171,6 +172,12 @@
                             input.addClass('red-border');
                             var feedback = input.siblings('.invalid-msg2');
                             feedback.text(errors[0]).show();
+
+                            // If it's the first error field, store it and focus on it
+                            if (firstErrorField === null) {
+                                firstErrorField = input;
+                                input.focus();
+                            }
                         });
                     }
                 },

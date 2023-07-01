@@ -7,6 +7,7 @@
     <!-- Main Content -->
     <section class="container-fluid pleft-56">
         <div class="row">
+            <!-- Left Pane Starts -->
             <div class="col-md-3 pr-0 bid-tap">
                 <div class="bid-inbox">
                     <div class="bid-header d-flex align-items-center">
@@ -24,16 +25,13 @@
 
                     <div id="filter" class="tabcontent4" style="display: none;">
                         <div class="my-quotes-search d-flex align-items-center justify-content-left">
-                            
-                            <!-- <div class="custom-select" style="margin-left: 0; "> -->
-                                <select id="mode_filter" name="mode_filter" class="form-select">
-                                    <option value=" ">All</option>
-                                    <option value="today">Today </option>
-                                    <option value="yesterday">Yesterday </option>
-                                    <option value="last_week">Last week </option>
-                                    <option value="last_month">Last month </option>
-                                </select>
-                            <!-- </div> -->
+                            <select id="mode_filter" name="mode_filter" class="form-select">
+                                <option value=" ">All</option>
+                                <option value="today">Today </option>
+                                <option value="yesterday">Yesterday </option>
+                                <option value="last_week">Last week </option>
+                                <option value="last_month">Last month </option>
+                            </select>
                         </div>
                     </div>
 
@@ -42,19 +40,24 @@
 
                     </div>
                 </div>
-
             </div>
+            <!-- Left pane ends -->
 
+            <!-- Middle pane starts -->
             <div class="col-md-6 pl-0 pr-0 scnd-section-main">
                 <div class="mid-sec-main">
                     <div class="mid-sec-header d-flex justify-content-between  justify-content-center">
+                        <!-- Bid analysis rybbon starts -->
                         <div class="first-sec d-flex align-items-center" id="quote-options">
                             
                         </div>
+                        <!-- Bid analysis rybbon ends -->
+
+                        
                         <div class="scond-sec d-flex align-items-center">
+                            <!-- Bid notification starts -->
                             <div class="completed-screening d-flex align-items-center position-relative">
                                 <small class="alert-count d-flex align-items-center justify-content-center" id="pending-count">0</small>
-
                                 <a href="#" class="alert-btn"></a>
                                 <div id="mark-drop3">
                                 <a href="#" class="dummy-btn d-flex"></a>
@@ -62,12 +65,14 @@
                                      
                                     </ul>
                                 </div>
-                                
                             </div>
+                            <!-- Bid notification ends -->
 
+                            <!-- More Actions starts -->
                             <div class="d-flex align-items-center position-relative">
                                 <a href="#" class="more-dots"></a>
                             </div>
+                            <!-- More Actions ends -->
                         </div>
                     </div>
                     <div id="my-quote">
@@ -76,84 +81,97 @@
 
                     <div class="mid-third-sec">
                         <div class="d-flex w-100 justify-content-between b-bottom">
-                            <!-- Tabs navs -->
+                            <!-- Bid list tab buttons starts -->
                             <ul class="nav nav-tabs tab mb-2" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link tablinks active" onclick="openCity(event, 'all-bids')">All
-                                        Bids</a>
+                                    <a class="nav-link tablinks active" onclick="openCity(event, 'all-bids')">All Bids</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link tablinks"
-                                        onclick="openCity(event, 'shortlisted')">Shortlisted</a>
+                                    <a class="nav-link tablinks" onclick="openCity(event, 'shortlisted')">Shortlisted</a>
                                 </li>
                             </ul>
-                            <!-- Tabs navs -->
-
+                            <!-- Bid list tab buttons ends -->
                         </div>
 
-                        <!-- Tabs 1-->
-
+                        <!-- All bids tab starts -->
                         <div id="all-bids" class="tabcontent" style="display: block;">
-
                             <div class="row bid-list-head d-flex align-items-center justify-content-center">
-                                
-                                <div class="col-md-6"><a href="#"> Company Name <i class="ic_sort"><img
-                                                src="{{ asset('assets/images/ic_sort.svg') }}"></i></a></div>
-                                <div class="col-md-3 d-flex align-items-center justify-content-center"><a href="#">Date
-                                        <i class="ic_sort"><img src="{{ asset('assets/images/ic_sort.svg') }}"></i></a></div>
-                                <div class="col-md-3 d-flex align-items-center justify-content-center"><a
-                                        href="#">Review Status <i class="ic_sort"><img src="{{ asset('assets/images/ic_sort.svg') }}"></i></a>
+                                <div class="col-md-6">
+                                    <a href="#" class="sort_company" data-status="true"> 
+                                        Company Name 
+                                        <i class="ic_sort"><img src="{{ asset('assets/images/ic_sort.svg') }}"></i>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                    <a href="#" class="sort_date" data-status="true">
+                                        Date
+                                        <i class="ic_sort"><img src="{{ asset('assets/images/ic_sort.svg') }}"></i>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                    <a href="#" class="sort_status" data-status="true">
+                                        Review Status
+                                         <i class="ic_sort"><img src="{{ asset('assets/images/ic_sort.svg') }}"></i>
+                                    </a>
                                 </div>
                             </div>
                             <ul id="all_replies_list" class="all-bid-ul">
                                 
-                                
-
-                                
-
                             </ul>
-
-
                         </div>
+                        <!-- All bids tab ends -->
 
-                        <!-- Tabs 2 -->
+                        <!-- Shortlisted bids tab starts -->
                         <div id="shortlisted" class="tabcontent">
                             <div class="row bid-list-head d-flex align-items-center justify-content-center">
-                                <div class="col-md-6"><a href="#"> Company Name <i class="ic_sort"><img
-                                                src="{{ asset('assets/images/ic_sort.svg') }}"></i></a></div>
-                                <div class="col-md-3 d-flex align-items-center justify-content-center"><a href="#">Date
-                                        <i class="ic_sort"><img src="{{ asset('assets/images/ic_sort.svg') }}"></i></a></div>
-                                <div class="col-md-3 d-flex align-items-center justify-content-center"><a
-                                        href="#">Review Status <i class="ic_sort"><img src="{{ asset('assets/images/ic_sort.svg') }}"></i></a>
+                                <div class="col-md-6">
+                                    <a href="#" class="sort_company" data-status="true"> 
+                                        Company Name 
+                                        <i class="ic_sort"><img src="{{ asset('assets/images/ic_sort.svg') }}"></i>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                    <a href="#" class="sort_date" data-status="true">
+                                        Date
+                                        <i class="ic_sort"><img src="{{ asset('assets/images/ic_sort.svg') }}"></i>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                    <a href="#" class="sort_status" data-status="true">
+                                        Review Status 
+                                        <i class="ic_sort"><img src="{{ asset('assets/images/ic_sort.svg') }}"></i>
+                                    </a>
                                 </div>
                             </div>
-
                             <ul id="shortlisted_list" class="all-bid-ul">
                                
                             </ul>
-
                         </div>
-
+                        <!-- Shortlisted bids tab ends -->
                     </div>
 
                 </div>
             </div>
+            <!-- Middle pane ends -->
 
+            <!-- Right pane starts -->
+
+            <!-- Bid read pane starts -->
             <div class="col-md-6 pl-0 bid-open">
                 
             </div>
+            <!-- Bid read pane ends -->
 
+            <!-- Faq section starts -->
             <div class="col-md-3 pl-0 questions-ask">
                 <div class="last-sec-main">
                     <div class="last-sec-main-inner">
-
                         <div class="d-flex justify-content-between last-sec-header">
                             <h1>Questions Asked</h1>
                             <a href="#" class="cross"></a>
                         </div>
-
                         <div class="d-flex w-100 justify-content-between b-bottom">
-                            <!-- Tabs navs -->
+                            <!-- Faq tabs buttons starts -->
                             <ul class="nav nav-tabs tab mb-2" role="tablist2">
                                 <li class="nav-item">
                                     <a class="nav-link tablinks2 faq active" data-option="open">Open</a>
@@ -164,24 +182,23 @@
                                     <small id="closed-count" class="tab-notf-count d-flex align-items-center justify-content-center">0</small>
                                 </li>
                             </ul>
-                            <!-- Tabs navs -->
+                            <!-- Faq tabs buttons ends -->
                         </div>
 
-                        <!-- Tabs 1-->
-
+                        <!-- Open questions tab starts -->
                         <div id="open" class="tabcontent2 scroll-q-asked" style="display: block;">
                             
-
-
                         </div>
+                        <!-- Open questions tab ends -->
 
-                        <!-- Tabs 2 -->
+                        <!-- Closed questions tab starts -->
                         <div id="closed" class="tabcontent2 scroll-q-asked" style="display: none;">
                           
 
                         </div>
-                    </div>
+                        <!-- Closed questions tab ends -->
 
+                    </div>
                 </div>
             </div>
         </div>
@@ -189,85 +206,21 @@
     <!-- End Main Content -->
 
     <!-- Accepted Till Model Starts -->
-    <div class="modal fade" id="change-date-model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title" id="exampleModalLongTitle">Accepted Bids till</h1>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body row">
-                    <div class="col-md-12 common-popup">
-                        <input id="enquiry_id" type="hidden" value="">
-                        <div class="form-group position-relative">
-                            <label>Accepted Bids till<span class="mandatory"> *</span></label>
-                            <input id="expire_at" name="expire_at" type="text" placeholder="Date (DD-MM-YY)" class="form-control choose-category calendar-ico" autocomplete="off">
-                            <div class="invalid-msg2"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="modal-footer model-footer-padd">
-                    <div class="d-flex justify-content-end">
-                        <div class="form-group proceed-btn">
-                            <button type="button" class="btn btn-third cancel-change" data-dismiss="modal">Cancel</button>
-                        </div>
-                        <div class="form-group proceed-btn">
-                            <input id="save-date-change" type="button" value="Save" class="btn btn-secondary">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('procurement.inbox.expiry-popup')
     <!-- Accepted till model ends -->
 
     <!-- Faq answer model starts -->
-    <div class="modal fade" id="answer-question" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <form  action="" method="post">
-                    @csrf
-                    <div class="modal-header">
-                        <h1 class="modal-title" id="exampleModalLongTitle">Respond</h1>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        </button>
-                    </div>
-                    <div class="modal-body row">
-                        <div class="col-md-12 common-popup">
-                            <label>Question</label>
-                            <h3 id="question">This is question</h3>
-                            <input type="hidden" id="faq_id" />
-                        </div>
-                        <div class="col-md-12 common-popup">
-                            <div class="form-group position-relative">
-                                <label>Answer</label>
-                                <textarea class="form-control" id="answer" rows="3" name="answer"></textarea>
-                                <div class="invalid-msg2"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer model-footer-padd">
-                        <div class="d-flex justify-content-end">
-                            <div class="form-group proceed-btn">
-                                <button type="button" class="btn btn-third cancel-change" data-dismiss="modal">Cancel</button>
-                            </div>
-
-                            <div class="form-group proceed-btn">
-                                <input id="save-answer" type="button" value="Submit" class="btn btn-secondary">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('procurement.inbox.faq-popup')
     <!-- Faq answer model ends -->
+
+    <!-- Hold model starts -->
+    @include('procurement.inbox.hold-popup')
+    <!-- Hold model ends -->
 
     <input type="hidden" id="change-date-url" value="{{ route('procurement.quote.editAcceptedDate') }}" />
     <input type="hidden" id="answer-faq-url" value="{{ route('procurement.answerFaq') }}" />
     <input type="hidden" id="skip-faq-url" value="{{ route('procurement.skipFaq') }}" />
+    <input type="hidden" id="report-action-url" value="{{ route('procurement.report') }}" />
     @push('scripts')
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -385,6 +338,7 @@
             $('body').on('click','.close, .cancel-change',function () {
                 $('#change-date-model').modal('hide');
                 $('#answer-question').modal('hide');
+                $('#hold-popup').modal('hide');
             });
 
             $('body').on('click','.report',function () {
@@ -392,7 +346,7 @@
                  var type = $(this).data('type');
                  var enquiry_id = $(this).data('enquiry_id');
                  var question_id = $(this).data('question_id');
-                 var reportAction = "{{ route('procurement.report') }}";
+                 var reportAction = $('#report-action-url').val();
                  axios.post(reportAction, {category:category,type:type,enquiry_id:enquiry_id,question_id:question_id})
                     .then((response) => {
                     // Handle success response
@@ -536,6 +490,9 @@
                                 toast.addEventListener('mouseleave', Swal.resumeTimer)
                             }
                         });
+                        $('#answer').val(' ');
+                        $('#answer').removeClass('red-border');
+                        $('.invalid-msg2').text(' ');
                         openEnquiry(response.data.faq.enquiry_id);
                         $('#answer-question').modal('hide');
                     })
@@ -577,7 +534,7 @@
                                         <div class="add-hold-btn d-flex">
                                         ${reply.status == 0 ? `
                                             <a href="#" class="add-shortlist" data-reply_id="${reply.id}">Add to Shortlist</a>
-                                            <a href="#" class="hold-btn" data-toggle="modal" data-target="#hold-popup">Hold</a>
+                                            <a href="#" class="hold-btn hold-button" data-reply_id="${reply.id}">Hold</a>
                                             ` : ``}
                                         </div>
 
@@ -669,9 +626,93 @@
                     }
                 });
             });
-                 
-                 
+
+            $('body').on('click','.hold-button',function () {
+                var id = $(this).data('reply_id');
+                $('#reply_id').val(id);
+                $('#hold-popup').modal('show');
+            });
+
+            $('body').on('click','#add-hold',function() {
+                var reply_id = $('#reply_id').val();
+                var reason = $('#reason').val();
+                var holdAction = "{{ route('procurement.hold') }}";
+                axios.post(holdAction, {reply_id:reply_id,reason:reason})
+                    .then((response) => {
+                        Swal.fire({
+                            toast: true,
+                            icon: 'success',
+                            title: response.data.message,
+                            animation: false,
+                            position: 'top-right',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        });
+                        $('#reason').val(' ');
+                        $('#reason').removeClass('red-border');
+                        $('.invalid-msg2').text(' ');
+                        openEnquiry(response.data.reply.enquiry_id);
+                        $('.bid-tap, .questions-ask').show('300');
+                        $('.bid-open').hide('300');
+                        $('#hold-popup').modal('hide');
+                    })
+                    .catch((error) => { 
+                        // Handle error response
+                        if (error.response.status == 422) {
+                            $.each(error.response.data.errors, function(field, errors) {
+                                var textarea = $('textarea[name="' + field + '"]');
+                                textarea.addClass('red-border');
+                                var textareafeedback = textarea.siblings('.invalid-msg2');
+                                textareafeedback.text(errors[0]).show();
+                            });
+                        }      
+                    });
+                });
+            });
+
+        $('body').on('click','.sort_status',function() {
+            var status = $(this).data('status');
+            if(status === true){
+                $(this).data("status",false)
+            }
+            else{
+                $(this).data("status",true)
+            }
+            sortByStatus(status);
+            sortByStatusShortlist(status);
         });
+
+        $('body').on('click','.sort_date',function() {
+            var status = $(this).data('status');
+            if(status === true){
+                $(this).data("status",false)
+            }
+            else{
+                $(this).data("status",true)
+            }
+            sortByDate(status);
+            sortByDateShortlist(status);
+        });
+
+        $('body').on('click','.sort_company',function() {
+            var status = $(this).data('status');
+            if(status === true){
+                $(this).data("status",false)
+            }
+            else{
+                $(this).data("status",true)
+            }
+            sortByCompany(status);
+            sortByCompanyShortlist(status);
+        });
+                 
+                 
+      
 
        
 
@@ -690,6 +731,7 @@
                     $('#all_replies_list').empty();
                     $('#shortlisted_list').empty();
                     $('.bid-open').empty();
+                    $('#notify').empty();
                     $('#open-count').text(enquiry.open_faqs.length);
                     $('#closed-count').text(enquiry.closed_faqs.length);
                     $('#pending-count').text(enquiry.pending_replies.length);
@@ -796,7 +838,7 @@
                                         <div class="col-md-3 d-flex align-items-center justify-content-center"><span
                                                 class="date">${all_reply.created_at}</span></div>
                                         <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="status-${all_reply.status_color}">${all_reply.status_text}</span></div>
+                                                class="status-${all_reply.status_color}" title="${all_reply.hold_reason}">${all_reply.status_text}</span></div>
                                     </div>
                                 </li>`);
                         });
@@ -867,9 +909,120 @@
                  });
         }
 
-        
+
+      // Function to sort the bid list by company name
+        function sortByCompanyShortlist(ascending) {
+            const bidList = document.querySelector('#shortlisted_list');
+            const bids = Array.from(bidList.children);
+
+            bids.sort((a, b) => {
+                const statusA = a.querySelector('.bid-detail').textContent.trim();
+                const statusB = b.querySelector('.bid-detail').textContent.trim();
+
+                if (ascending === true) {
+                    return statusA.localeCompare(statusB);
+                } else {
+                    return statusB.localeCompare(statusA);
+                }
+            });
+
+            bids.forEach((bid) => bidList.appendChild(bid));
+        }
+
+        function sortByCompany(ascending) {
+            const bidList = document.querySelector('.all-bid-ul');
+            const bids = Array.from(bidList.children);
+
+            bids.sort((a, b) => {
+                const statusA = a.querySelector('.bid-detail').textContent.trim();
+                const statusB = b.querySelector('.bid-detail').textContent.trim();
+
+                if (ascending === true) {
+                    return statusA.localeCompare(statusB);
+                } else {
+                    return statusB.localeCompare(statusA);
+                }
+            });
+
+            bids.forEach((bid) => bidList.appendChild(bid));
+        }
+
+        // Function to sort the bid list by status
+        function sortByDate(ascending) {
+            const bidList = document.querySelector('.all-bid-ul');
+            const bids = Array.from(bidList.children);
+
+            bids.sort((a, b) => {
+                const statusA = a.querySelector('.date').textContent.trim();
+                const statusB = b.querySelector('.date').textContent.trim();
+
+                if (ascending === true) {
+                    return statusA.localeCompare(statusB);
+                } else {
+                    return statusB.localeCompare(statusA);
+                }
+            });
+
+            bids.forEach((bid) => bidList.appendChild(bid));
+        }
+
+        function sortByDateShortlist(ascending) {
+            const bidList = document.querySelector('#shortlisted_list');
+            const bids = Array.from(bidList.children);
+
+            bids.sort((a, b) => {
+                const statusA = a.querySelector('.date').textContent.trim();
+                const statusB = b.querySelector('.date').textContent.trim();
+
+                if (ascending === true) {
+                    return statusA.localeCompare(statusB);
+                } else {
+                    return statusB.localeCompare(statusA);
+                }
+            });
+
+            bids.forEach((bid) => bidList.appendChild(bid));
+        }
+
+        // Function to sort the bid list by status
+        function sortByStatus(ascending) {
+            const bidList = document.querySelector('.all-bid-ul');
+            const bids = Array.from(bidList.children);
+
+            bids.sort((a, b) => {
+                const statusA = a.querySelector('.status-yellow, .status-green, .status-red').textContent.trim();
+                const statusB = b.querySelector('.status-yellow, .status-green, .status-red').textContent.trim();
+
+                if (ascending === true) {
+                    return statusA.localeCompare(statusB);
+                } else {
+                    return statusB.localeCompare(statusA);
+                }
+            });
+
+            bids.forEach((bid) => bidList.appendChild(bid));
+        }
+
+        function sortByStatusShortlist(ascending) {
+            const bidList = document.querySelector('#shortlisted_list');
+            const bids = Array.from(bidList.children);
+
+            bids.sort((a, b) => {
+                const statusA = a.querySelector('.status-yellow, .status-green, .status-red').textContent.trim();
+                const statusB = b.querySelector('.status-yellow, .status-green, .status-red').textContent.trim();
+
+                if (ascending === true) {
+                    return statusA.localeCompare(statusB);
+                } else {
+                    return statusB.localeCompare(statusA);
+                }
+            });
+
+            bids.forEach((bid) => bidList.appendChild(bid));
+        }
 
         
+   
     </script>     
     
 @endpush

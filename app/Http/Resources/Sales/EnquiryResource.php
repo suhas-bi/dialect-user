@@ -30,7 +30,8 @@ class EnquiryResource extends JsonResource
             'created_time' => Carbon::parse($this->enquiry->created_at)->format('H:i:s'),
             'expire_at' => Carbon::parse($this->enquiry->expired_at)->format('d F, Y'),
             'my_faqs' => FaqResource::collection($this->enquiry->my_faqs),
-            'all_faqs' => FaqResource::collection($this->enquiry->all_faqs)
+            'all_faqs' => FaqResource::collection($this->enquiry->all_faqs),
+            'reply' => $this->enquiry->reply
         ];
     }
 }

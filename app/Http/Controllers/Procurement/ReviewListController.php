@@ -26,7 +26,8 @@ class ReviewListController extends Controller
     
     public function send(){
         $company_id = auth()->user()->company_id;
-        return view('procurement.reviewlist.send.index');
+        //return view('procurement.reviewlist.send.index');
+        return view('procurement.event.index');
     }
 
     public function received(){

@@ -12,10 +12,12 @@ use App\Models\Country;
 use App\Models\CompanyDocument;
 use App\Models\CompanyLocation;
 use App\Models\CompanyActivity;
+use App\Models\RegistrationToken;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use PDF;
+use Mail;
 
 class DeclarationController extends Controller
 {
@@ -30,6 +32,22 @@ class DeclarationController extends Controller
         if($companyActivities == 0){
             return redirect()->route('sign-up.business-category')->with('warning','At least select one category to proceed!');
         }
+
+        $company = Company::find($comp->id);
+        $companyActivities = CompanyActivity::where('company_id',$comp->id)->get();
+        $token = RegistrationToken::where('company_id',$company->id)->first();
+        $html = '';
+        foreach($company->activities as $key => $activity){
+            $html.='<li>'.$activity->name ?? ''.'</li>';
+        }
+        $details = [
+            'name' =>  $company->name ?? 'User',
+            'subject'	=>'DialectB2B Registration Process.',
+            'body' => "<div><p>We're excited to tell you that you've successfully selected the following business categories at Dialectb2b.com: </p><div><ul>".$html."</ul><br><p>To proceed with the registration please follow the link below.</p></div></div>",
+            'link'	=> url('registration/'.$token->token),
+        ];
+        
+        \Mail::to($company->email)->send(new \App\Mail\CommonMail($details));
 
         $company = Company::with('activities','document')->find($comp->id);
         return view('initiator.declaration',compact('company'));

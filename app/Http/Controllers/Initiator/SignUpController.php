@@ -118,7 +118,7 @@ class SignUpController extends Controller
             $otp_count = session('otp_count') + 1;
             //Cache::put('otp_count', $otp_count);
             session()->put('otp_count', $otp_count);
-            if($otp_count > 3){
+            if($otp_count >= 3){
                 session()->forget('otp_count');
                 return response()->json([
                     'status' => false,

@@ -97,6 +97,12 @@
                 loadBidInboxList();
             });
 
+            $('body').on('click','.enquiry_item', function (){
+                 var id = $(this).data('id');
+                 $("#enquiry-"+id).addClass("active");
+                 openEnquiry(id);
+            });
+
             $('body').on('click','.approve',function () {
                 var approveQuoteAction = "{{ route('procurement.teamAccount.approveQuote') }}";
                 var id = $(this).data('id');
@@ -144,6 +150,8 @@
         });
 
         function loadBidInboxList(){
+            $('#inbox-list').empty();
+            $('#my-quote').empty();
             var fetchSendItemsAction = "{{ route('procurement.teamAccount.fetchAllApprovalEnquiries') }}";
             var mode_filter = $('#mode_filter option:selected').val();
             var keyword = $('#keyword').val();
@@ -152,8 +160,7 @@
                     // Handle success response
                     if(response.data.status === true){
                         let enquiries = response.data.enquiries;
-                        $('#inbox-list').empty();
-                        $('#my-quote').empty();
+                        
                         enquiries.forEach(function(enquiry) {
                             var content = `<a id="enquiry-${enquiry.id}" href="#" data-id="${enquiry.id}" class="list-group-item list-group-item-action flex-column align-items-start enquiry_item">
                                                 <div class="list-item-inner blue-border">

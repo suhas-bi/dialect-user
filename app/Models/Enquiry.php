@@ -63,6 +63,9 @@ class Enquiry extends Model
         return $this->hasMany(EnquiryReply::class,'enquiry_id','id')->where('status',0)->latest();
     }
 
+    public function reply(){
+        return $this->hasOne(EnquiryReply::class,'enquiry_id','id')->where('enquiry_replies.from_id',auth()->user()->id);
+    }
 
 
     public function scopeVerified($query)

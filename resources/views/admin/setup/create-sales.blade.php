@@ -124,21 +124,21 @@
                                                         <div class="col-md-4">
                                                             <div class="input-group position-relative">
                                                                 <label>Name  <span class="mandatory">*</span></label>
-                                                                <input id="name" type="text" name="name" value="{{ old('name') ?? $sales->name ?? '' }}" placeholder="Name" class="form-control">
+                                                                <input id="name" type="text" name="name" value="{{ old('name') ?? $sales->name ?? '' }}" placeholder="Name" class="form-control @error('name') red-border @enderror" autofocus>
                                                                 <div class="invalid-msg2">@error('name'){{ $message }}@enderror</div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="input-group position-relative">
                                                                 <label>Designation<span class="mandatory">*</span></label>
-                                                                <input id="designation" type="text" name="designation" value="{{ old('designation') ?? $sales->designation ?? '' }}" placeholder="Designation" class="form-control">
+                                                                <input id="designation" type="text" name="designation" value="{{ old('designation') ?? $sales->designation ?? '' }}" placeholder="Designation" class="form-control @error('designation') red-border @enderror">
                                                                 <div class="invalid-msg2">@error('designation'){{ $message }}@enderror</div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <div class="input-group position-relative">
                                                                 <label>Email<span class="mandatory">*</span></label>
-                                                                <input id="email" type="text" name="email" value="{{ old('email') ?? $sales->email ?? '' }}" placeholder="Email" class="form-control">
+                                                                <input id="email" type="text" name="email" value="{{ old('email') ?? $sales->email ?? '' }}" placeholder="Email" class="form-control @error('email') red-border @enderror">
                                                                 <div class="invalid-msg2">@error('email'){{ $message }}@enderror</div>
                                                             </div>
                                                         </div>
@@ -146,7 +146,7 @@
                                                             <label>Mobile <span class="mandatory">*</span></label>
                                                             <div class="d-flex">
                                                                 <input type="text" value="+974" placeholder="+974" class="form-control mobile-code" readonly>
-                                                                <input id="mobile" type="text" name="mobile" value="{{ old('mobile') ?? $sales->mobile ?? '' }}" placeholder="Mobile" class="form-control mobile-number">
+                                                                <input id="mobile" type="text" name="mobile" value="{{ old('mobile') ?? $sales->mobile ?? '' }}" placeholder="Mobile" class="form-control mobile-number @error('mobile') red-border @enderror">
                                                             </div>
                                                             <div class="invalid-msg2">@error('mobile'){{ $message }}@enderror</div>
                                                         </div>
@@ -154,13 +154,13 @@
                                                             <label>Land LIne </label>
                                                             <div class="d-flex">
                                                                 <input type="text" value="+974" placeholder="+974" class="form-control mobile-code" readonly>
-                                                                <input id="landline" type="text" name="landline" value="{{ old('landline') ?? $sales->landline ?? '' }}" placeholder="Landline" class="form-control mobile-number">
+                                                                <input id="landline" type="text" name="landline" value="{{ old('landline') ?? $sales->landline ?? '' }}" placeholder="Landline" class="form-control mobile-number @error('landline') red-border @enderror">
                                                             </div>
                                                             <div class="invalid-msg2">@error('landline'){{ $message }}@enderror</div>
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label>Extension</label>
-                                                            <input id="extension" type="text" name="extension" value="{{ old('extension') ?? $sales->extension ?? '' }}" placeholder="Extension" class="form-control">
+                                                            <input id="extension" type="text" name="extension" value="{{ old('extension') ?? $sales->extension ?? '' }}" placeholder="Extension" class="form-control @error('extension') red-border @enderror">
                                                             <div class="invalid-msg2">@error('extension'){{ $message }}@enderror</div>
                                                         </div>
 

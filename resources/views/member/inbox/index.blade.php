@@ -265,6 +265,9 @@
     </div>
     <!-- Faq answer model ends -->
 
+
+    @include('member.inbox.hold-popup')
+
     <input type="hidden" id="change-date-url" value="{{ route('member.quote.editAcceptedDate') }}" />
     <input type="hidden" id="answer-faq-url" value="{{ route('member.answerFaq') }}" />
     <input type="hidden" id="skip-faq-url" value="{{ route('member.skipFaq') }}" />
@@ -385,6 +388,7 @@
             $('body').on('click','.close, .cancel-change',function () {
                 $('#change-date-model').modal('hide');
                 $('#answer-question').modal('hide');
+                $('#hold-popup').modal('hide');
             });
 
             $('body').on('click','.report',function () {
@@ -576,8 +580,8 @@
                                     
                                         <div class="add-hold-btn d-flex">
                                         ${reply.status == 0 ? `
-                                            <a href="#" class="add-shortlist">Add to Shortlist</a>
-                                            <a href="#" class="hold-btn" data-toggle="modal" data-target="#hold-popup">Hold</a>
+                                            <a href="#" class="add-shortlist" data-reply_id="${reply.id}">Add to Shortlist</a>
+                                            <a href="#" class="hold-btn hold-button" data-reply_id="${reply.id}">Hold</a>
                                             ` : ``}
                                         </div>
 
@@ -624,6 +628,102 @@
             $('body').on('click','.cross-second',function () {
                 $('.bid-tap, .questions-ask').show('300');
                 $('.bid-open').hide('300');
+            });
+
+            $('body').on('click','.add-shortlist',function() {
+                var reply_id = $(this).data('reply_id');
+                var shortlistAction = "{{ route('member.shortlist') }}";
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Do you want to shortlist this bid!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                }).then(function (willUpdate) {
+                    if (willUpdate.isConfirmed === true) {
+                        axios.post(shortlistAction, {reply_id:reply_id})
+                            .then((response) => {
+                                Swal.fire({
+                                            toast: true,
+                                            icon: 'success',
+                                            title: response.data.message,
+                                            animation: false,
+                                            position: 'top-right',
+                                            showConfirmButton: false,
+                                            timer: 3000,
+                                            timerProgressBar: true,
+                                            didOpen: (toast) => {
+                                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                            }
+                                        });
+                                        openEnquiry(response.data.reply.enquiry_id);
+                                        $('.bid-tap, .questions-ask').show('300');
+                                        $('.bid-open').hide('300');
+                            })
+                            .catch((error) => { 
+                                // Handle error response
+                                
+                            });
+                        }
+                    else{
+                        Swal.fire({
+                            title: 'Cancelled',
+                            icon: "error",
+                        });
+                    }
+                });
+            });
+
+            $('body').on('click','.hold-button',function () {
+                var id = $(this).data('reply_id');
+                $('#reply_id').val(id);
+                $('#hold-popup').modal('show');
+            });
+
+            $('body').on('click','#add-hold',function() {
+                var reply_id = $('#reply_id').val();
+                var reason = $('#reason').val();
+                var holdAction = "{{ route('member.hold') }}";
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Do you want to hold this bid!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                }).then(function (willUpdate) {
+                    if (willUpdate.isConfirmed === true) {
+                        axios.post(holdAction, {reply_id:reply_id,reason:reason})
+                            .then((response) => {
+                                Swal.fire({
+                                            toast: true,
+                                            icon: 'success',
+                                            title: response.data.message,
+                                            animation: false,
+                                            position: 'top-right',
+                                            showConfirmButton: false,
+                                            timer: 3000,
+                                            timerProgressBar: true,
+                                            didOpen: (toast) => {
+                                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                            }
+                                        });
+                                        openEnquiry(response.data.reply.enquiry_id);
+                                        $('.bid-tap, .questions-ask').show('300');
+                                        $('.bid-open').hide('300');
+                                        $('#hold-popup').modal('hide');
+                            })
+                            .catch((error) => { 
+                                // Handle error response
+                                
+                            });
+                        }
+                    else{
+                        Swal.fire({
+                            title: 'Cancelled',
+                            icon: "error",
+                        });
+                    }
+                });
             });
                  
                  
@@ -752,7 +852,7 @@
                                         <div class="col-md-3 d-flex align-items-center justify-content-center"><span
                                                 class="date">${all_reply.created_at}</span></div>
                                         <div class="col-md-3 d-flex align-items-center justify-content-center"><span
-                                                class="status-${all_reply.status_color}">${all_reply.status_text}</span></div>
+                                                class="status-${all_reply.status_color}" title="${all_reply.hold_reason}">${all_reply.status_text}</span></div>
                                     </div>
                                 </li>`);
                         });
@@ -825,6 +925,7 @@
 
         
 
+        
         
     </script>     
     

@@ -70,8 +70,9 @@
                                                         <option value="{{ $country->id }}" {{ $enquiry->country_id == $country->id ? 'selected' : '' }}>{{ $country->name }}</option>
                                                         @endforeach
                                                     </select>
+                                                    <div class="invalid-msg2"></div>
                                                 </div>
-                                                <div class="invalid-msg2"></div>
+                                                
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -95,22 +96,22 @@
 
                                 <div class="col-md-4">
                                     <div class="document-upload2">
-
-                                        <label>Upload Document</label>
-                                        <div class="clearfix"></div>
-                                        <input type="file" id="upload" hidden />
-                                        <label for="upload" class="upload-file">Upload Files</label>
-                                        <label>Or Drop Files</label>
-                                        <div class="form-group position-relative">
-                                            <div class="invalid-msg2 mb-2 attchment-error"></div>
-                                        </div>
-                                        <div class="mt-4 mb-4">
-                                            <div id="progressBar" style="display: none;">
-                                                <div id="progress" style="width: 0%;"></div>
+                                        <div id="drop-area" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+                                            <label>Upload Document</label>
+                                            <div class="clearfix"></div>
+                                            <input type="file" id="upload" hidden />
+                                            <label for="upload" class="upload-file">Upload Files</label>
+                                            <label>Or Drop Files</label>
+                                            <div class="form-group position-relative">
+                                                <div class="invalid-msg2 mb-2 attchment-error"></div>
                                             </div>
-                                        </div>    
-                                        <div class="clearfix"></div>
-                                        
+                                            <div class="mt-4 mb-4">
+                                                <div id="progressBar" style="display: none;">
+                                                    <div id="progress" style="width: 0%;"></div>
+                                                </div>
+                                            </div>    
+                                            <div class="clearfix"></div>
+                                        </div>
                                         <div id="attachment-preview">
                                             
                                             
@@ -180,6 +181,7 @@
 
         
         getAttchments(enquiry_id);
+
         $('body').on('change','#upload',function() {
             var uploadAction = "{{ route('procurement.quote.uploadAttachment') }}";
             var fileInput = $(this)[0];
@@ -201,6 +203,7 @@
                     // Handle success response
                     getAttchments(enquiry_id);
                     progressBar.style.display = 'none';
+                    $('#upload').val("");
                 })
                 .catch((error) => {
                     // Handle error response
@@ -265,7 +268,7 @@
             });
         });
 
-        $('#generate').on('click',function(){
+        $('#generate').on('click',function(){ 
             var formData = $('#enquiry_form').serialize();
             var action = "{{ route('procurement.quote.generateQuote') }}";
             axios.post(action, formData)
@@ -278,6 +281,7 @@
             .catch((error) => {
                 // Handle error response
                 if (error.response.status == 422) {
+                    var firstErrorField = null;
                     $.each(error.response.data.errors, function(field, errors) {
                         var input = $('input[name="' + field + '"]');
                         input.addClass('red-border');
@@ -288,6 +292,16 @@
                         textarea.addClass('red-border');
                         var textareafeedback = textarea.siblings('.invalid-msg2');
                         textareafeedback.text(errors[0]).show();
+
+                        var select = $('select[name="' + field + '"]');
+                        select.addClass('red-border');
+                        var selectfeedback = select.siblings('.invalid-msg2');
+                        selectfeedback.text(errors[0]).show();
+
+                        if (firstErrorField === null) {
+                            firstErrorField = input;
+                            input.focus();
+                        }
                     });
                 }
             });
@@ -338,6 +352,37 @@
         });
     }
 
+
+    function handleFileSelect(event) {
+        // Handle file selection here
+        var files = event.target.files;
+        // Access selected files from the 'files' variable and process them as needed
+    }
+
+    function handleDragOver(event) {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = "copy";
+        // Add any visual indicators or styles to indicate valid drop target
+    }
+
+    function handleDragLeave(event) {
+        event.preventDefault();
+        // Remove any visual indicators or styles when leaving the drop target
+    }
+
+    function handleDrop(event) {
+        event.preventDefault();
+        // Handle dropped files here
+        var files = event.dataTransfer.files;
+        // Access dropped files from the 'files' variable and process them as needed
+        
+        // Manually trigger file selection for the file input element
+        var fileInput = document.getElementById("upload");
+        fileInput.files = files;
+        // Optionally, you can also trigger the 'change' event on the file input element
+        var changeEvent = new Event("change");
+        fileInput.dispatchEvent(changeEvent);
+    }
     
     
   </script>

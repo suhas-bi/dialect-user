@@ -102,41 +102,9 @@
 
 
 
-    <!-- Modal -->
-    <div class="modal fade" id="raise-question-model" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <form action="" method="post">
-                    @csrf
-                    <div class="modal-header">
-                        <h1 class="modal-title" id="exampleModalLongTitle">Raise Question</h1>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        </button>
-                    </div>
-                    <div class="modal-body row">
-                        <input id="enquiry_id" name="enquiry_id" type="hidden" />
-                        <div class="col-md-12 common-popup">
-                            <label>Question</label>
-                            <textarea id="question" name="question" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer model-footer-padd">
-                        <div class="d-flex justify-content-end">
-                            <div class="form-group proceed-btn">
-                                <button type="button" class="btn btn-third cancel-change" data-dismiss="modal">Cancel</button>
-                            </div>
-
-                            <div class="form-group proceed-btn">
-                                <input id="save-question" type="button" value="Submit" class="btn btn-secondary">
-                            </div>
-                        </div>
-                    </div>
-                </form>    
-            </div>
-        </div>
-    </div>
-    <!-- Model Ends -->
+    <!-- Raise Question Model Starts-->
+    @include('sales.received.raise-question-popup')
+    <!-- Raise Question Model Ends -->
 @push('scripts')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -210,6 +178,72 @@
             $('#raise-question-model').modal('hide');
         });
 
+        $('body').on('click','#send-reply',function(){
+            var id = $(this).data('id');
+            $('#send-reply').hide();
+            $('#bid-compose-area').empty();
+            $('#bid-compose-area').append(`<form id="bid-compose-form" method="post">
+                        <input type="hidden" id="enquiry_id" name="enquiry_id" value="${id}" />
+                        <div class="bid-detail-content reply-msg-white-bg2 position-relative">
+                            <textarea id="body" name="body" class="reply-area"></textarea>
+                            <small id="body-invalid-msg2" class="text-danger"></small>
+                        </div>
+                        <div class="reply-msg-btns d-flex justify-content-end reply-msg-white-bg2">
+                            <div class="form-group proceed-btn">
+                                <button type="button" class="btn btn-third" >Save as Draft</button>
+                            </div>
+
+                            <div class="form-group proceed-btn">
+                                <button id="discard" type="button" class="btn btn-third" data-id="${id}" >Discard</button>
+                            </div>
+
+                            <div class="form-group proceed-btn">
+                                <input id="send-respone" type="button" value="Send" class="btn btn-secondary">
+                            </div>
+                        </div>
+                    </form>`);
+                    
+        });
+
+        $('body').on('click','#discard',function(){
+             var id= $(this).data('id');
+             openEnquiry(id);
+        })
+
+        $('body').on('click','#send-respone',function(){
+             var formdata = $('#bid-compose-form').serialize();
+             var sendBidAction = "{{ route('sales.sendBid') }}";
+             axios.post(sendBidAction, formdata)
+                    .then((response) => {
+                        // Handle success response
+                        Swal.fire({
+                            toast: true,
+                            icon: 'success',
+                            title: "Mail Send!",
+                            animation: false,
+                            position: 'top-right',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        });
+                        location.href = "{{ route('sales.repliedEnquiry') }}";
+                    })
+                    .catch((error) => { 
+                        // Handle error response
+                        if (error.response.status == 422) {
+                            $.each(error.response.data.errors, function(field, errors) {
+                                var textarea = $('textarea[name="' + field + '"]');
+                                textarea.addClass('red-border');
+                                $('#body-invalid-msg2').text(errors[0]).show();
+                            });
+                        }      
+                    });
+        })
+
         $('body').on('click','#save-question',function () {
                 var questionFaqAction = "{{ route('sales.saveQuestion') }}";
                 var enquiry_id = $('#enquiry_id').val();
@@ -231,7 +265,10 @@
                                 toast.addEventListener('mouseleave', Swal.resumeTimer)
                             }
                         });
-                        openEnquiry(response.data.faq.enquiry_id);
+                        $('#question').val(' ');
+                        $('#question').removeClass('red-border');
+                        $('.invalid-msg2').text(' ');
+                        openEnquiry(response.data.enquiry.id);
                         $('#raise-question-model').modal('hide');
                     })
                     .catch((error) => { 
@@ -318,11 +355,20 @@
                                             <div class="d-flex">Date <h2>Date : ${enquiry.created_date} | Time : ${enquiry.created_time}</h2></div>
                                             <div class="d-flex">
                                                 <div class="dropdown">
-                                                    <button class="dropbtn">Report</button>
+                                                    <button onclick="myFunction()" class="dropbtn">Report</button>
+                                                    <div id="myDropdown" class="dropdown-content">
+                                                        <a href="#" class="report" data-category="quote-request" data-type="Spam" data-enquiry_id="${enquiry.id}">Spam</a>
+                                                        <a href="#" class="report" data-category="quote-request" data-type="Illegal activity" data-enquiry_id="${enquiry.id}" >Illegal activity</a>
+                                                        <a href="#" class="report" data-category="quote-request" data-type="Advertisement" data-enquiry_id="${enquiry.id}" >Advertisement</a>
+                                                        <a href="#" class="report" data-category="quote-request" data-type="Cyberbullying" data-enquiry_id="${enquiry.id}" >Cyberbullying</a>
+                                                    </div>
                                                 </div>
                                                 <span class="verified">Verified</span>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div id="bid-compose-area">
+                                        
                                     </div>
                                     <div class="bid-detail-content">
                                         <div class="d-flex justify-content-between">
@@ -332,7 +378,7 @@
                                             Reference No : ${enquiry.reference_no}
                                             </h3>
                                             <div class="form-group proceed-btn float-right">
-                                                <a href="" class="btn btn-secondary">Reply</a>
+                                                <a id="send-reply" href="#" class="btn btn-secondary" data-id="${enquiry.enquiry_id}">Reply</a>
                                             </div>
                                         </div>
                                         <pre>${enquiry.body}</pre>

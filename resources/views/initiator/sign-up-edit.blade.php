@@ -169,10 +169,12 @@
                                             <div class="col-md-6">
                                                 <div class="row">
                                                     <div class="col-md-6 position-relative" id="logo-upload-area">
-                                                        <input type="file" id="logo-upload" name="logo_file" accept="image/*" hidden/>
-                                                        <label for="logo-upload" class="browse-file">Drag a file or browse
-                                                            a file to upload</label>
-                                                        <div class="invalid-msg2 logo-error mt-4"> </div>    
+                                                        <div id="drop-area" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDropLogo(event)">
+                                                            <input type="file" id="logo-upload" name="logo_file" accept="image/*" hidden/>
+                                                            <label for="logo-upload" class="browse-file">Drag a file or browse
+                                                                a file to upload</label>
+                                                            <div class="invalid-msg2 logo-error mt-4"> </div>  
+                                                        </div>  
                                                     </div>
                                                     <div class="col-md-6 d-flex align-items-center justify-content-center">
                                                         <div class="uplaod-formats">
@@ -241,18 +243,20 @@
                                             </div>
                                             
                                             <div id="document-upload-area" class="form-group position-relative {{ $company->document && $company->document->doc_file ? 'd-none' : '' }}">
-                                                <label>Upload Document<span class="mandatory">*</span></label>
-                                                <div class="clearfix"></div>
-                                                <input type="file" id="upload" name="document_file" hidden accept=".jpeg, .jpg, .png, .pdf" />
-                                                <label for="upload" class="upload-file">Upload Files</label>
-                                                <div class="clearfix"></div>
-                                                <label>Or Drop Files</label>
-                                                <span class="formats-documents">Format: jpeg, jpg, png, pdf<br>
-                                                Max-Size: 4MB </span>
-                                                <div id="progressBar" style="display: none;">
-                                                    <div id="progress" style="width: 0%;"></div>
+                                                <div id="drop-area" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDropDocument(event)">
+                                                    <label>Upload Document<span class="mandatory">*</span></label>
+                                                    <div class="clearfix"></div>
+                                                    <input type="file" id="upload" name="document_file" hidden accept=".jpeg, .jpg, .png, .pdf" />
+                                                    <label for="upload" class="upload-file">Upload Files</label>
+                                                    <div class="clearfix"></div>
+                                                    <label>Or Drop Files</label>
+                                                    <span class="formats-documents">Format: jpeg, jpg, png, pdf<br>
+                                                    Max-Size: 4MB </span>
+                                                    <div id="progressBar" style="display: none;">
+                                                        <div id="progress" style="width: 0%;"></div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
                                                 </div>
-                                                <div class="clearfix"></div>
                                                 <div class="invalid-msg2 doc-msg"> </div>
                                             </div>
                                             <input id="document" type="hidden" name="document" value="{{ $company->document->doc_file ?? '' }}" />
@@ -358,6 +362,7 @@
                 documentPreview.innerHTML = content;
                 documentUploadArea.classList.add('d-none');
                 progressBar.style.display = 'none';
+                $('#upload').val("");
             })
             .catch((error) => {
                 // Handle error response
@@ -393,6 +398,7 @@
                         documentPreview.classList.add('d-none');
                         documentUploadArea.classList.remove('d-none');
                         document.getElementById('document').value = '';
+                        $('#upload').val("");
                     })
                     .catch((error) => {
                         // Handle error response
@@ -434,6 +440,8 @@
                     logoPreview.classList.remove('d-none');
                     logoPreview.innerHTML = logoContent;
                     progressBarLogo.style.display = 'none';
+                    $('#logo-upload').val(null);
+                    logoInput.value = '';
                 })
                 .catch((error) => {
                     // Handle error response
@@ -475,6 +483,7 @@
                 },
                 error: function(xhr, status, error) {
                     var response = JSON.parse(xhr.responseText);
+                    var firstErrorField = null;
                     if (response.errors) {
                         $.each(response.errors, function(field, errors) {
                             if(field === 'mobile'){
@@ -495,6 +504,12 @@
                             input.addClass('red-border');
                             var feedback = input.siblings('.invalid-msg2');
                             feedback.text(errors[0]).show();
+
+                            // If it's the first error field, store it and focus on it
+                            if (firstErrorField === null) {
+                                firstErrorField = input;
+                                input.focus();
+                            }
                         });
                     }
                 },
@@ -611,6 +626,51 @@
         if (code > 31 && (code < 48 || code > 57)) {
             e.preventDefault();
         }
+    }
+
+    function handleFileSelect(event) {
+        // Handle file selection here
+        var files = event.target.files;
+        // Access selected files from the 'files' variable and process them as needed
+    }
+
+    function handleDragOver(event) {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = "copy";
+        // Add any visual indicators or styles to indicate valid drop target
+    }
+
+    function handleDragLeave(event) {
+        event.preventDefault();
+        // Remove any visual indicators or styles when leaving the drop target
+    }
+
+    function handleDropDocument(event) {
+        event.preventDefault();
+        // Handle dropped files here
+        var files = event.dataTransfer.files;
+        // Access dropped files from the 'files' variable and process them as needed
+        
+        // Manually trigger file selection for the file input element
+        var fileInput = document.getElementById("upload");
+        fileInput.files = files;
+        // Optionally, you can also trigger the 'change' event on the file input element
+        var changeEvent = new Event("change");
+        fileInput.dispatchEvent(changeEvent);
+    }
+
+    function handleDropLogo(event) {
+        event.preventDefault();
+        // Handle dropped files here
+        var files = event.dataTransfer.files;
+        // Access dropped files from the 'files' variable and process them as needed
+        
+        // Manually trigger file selection for the file input element
+        var fileInput = document.getElementById("logo-upload");
+        fileInput.files = files;
+        // Optionally, you can also trigger the 'change' event on the file input element
+        var changeEvent = new Event("change");
+        fileInput.dispatchEvent(changeEvent);
     }
 </script>
 @endpush
