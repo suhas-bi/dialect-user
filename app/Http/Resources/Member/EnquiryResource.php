@@ -8,11 +8,6 @@ use Carbon\Carbon;
 
 class EnquiryResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
         return [
@@ -35,7 +30,24 @@ class EnquiryResource extends JsonResource
             'sender' => $this->sender,
             'all_replies' => EnquiryReplyResource::collection($this->all_replies),
             'shortlisted' => EnquiryReplyResource::collection($this->shortlisted_replies),
+            'selected' => EnquiryReplyResource::collection($this->selected_replies),
             'pending_replies' => EnquiryReplyResource::collection($this->pending_replies),
+            'suggestions' => $this->suggestions,
+            'share' => $this->shared,
+            'share_priority' => $this->sharePriorityText($this->share_priority),
+            'share_date' => Carbon::parse($this->shared_at)->format('d F, Y')
         ];
+    }
+
+    public function sharePriorityText($status){
+        if($status == 1){
+            return 'Low';
+        }
+        else if($status == 2){
+            return 'Medium';
+        }
+        else if($status == 3){
+            return 'High';
+        }
     }
 }

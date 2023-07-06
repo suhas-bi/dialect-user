@@ -132,6 +132,8 @@
                                     toast.addEventListener('mouseleave', Swal.resumeTimer)
                                 }
                             });
+                        $('.input-key').val('');
+                        $('#digit-1').focus();    
                         $('#msg-zone').text(' ');
                         $('#timer-zone').show();
                         timer(300);

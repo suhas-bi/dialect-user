@@ -36,7 +36,8 @@ class MemberHomeController extends Controller
         $user = auth()->user();
         $user->update(['token'=>'']);
         $company_id = auth()->user()->company_id;
-        return view('member.inbox.index');
+        $members = CompanyUser::where(['company_id' => $company_id,'role' => 2])->get();
+        return view('member.inbox.index',compact('members'));
     }
 
     public function fetchAllEnquiries(Request $request){

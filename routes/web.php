@@ -167,9 +167,17 @@ Route::group(['middleware' => 'check.role:2'],function() {
     Route::post('/procurement/read-reply',[ProcurementHomeController::class,'readReply'])->name('procurement.readReply');
     Route::post('/procurement/shortlist',[ProcurementHomeController::class,'shortlist'])->name('procurement.shortlist');
     Route::post('/procurement/hold',[ProcurementHomeController::class,'hold'])->name('procurement.hold');
+    Route::post('/procurement/share',[ProcurementHomeController::class,'share'])->name('procurement.share');
 // Review List Start
     Route::get('/procurement/review-list/send', [ReviewListController::class,'send'])->name('procurement.reviewList.send');
+    Route::post('/procurement/review-list/send/fetch-all-enquiries', [ReviewListController::class,'fetchAllSendEnquiries'])->name('procurement.reviewList.fetchAllSendEnquiries');
+    Route::post('/procurement/review-list/received/fetch-all-enquiries', [ReviewListController::class,'fetchAllReceivedEnquiries'])->name('procurement.reviewList.fetchAllReceivedEnquiries');
+    Route::any('/procurement/review-list/fetch-enquiry', [ReviewListController::class,'fetchEnquiry'])->name('procurement.reviewList.fetchEnquiry');
+
     Route::get('/procurement/review-list/received', [ReviewListController::class,'received'])->name('procurement.reviewList.received');
+    Route::post('/procurement/review-list/mark-as-completed', [ReviewListController::class,'markAsCompleted'])->name('procurement.reviewList.markAsCompleted');
+    Route::post('/procurement/review-list/recall-share', [ReviewListController::class,'recallShare'])->name('procurement.reviewList.recallShare');
+
 
 // Review List End
 
@@ -181,7 +189,11 @@ Route::group(['middleware' => 'check.role:2'],function() {
 // Draft Ends
 
 // Completed Bidding Starts
-    Route::get('/procurement/completed-bidding', [ProCompletedBiddingController::class,'index'])->name('procurement.completedBidding');
+    Route::get('/procurement/completed-bidding/send', [ProCompletedBiddingController::class,'send'])->name('procurement.completedBidding.send');
+    Route::get('/procurement/completed-bidding/received', [ProCompletedBiddingController::class,'received'])->name('procurement.completedBidding.received');
+    Route::post('/procurement/completed-bidding/send/fetch-all-enquiries', [ProCompletedBiddingController::class,'fetchAllSendEnquiries'])->name('procurement.completedBidding.fetchAllSendEnquiries');
+    Route::post('/procurement/completed-bidding/received/fetch-all-enquiries', [ProCompletedBiddingController::class,'fetchAllReceivedEnquiries'])->name('procurement.completedBidding.fetchAllReceivedEnquiries');
+    Route::any('/procurement/completed-bidding/fetch-enquiry', [ProCompletedBiddingController::class,'fetchEnquiry'])->name('procurement.completedBidding.fetchEnquiry');
 // Completed Bidding Ends
 
 // Team Settings & Approvals Start
@@ -259,6 +271,7 @@ Route::group(['middleware' => 'check.role:4'],function() {
     Route::post('/member/read-reply',[MemberHomeController::class,'readReply'])->name('member.readReply');
     Route::post('/member/shortlist',[MemberHomeController::class,'shortlist'])->name('member.shortlist');
     Route::post('/member/hold',[MemberHomeController::class,'hold'])->name('member.hold');
+    Route::post('/member/share',[MemberHomeController::class,'share'])->name('member.share');
 
     Route::post('/member/report', [MemberHomeController::class,'report'])->name('member.report');
 // Bid Inboc Ends
@@ -284,13 +297,26 @@ Route::group(['middleware' => 'check.role:4'],function() {
 // Draft Ends
 
 // Review List Start
+    
     Route::get('/member/review-list/send', [MemberReviewListController::class,'send'])->name('member.reviewList.send');
+    Route::post('/member/review-list/send/fetch-all-enquiries', [MemberReviewListController::class,'fetchAllSendEnquiries'])->name('member.reviewList.fetchAllSendEnquiries');
+    Route::post('/member/review-list/received/fetch-all-enquiries', [MemberReviewListController::class,'fetchAllReceivedEnquiries'])->name('member.reviewList.fetchAllReceivedEnquiries');
+    Route::any('/member/review-list/fetch-enquiry', [MemberReviewListController::class,'fetchEnquiry'])->name('member.reviewList.fetchEnquiry');
+
     Route::get('/member/review-list/received', [MemberReviewListController::class,'received'])->name('member.reviewList.received');
+    Route::post('/member/review-list/mark-as-completed', [MemberReviewListController::class,'markAsCompleted'])->name('member.reviewList.markAsCompleted');
+    Route::post('/member/review-list/recall-share', [MemberReviewListController::class,'recallShare'])->name('member.reviewList.recallShare');
+
+    
 // Review List Ends
 
 // Completed Bidding Starts
-    Route::get('/member/completed-bidding', [MemberCompletedBiddingController::class,'index'])->name('member.completedBidding');
-// Completed Bidding ENds
+    Route::get('/member/completed-bidding/send', [MemberCompletedBiddingController::class,'send'])->name('member.completedBidding.send');
+    Route::get('/member/completed-bidding/received', [MemberCompletedBiddingController::class,'received'])->name('member.completedBidding.received');
+    Route::post('/member/completed-bidding/send/fetch-all-enquiries', [MemberCompletedBiddingController::class,'fetchAllSendEnquiries'])->name('member.completedBidding.fetchAllSendEnquiries');
+    Route::post('/member/completed-bidding/received/fetch-all-enquiries', [MemberCompletedBiddingController::class,'fetchAllReceivedEnquiries'])->name('member.completedBidding.fetchAllReceivedEnquiries');
+    Route::any('/member/completed-bidding/fetch-enquiry', [MemberCompletedBiddingController::class,'fetchEnquiry'])->name('member.completedBidding.fetchEnquiry');
+// Completed Bidding Ends
 
 // Upcoming Events Starts
     Route::get('/member/upcoming-events', [MemberEventController::class,'index'])->name('member.upcomingEvents');

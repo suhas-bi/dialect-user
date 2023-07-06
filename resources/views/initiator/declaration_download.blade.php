@@ -177,8 +177,8 @@ p {
         <tr>
             <th scope="row">CR License</th>
             <td>
-                CR License No: {{ $company->document->doc_number ?? '' }}<br>
-                Expiry Date: {{ $company->document->expiry_date ?? '' }}
+                CR License No: {{ $company['document']['doc_number'] ?? '' }}<br>
+                Expiry Date: {{ $company['document']['expiry_date'] ?? '' }}
             </td>
         </tr>
     </tbody>

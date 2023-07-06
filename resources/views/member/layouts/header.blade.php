@@ -10,7 +10,7 @@
             <div id="mark-drop4">
                 <a href="#" class="" style="float: right;">{{ auth()->user()->name ?? '' }}</a>
                 <ul class="drop-profile2">
-                    <li onclick="window.location.href = '{{ route('procurement.profile') }}'">Profile Settings</li>
+                    <li onclick="window.location.href = '{{ route('member.profile') }}'">Profile Settings</li>
                     <li onclick="window.location.href = 'javascript:;'">Subscriptions</li>
                     <li><a href="{{ route('logout') }}" class="text-white">Logout</a></li>
                 </ul>
@@ -44,8 +44,8 @@
                 <li class="d-flex align-items-center {{ (request()->is('member/draft')) ? 'active' : '' }} draft"><a href="{{ route('member.draft') }}"> <i><img
                                 src="{{ asset('assets/images/draft-ico.svg') }}"></i></a><a href="{{ route('member.draft') }}" class="nav-txt">Draft</a>
                 </li>
-                <li class="d-flex align-items-center {{ (request()->is('member/completed-bidding')) ? 'active' : '' }} completed-bidding"><a href="{{ route('member.completedBidding') }}"> <i><img
-                                src="{{ asset('assets/images/completed-bidding-ico.svg') }}"></i></a><a href="{{ route('member.completedBidding') }}"
+                <li class="d-flex align-items-center {{ (request()->is('member/completed-bidding/*')) ? 'active' : '' }} completed-bidding"><a href="{{ route('member.completedBidding.send') }}"> <i><img
+                                src="{{ asset('assets/images/completed-bidding-ico.svg') }}"></i></a><a href="{{ route('member.completedBidding.send') }}"
                         class="nav-txt">Completed
                         Bidding </a></li>
                 <li class="d-flex align-items-center {{ (request()->is('member/upcoming-events')) ? 'active' : '' }} upcoming-events"><a href="{{ route('member.upcomingEvents') }}"> <i><img

@@ -1,5 +1,6 @@
 @extends('sales.layouts.app')
 @section('content')
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <!-- Header Starts -->
     @include('sales.layouts.header')
     <!-- Header Ends -->
@@ -110,10 +111,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script>
     $( function() {
 
         loadReceivedList();
+
+        
 
 
         $('body').on('click','.search_filter',function(){
@@ -202,6 +206,13 @@
                             </div>
                         </div>
                     </form>`);
+
+                    $('#body').summernote({
+                        height: 150,
+                        toolbar: [
+                            ['style', ['bold', 'italic', 'underline']],
+                        ]
+                    });
                     
         });
 

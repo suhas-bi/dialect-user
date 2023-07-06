@@ -45,8 +45,8 @@
                 <li class="d-flex align-items-center {{ (request()->is('procurement/draft')) ? 'active' : '' }} draft"><a href="{{ route('procurement.draft') }}"> <i><img
                                 src="{{ asset('assets/images/draft-ico.svg') }}"></i></a><a href="{{ route('procurement.draft') }}" class="nav-txt">Draft</a>
                 </li>
-                <li class="d-flex align-items-center {{ (request()->is('procurement/completed-bidding')) ? 'active' : '' }} completed-bidding"><a href="{{ route('procurement.completedBidding') }}"> <i><img
-                                src="{{ asset('assets/images/completed-bidding-ico.svg') }}"></i></a><a href="{{ route('procurement.completedBidding') }}"
+                <li class="d-flex align-items-center {{ (request()->is('procurement/completed-bidding/*')) ? 'active' : '' }} completed-bidding"><a href="{{ route('procurement.completedBidding.send') }}"> <i><img
+                                src="{{ asset('assets/images/completed-bidding-ico.svg') }}"></i></a><a href="{{ route('procurement.completedBidding.send') }}"
                         class="nav-txt">Completed
                         Bidding </a></li>
                 <li class="d-flex align-items-center {{ (request()->is('procurement/team-account/*')) ? 'active' : '' }} team-settings"><a href="{{ route('procurement.teamAccount.approval') }}"> <i><img

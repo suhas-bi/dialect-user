@@ -217,10 +217,15 @@
     @include('procurement.inbox.hold-popup')
     <!-- Hold model ends -->
 
+    <!-- Hold model starts -->
+    @include('procurement.inbox.share-popup')
+    <!-- Hold model ends -->
+
     <input type="hidden" id="change-date-url" value="{{ route('procurement.quote.editAcceptedDate') }}" />
     <input type="hidden" id="answer-faq-url" value="{{ route('procurement.answerFaq') }}" />
     <input type="hidden" id="skip-faq-url" value="{{ route('procurement.skipFaq') }}" />
     <input type="hidden" id="report-action-url" value="{{ route('procurement.report') }}" />
+    <input type="hidden" id="share-url" value="{{ route('procurement.share') }}" />
     @push('scripts')
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -329,6 +334,8 @@
                 $('.question-asked').hide();
             });
 
+            
+
             $('body').on('click','#change-date',function () {
                 var id = $(this).data('id');
                 $('#enquiry_id').val(id);
@@ -339,6 +346,7 @@
                 $('#change-date-model').modal('hide');
                 $('#answer-question').modal('hide');
                 $('#hold-popup').modal('hide');
+                $('#share-popup').modal('hide');
             });
 
             $('body').on('click','.report',function () {
@@ -777,7 +785,7 @@
                                      <a href="#" id="change-date" data-id="${enquiry.id}" class="edit-ico"></a>
                                  </div>
                                  <div class="completed-screening d-flex align-items-center">
-                                       <a href="#" class="share-btn" data-toggle="modal" data-target="#share-popup">Share</a>
+                                       <a href="#" class="share-btn" data-id="${enquiry.id}" data-reference_no="${enquiry.reference_no}" data-subject="${enquiry.subject}" data-date="${enquiry.created_at}">Share</a>
                                  </div>`;
                     $('#quote-options').append(ribbon); 
 
@@ -908,6 +916,55 @@
                     console.log(error);
                  });
         }
+
+        $('body').on('click','.share-btn',function () {
+            var id = $(this).data('id');
+            var ref_no = $(this).data('reference_no');
+            var subject = $(this).data('subject');
+            var enquiry_date = $(this).data('date');
+            $('#id').val(id);
+            $('#reference_no').text(ref_no);
+            $('#subject').text(subject);
+            $('#enquiry_date').text(enquiry_date);
+            $('#share-popup').modal('show');
+        });
+
+        $('body').on('click','#save-share',function () {
+                var shareAction = $('#share-url').val();
+                var id = $('#id').val();
+                var shared_to = $('.shared_to').val();
+                var share_priority = $('.share_priority').val();
+                axios.post(shareAction, {id:id, shared_to : shared_to, share_priority: share_priority})
+                    .then((response) => {
+                        // Handle success response
+                        Swal.fire({
+                            toast: true,
+                            icon: 'success',
+                            title: "Shared Quote",
+                            animation: false,
+                            position: 'top-right',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        });
+                        window.location.href="/procurement/review-list/send";
+                    })
+                    .catch((error) => { 
+                        // Handle error response
+                        if (error.response.status == 422) {
+                            $.each(error.response.data.errors, function(field, errors) {
+                                var select = $('select[name="' + field + '"]');
+                                select.addClass('red-border');
+                                var span = $("#"+field+"_error");
+                                span.text(errors[0]).show();
+                            });
+                        }      
+                    });
+            });
 
 
       // Function to sort the bid list by company name

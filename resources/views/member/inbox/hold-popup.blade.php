@@ -9,11 +9,11 @@
                     </button>
                 </div>
                 <div class="modal-body row">
-                    <div class="col-md-12 common-popup">
+                    <div class="col-md-12 common-popup position-relative">
                         <input id="reply_id" type="hidden" name="reply_id" class="form-control">
-
                         <label>Remarks <span class="mandatory">*</span></label>
                         <textarea class="form-control" id="reason" name="reason" rows="3" maxlength="100"></textarea>
+                        <div class="invalid-msg2"></div>
                     </div>
                 </div>
                 <div class="modal-footer model-footer-padd">

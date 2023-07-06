@@ -24,19 +24,26 @@ class EnquiryReplyResource extends JsonResource
             'created_at' => Carbon::parse($this->created_at)->format('d F, Y'),
             'created_time' => Carbon::parse($this->created_at)->diffForHumans(),
             'status' => $this->status,
-            'status_text' => $this->status_text($this->status),
+            'status_text' => $this->status_text($this->status,$this->is_selected),
             'status_color' => $this->status_color($this->status),
             'hold_reason' => $this->hold_reason,
+            'suggested_remarks' => $this->suggested_remarks,
+            'is_selected' => $this->is_selected,
             'attachments' => $this->attachments  
         ];
     }
 
-    public function status_text($status){
+    public function status_text($status,$is_selected){
         if($status == 0){
             return 'Pending Review';
         }
         else if($status == 1){
-            return 'Shortlisted';
+            if($is_selected == 1){
+                return 'Selected';
+            }
+            else{
+                return 'Shortlisted';
+            }  
         }
         else if($status == 2){
             return 'On Hold';

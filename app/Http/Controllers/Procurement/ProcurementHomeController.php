@@ -7,6 +7,7 @@ use App\Http\Resources\Procurement\BidInboxListResource;
 use App\Http\Resources\Procurement\EnquiryResource;
 use App\Http\Requests\Procurement\AnswerFaqRequest;
 use App\Http\Requests\Procurement\HoldRequest;
+use App\Http\Requests\Procurement\ShareRequest;
 use App\Http\Resources\Procurement\EnquiryReplyResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -37,7 +38,8 @@ class ProcurementHomeController extends Controller
         $user = auth()->user();
         $user->update(['token'=>'']);
         $company_id = auth()->user()->company_id;
-        return view('procurement.inbox.index');
+        $members = CompanyUser::where(['company_id' => $company_id,'role' => 4])->get();
+        return view('procurement.inbox.index',compact('members'));
     }
 
     public function fetchAllEnquiries(Request $request){
@@ -62,7 +64,7 @@ class ProcurementHomeController extends Controller
         
             $query->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
         }
-        $enquiries = $query->whereNull('parent_reference_no')->groupBy('reference_no')->latest()->get();
+        $enquiries = $query->notShared()->latest()->get();
         return response()->json([
             'status' => true,
             'enquiries' => BidInboxListResource::collection($enquiries),
@@ -212,6 +214,29 @@ class ProcurementHomeController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Reported Content',
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function share(ShareRequest $request){
+        DB::beginTransaction();
+        try{
+            Enquiry::findOrFail($request->id)->update([
+                 'shared_to' => $request->shared_to,
+                 'share_priority' => $request->share_priority,
+                 'shared_at' => now()
+            ]);
+
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => 'Enquiry shared',
             ], 200);
         } catch (\Exception $e) {
             DB::rollback();

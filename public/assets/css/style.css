@@ -2407,14 +2407,14 @@ box-shadow: inset -9px 8px 16px 1px rgba(110,121,188,0.2);
   font-size: 16px;
 }
 .verified{
- border-radius: 7px;
- background: #E2FFDD;
- color: #58B76D;
- font-size: 12px;
- font-weight: 500;
- padding: 5px 15px;
- margin-left: 15px;
-}
+    border-radius: 7px;
+    background: #77D064;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 15px;
+    margin-left: 15px;
+   }
 .bid-detail-head .date-status{
   font-size: 14px;
 }
@@ -2472,19 +2472,19 @@ box-shadow: inset -9px 8px 16px 1px rgba(110,121,188,0.2);
   margin-right: 8px;
   margin-bottom: 8px;
   border: 1px solid #05599A;
-  padding: 8px 13px;
+  padding: 8px 13px 8px 30px;
   text-align:left;
   font-size: 13px;
   font-family: 'Lato', sans-serif;
   font-weight: normal;
   color: #05599A;
+  background: url(../images/download-ico.svg) 8px 11px no-repeat;
 }
 
 .attachmets-list:hover{
   border: 1px solid #003a66;
-  background: #F2FAFF;
+  background: #F2FAFF url(../images/download-ico.svg) 8px 11px no-repeat;
 }
-
 
 .create-qoute{
   display: block;
@@ -4279,6 +4279,16 @@ textarea.reply-area:focus-visible {
   border: 1px dashed #0077FF;
   border-radius: 3px;
   outline: none;
+}
+.expressed-interest{
+  font-style: italic;
+  color: #071D49;
+  background: url(../images/like-icon.svg) 0px 5px no-repeat;
+  padding-left: 25px;
+}
+.expressed-interest span{
+  display: block;
+  color: #697B9E;
 }
 /*--------------------------------------------------------------
 Footer

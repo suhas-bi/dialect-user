@@ -115,6 +115,8 @@
                 },
                 success: function(data) {
                     if(data.status === true){
+                        $('.input-key').val('');
+                        $('#digit-1').focus();
                         $('#timer-zone').show();
                         timer(300);
                     }

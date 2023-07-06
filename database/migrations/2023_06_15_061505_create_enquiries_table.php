@@ -29,6 +29,10 @@ return new class extends Migration
             $table->integer('approve_status')->default(0); /* 0 => Pending, 1=> Approved, 2 => Rejected */ 
             $table->unsignedBigInteger('verified_by')->nullable();
             $table->datetime('verified_at')->nullable();
+            $table->unsignedBigInteger('shared_to')->nullable();
+            $table->integer('share_priority')->nullable();
+            $table->datetime('shared_at')->nullable();
+            $table->integer('is_completed')->default(0);
             $table->string('subject')->nullable();
             $table->longText('body')->nullable();
             $table->date('expired_at')->nullable();

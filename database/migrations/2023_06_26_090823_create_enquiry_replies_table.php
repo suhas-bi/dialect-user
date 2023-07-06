@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('type')->default(2); /* 1 => interest 2 => reply */
             $table->integer('status')->default(0); /* 0 => Pending Review, 1 => Shortlisted, 2 => On Hold */ 
             $table->string('hold_reason')->nullable();
+            $table->string('suggested_remarks')->nullable();
+            $table->integer('is_selected')->default(0);
             $table->timestamps();
         });
     }

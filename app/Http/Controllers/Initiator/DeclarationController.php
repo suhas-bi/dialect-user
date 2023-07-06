@@ -136,7 +136,7 @@ class DeclarationController extends Controller
             return redirect()->back();
         }
 
-        $data  = Company::with('locations','activities')->find($comp->id)->toArray();
+        $data  = Company::with('document','locations','activities')->find($comp->id)->toArray();
         view()->share('company',$data);
         $pdf = PDF::loadView('initiator.declaration_download', $data);
         return $pdf->download('declaration.pdf');
