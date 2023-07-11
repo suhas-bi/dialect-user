@@ -103,7 +103,7 @@
                                 </div>
 
                                 <div class="form-group proceed-btn">
-                                    <button type="submit" value="Proceed" class="btn btn-secondary">
+                                    <button id="submit" type="submit" value="Proceed" class="btn btn-secondary">
                                         <i class="fa fa-repeat fa-spin text-white loader"></i>
                                         <span class="text-white">Proceed</span>
                                     </button>
@@ -126,6 +126,7 @@
         $('#country_code').val(code);
         $('#sign-up-form').submit(function(e) {
             e.preventDefault(); 
+            $('#submit').prop('disabled',true);
             $('.invalid-msg2').hide();
             var formData = $(this).serialize(); 
             var action = $(this).attr('action');
@@ -144,6 +145,7 @@
                     //console.log(data);
                 },
                 error: function(xhr, status, error) {
+                    $('#submit').prop('disabled',false);
                     if(xhr.responseJSON.status === false){
                         Swal.fire({
                             toast: true,
@@ -162,6 +164,7 @@
                     var response = JSON.parse(xhr.responseText);
                     var firstErrorField = null;
                     if (response.errors) {
+                        $('input').removeClass('red-border');
                         $.each(response.errors, function(field, errors) {
                             if(field === 'mobile'){
                                 var minput = $('input[name="' + field + '"]');
@@ -182,6 +185,7 @@
                     }
                 },
                 complete: function(data) {
+                    $('#submit').prop('disabled',false); 
                     $('.loader').hide();
                 }
             });
@@ -192,7 +196,7 @@
         var code = $('.country  option:selected').data('phone_code');
         $('#country_code').val(code);
     });
-
+ 
     function allowNumbersOnly(e) {
         var code = (e.which) ? e.which : e.keyCode;
         if (code > 31 && (code < 48 || code > 57)) {

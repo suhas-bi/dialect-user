@@ -24,7 +24,7 @@ class NewQuoteRequest extends FormRequest
     {
         return [
             'subject' => ['required','max:255'],
-            'body' => ['required','max:255'],
+            'body' => ['required'],
             'country_id' => ['required'],
             'region_id' => ['required'],
             'expired_at' => ['required']

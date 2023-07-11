@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Sales;
+namespace App\Http\Requests\Procurement;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\AtLeastOneCheckboxSelected;
 
-class SendBidRequest extends FormRequest
+class SuggestionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +23,14 @@ class SendBidRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'body' => ['required'],
+            'comment' => ['required'],
         ];
     }
 
     public function messages()
     {
         return [
-            'body.required' => 'Please enter you content',
+            'comment.required' => 'Please enter your comments.',
         ];
     }
 }

@@ -18,8 +18,8 @@ return new class extends Migration
             $table->integer('role');  /* 1 => Admin, 2 => Procurement, 3 => Sales, 4 => Member */
             $table->string('designation')->nullable();
             $table->string('email');
-            $table->string('country_code');
-            $table->string('mobile');
+            $table->string('country_code')->nullable();
+            $table->string('mobile')->nullable();
             $table->string('country_code_landline')->nullable();
             $table->string('landline')->nullable();
             $table->string('extension')->nullable();

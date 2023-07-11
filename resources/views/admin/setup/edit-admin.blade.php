@@ -102,7 +102,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <label>Mobile <span class="mandatory">*</span></label>
+                                                        <label>Mobile </label>
                                                         <div class="d-flex">
                                                             <input type="text" value="+974" placeholder="+974" class="form-control mobile-code" readonly>
                                                             <input id="admin-mobile" type="text" name="admin_mobile" value="{{ old('admin_mobile') ?? $admin->mobile ?? '' }}" placeholder="Mobile" class="form-control mobile-number @error('admin_mobile') red-border @enderror">
@@ -171,7 +171,6 @@
                                             </div>
                                         </li>
                                     </ul>
-
                                     <span class="accnt-note">Note:  All your account holders should verify and activate their respective accounts to complete the registration</span>
                                 </div>
                             </div>
@@ -181,14 +180,11 @@
                             <div class="already-signup">
                                 <span class="need-help">Need help?</span> <span class="call-expert">Call an expert</span> <span class="expert-number">+974 123456</span>
                             </div>
-
                             <div class="form-group proceed-btn">
                                 
                             </div>
-
                         </div>
                     </section>
-
                 </section>
             </div>
         </section>

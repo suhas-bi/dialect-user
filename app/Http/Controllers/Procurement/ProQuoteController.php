@@ -241,7 +241,13 @@ class ProQuoteController extends Controller
       
             return response()->json([
                 'status' => true,
-                'message' => 'Saved as draft!',
+                'message' => '<div class="col-md-12 common-popup">
+                                <h1 class="quote-generated-title text-center">Quote Generated</h1>
+                                <div class="quote-popup-content">
+                                    Quote generated successfully.<br>
+                                    Your Reference ID is <span>'.$ref_no.'</span>
+                                </div>
+                            </div>',
             ], 200);
 
         } catch (\Exception $e) {
@@ -254,10 +260,12 @@ class ProQuoteController extends Controller
     }
 
     public function referenceNo($company_id){
+        $enquiryCount = 0;
         $company = Company::with('document')->find($company_id);
         $doc = $company->document->doc_number;
         $year = date('Y');
-        $enquiryCount = Enquiry::where('company_id',$company->id)->where('from_id',auth()->user()->id)->whereYear('created_at', '=', $year)->distinct()->count('reference_no') + 1;
+        $enquiryCount = Enquiry::where('company_id',auth()->user()->company_id)->where('from_id',auth()->user()->id)->whereYear('created_at',$year)->count('reference_no');
+        $enquiryCount += 1;
         return $doc.'-'.$enquiryCount.'-'.$year;
     }
 

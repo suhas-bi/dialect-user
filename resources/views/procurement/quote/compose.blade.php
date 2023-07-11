@@ -153,10 +153,19 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<!-- include tiny mce -->
+<script src="https://cdn.tiny.cloud/1/53gufofzyseq6n0xay58wh3b8h9akdcb9cjdcqvpan799eio/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
     $( function() {
 
+      
+        tinymce.init({
+            selector: 'textarea#body',
+            menubar: false,
+            plugins: 'anchor autolink charmap emoticons link lists searchreplace table visualblocks wordcount checklist casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            tinycomments_mode: 'embedded',
+        });
 
         
      
@@ -261,7 +270,16 @@
         });
 
         $('#draft').on('click',function(){
-            var formData = $('#enquiry_form').serialize();
+            var editorContent = tinymce.get('body').getContent();
+            var formData = new FormData();
+            
+            var serializedData = $('#enquiry_form').serializeArray();
+            $.each(serializedData, function(index, field) {
+                formData.append(field.name, field.value);
+            });
+            formData.delete('body');
+            formData.append('body', editorContent);
+
             var action = "{{ route('procurement.quote.saveAsDraft') }}";
             axios.post(action, formData)
             .then((response) => {
@@ -277,13 +295,27 @@
         });
 
         $('#generate').on('click',function(){ 
-            var formData = $('#enquiry_form').serialize();
+            var editorContent = tinymce.get('body').getContent();
+            var formData = new FormData();
+            
+            var serializedData = $('#enquiry_form').serializeArray();
+            $.each(serializedData, function(index, field) {
+                formData.append(field.name, field.value);
+            });
+            formData.delete('body');
+            formData.append('body', editorContent);
+
             var action = "{{ route('procurement.quote.generateQuote') }}";
             axios.post(action, formData)
             .then((response) => {
                 // Handle success response
                 if(response.data.status === true){
-                    window.location.href = '/procurement/dashboard';
+                    Swal.fire({
+                        html: response.data.message,
+                        showCancelButton: false,
+                    }).then(function (willDelete) {
+                        window.location.href = '/procurement/dashboard';
+                    });
                 }
             })
             .catch((error) => {

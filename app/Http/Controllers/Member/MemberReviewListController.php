@@ -9,6 +9,7 @@ use App\Http\Requests\Member\AnswerFaqRequest;
 use App\Http\Requests\Member\HoldRequest;
 use App\Http\Requests\Member\ShareRequest;
 use App\Http\Requests\Member\ShareRecallRequest;
+use App\Http\Requests\Member\SuggestionRequest;
 use App\Http\Resources\Member\EnquiryReplyResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -18,6 +19,7 @@ use App\Mail\OTP;
 use App\Models\Company;
 use App\Models\CompanyUser;
 use App\Models\Enquiry;
+use App\Models\EnquiryReply;
 use App\Models\ShareRecallHistory;
 use DB;
 use Auth;
@@ -127,6 +129,25 @@ public function fetchEnquiry(Request $request){
           ], 500);
       }
   }
+
+  public function sendSuggestion(SuggestionRequest $request){
+    DB::beginTransaction(); 
+    try{
+        EnquiryReply::findOrFail($request->id)->update(['suggested_remarks' => $request->comment]);
+        DB::commit();
+        
+        return response()->json([
+            'status' => true,
+            'message' => 'Success',
+        ], 200);
+    } catch (\Exception $e) {
+        DB::rollback();
+        return response()->json([
+            'status' => false,
+            'message' => $e->getMessage()
+        ], 500);
+    }
+}
 
   public function recallShare(ShareRecallRequest $request){
       DB::beginTransaction();

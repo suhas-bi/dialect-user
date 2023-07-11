@@ -48,7 +48,8 @@ use App\Http\Controllers\Member\{
     MemberDraftController,
     MemberReviewListController,
     MemberCompletedBiddingController,
-    MemberEventController
+    MemberEventController,
+    MemberProfileController,
 };
 
 /*
@@ -158,7 +159,7 @@ Route::group(['middleware' => 'check.role:2'],function() {
 
     Route::post('/procurement/report', [ProcurementHomeController::class,'report'])->name('procurement.report');
     
-// Inbox
+// Bid Inbox Starts
     Route::any('/procurement/dashboard', [ProcurementHomeController::class,'index'])->name('procurement.dashboard');
     Route::any('/procurement/fetch-all-enquiries', [ProcurementHomeController::class,'fetchAllEnquiries'])->name('procurement.fetchAllEnquiries');
     Route::any('/procurement/fetch-enquiry', [ProcurementHomeController::class,'fetchEnquiry'])->name('procurement.fetchEnquiry');
@@ -168,6 +169,8 @@ Route::group(['middleware' => 'check.role:2'],function() {
     Route::post('/procurement/shortlist',[ProcurementHomeController::class,'shortlist'])->name('procurement.shortlist');
     Route::post('/procurement/hold',[ProcurementHomeController::class,'hold'])->name('procurement.hold');
     Route::post('/procurement/share',[ProcurementHomeController::class,'share'])->name('procurement.share');
+// Bid Inbox Ends
+
 // Review List Start
     Route::get('/procurement/review-list/send', [ReviewListController::class,'send'])->name('procurement.reviewList.send');
     Route::post('/procurement/review-list/send/fetch-all-enquiries', [ReviewListController::class,'fetchAllSendEnquiries'])->name('procurement.reviewList.fetchAllSendEnquiries');
@@ -177,8 +180,7 @@ Route::group(['middleware' => 'check.role:2'],function() {
     Route::get('/procurement/review-list/received', [ReviewListController::class,'received'])->name('procurement.reviewList.received');
     Route::post('/procurement/review-list/mark-as-completed', [ReviewListController::class,'markAsCompleted'])->name('procurement.reviewList.markAsCompleted');
     Route::post('/procurement/review-list/recall-share', [ReviewListController::class,'recallShare'])->name('procurement.reviewList.recallShare');
-
-
+    Route::post('/procurement/review-list/save-suggestion', [ReviewListController::class,'sendSuggestion'])->name('procurement.reviewList.sendSuggestion');
 // Review List End
 
 
@@ -306,6 +308,7 @@ Route::group(['middleware' => 'check.role:4'],function() {
     Route::get('/member/review-list/received', [MemberReviewListController::class,'received'])->name('member.reviewList.received');
     Route::post('/member/review-list/mark-as-completed', [MemberReviewListController::class,'markAsCompleted'])->name('member.reviewList.markAsCompleted');
     Route::post('/member/review-list/recall-share', [MemberReviewListController::class,'recallShare'])->name('member.reviewList.recallShare');
+    Route::post('/member/review-list/save-suggestion', [MemberReviewListController::class,'sendSuggestion'])->name('member.reviewList.sendSuggestion');
 
     
 // Review List Ends

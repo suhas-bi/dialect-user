@@ -7,6 +7,7 @@ use App\Http\Resources\Member\BidInboxListResource;
 use App\Http\Resources\Member\EnquiryResource;
 use App\Http\Resources\Member\EnquiryReplyResource;
 use App\Http\Requests\Member\AnswerFaqRequest;
+use App\Http\Requests\Member\ShareRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Cache;
@@ -212,6 +213,29 @@ class MemberHomeController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Reported Content',
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function share(ShareRequest $request){
+        DB::beginTransaction();
+        try{
+            Enquiry::findOrFail($request->id)->update([
+                 'shared_to' => $request->shared_to,
+                 'share_priority' => $request->share_priority,
+                 'shared_at' => now()
+            ]);
+
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => 'Enquiry shared',
             ], 200);
         } catch (\Exception $e) {
             DB::rollback();

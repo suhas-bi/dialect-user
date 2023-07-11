@@ -41,7 +41,7 @@
                             <div class="form-group row px-3 position-relative">
                                 <i class="password-ico"></i>
                                 <input id="password" name="password" type="password" placeholder="Password" tabindex="2"
-                                    class="form-control border-info placeicon">
+                                    class="form-control border-info placeicon mb-4">
                                 <i class="eye-ico" id="show-hide"></i>
                                 <div class="invalid-msg">@error('password'){{ $message }} @enderror</div>
                             </div>

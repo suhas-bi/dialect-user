@@ -143,7 +143,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label>Mobile <span class="mandatory">*</span></label>
+                                                            <label>Mobile </label>
                                                             <div class="d-flex">
                                                                 <input type="text" value="+974" placeholder="+974" class="form-control mobile-code" readonly>
                                                                 <input id="mobile" type="text" name="mobile" value="{{ old('mobile') ?? $sales->mobile ?? '' }}" placeholder="Mobile" class="form-control mobile-number @error('mobile') red-border @enderror">

@@ -12,17 +12,14 @@
                 <section class="reg-content-main">
                     <div class="reg-navigation-main">
                         <ul class="d-flex align-items-center">
-
                             <li class="d-flex align-items-center active-first-noradius">
                                 <small class="reg-nav-count-active d-flex align-items-center justify-content-center">1</small>
                                 Signup
                             </li>
-
                             <li class="d-flex align-items-center active-noradius">
                                 <small class="reg-nav-count-active d-flex align-items-center justify-content-center">2</small>
                                 Company<br>Information
                             </li>
-
                             <li class="d-flex align-items-center active-noradius">
                                 <small class="reg-nav-count-active d-flex align-items-center justify-content-center">3</small>
                                 Business<br>Category
@@ -35,8 +32,7 @@
                                 <div class="bg-purple"></div>
                                 <span class="verticalLine-active"></span>
                                 <small class="round-active"></small>
-                                Review
-                                <br>Verification
+                                Review<br>Verification
                             </li>
                             <li class="d-flex align-items-center account-creation active">
                                 <div class="account-corner-bg"></div>
@@ -47,9 +43,7 @@
                                 <small class="reg-nav-count d-flex align-items-center justify-content-center">6</small>
                                 Completion
                             </li>
-
                         </ul>
-                        
                     </div>
                     
                     <section class="reg-content-sec">
@@ -114,7 +108,6 @@
                                             </div>
                                         </li>
                                     </ul>
-
                                     <span class="accnt-note">Note:  All your account holders should verify and activate their respective accounts to complete the registration</span>
                                 </div>
                             </div>
@@ -124,14 +117,11 @@
                             <div class="already-signup">
                                 <span class="need-help">Need help?</span> <span class="call-expert">Call an expert</span> <span class="expert-number">+974 123456</span>
                             </div>
-
                             <div class="form-group proceed-btn">
                                 
                             </div>
-
                         </div>
                     </section>
-
                 </section>
             </div>
         </section>

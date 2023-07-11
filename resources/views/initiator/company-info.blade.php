@@ -256,7 +256,7 @@
                                 </div>
 
                                 <div class="form-group proceed-btn">
-                                    <button type="submit" value="Proceed" class="btn btn-secondary" tabindex="17">
+                                    <button id="submit" type="submit" value="Proceed" class="btn btn-secondary" tabindex="17">
                                         <i class="fa fa-repeat fa-spin text-white loader"></i>
                                         <span class="text-white">Proceed</span>
                                     </button>
@@ -440,6 +440,7 @@
 
         $('#company-info').submit(function(e) {
             e.preventDefault(); 
+            $('#submit').prop('disabled',true);
             $('.loader').show();
             $('.invalid-msg2').hide();
             var files = $('#upload')[0].files;
@@ -451,7 +452,7 @@
                     'Content-Type': 'multipart/form-data'
                     }
                 })
-                .then((response) => {
+                .then((response) => { 
                     // Handle success response
                     if(response.data.status === true){
                         localStorage.setItem('data', JSON.stringify(response.data.user));
@@ -460,6 +461,7 @@
                 })
                 .catch((error) => {
                     // Handle error response
+                    $('#submit').prop('disabled',false);
                     var firstErrorField = null;
                     if(error.response.data.type == 'superseed'){
                         Swal.fire('Warning!', 'Your company has already been registered with us!.','warning');

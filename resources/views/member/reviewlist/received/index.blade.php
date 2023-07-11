@@ -557,10 +557,47 @@
              var id = $(this).data('id');
              $('#add-comment-id').val(id);
              $('#add-comments').modal('show');
-        });
+        }); 
 
         $('body').on('click','.close',function(){
              $('#add-comments').modal('hide');
+        });
+
+        $('body').on('click','#save-comment',function(){
+            var id = $('#add-comment-id').val();
+            var comment = $('#comment').val();
+            var saveSuggestionAction = "{{ route('member.reviewList.sendSuggestion') }}";
+            axios.post(saveSuggestionAction, {id:id,comment:comment})
+                 .then((response) => {
+                    Swal.fire({
+                        toast: true,
+                        icon: 'success', 
+                        title: "Updated",
+                        animation: false,
+                        position: 'top-right',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                    $('#comment').val(' ');
+                    $('#comment').removeClass('red-border');
+                    $('.invalid-msg2').text(' ');
+                    $('#add-comments').modal('hide'); 
+                 })
+                 .catch((error) => {
+                    if (error.response.status == 422) {
+                        $.each(error.response.data.errors, function(field, errors) {
+                            var textarea = $('textarea[name="' + field + '"]');
+                            textarea.addClass('red-border');
+                            var textareafeedback = textarea.siblings('.invalid-msg2');
+                            textareafeedback.text(errors[0]).show();
+                        });
+                    }     
+                 });
         });
 
 

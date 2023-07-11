@@ -132,7 +132,8 @@
                             </div>
 
                             <div class="form-group proceed-btn">
-                                <input type="submit" value="Proceed" class="btn btn-secondary" onclick="window.location.href = 'declaration';">
+                                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#selected-categories">Proceed</button>
+                                <!-- <input type="submit" value="Proceed" class="btn btn-secondary" onclick="window.location.href = 'declaration';"> -->
                             </div>
                         </div>
                     </section>

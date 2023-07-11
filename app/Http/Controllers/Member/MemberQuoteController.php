@@ -288,7 +288,7 @@ class MemberQuoteController extends Controller
                   ->where('company_locations.region_id',$region_id);
         }                 
         $data = $query->get(); 
-        dd($data);
+        
         return $recipients = $data->toArray();
     }
 

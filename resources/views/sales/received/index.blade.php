@@ -1,7 +1,6 @@
 @extends('sales.layouts.app')
 @section('content')
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-    <!-- Header Starts -->
+  <!-- Header Starts -->
     @include('sales.layouts.header')
     <!-- Header Ends -->
 
@@ -111,7 +110,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<!-- include tiny mce -->
+<script src="https://cdn.tiny.cloud/1/53gufofzyseq6n0xay58wh3b8h9akdcb9cjdcqvpan799eio/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
 <script>
     $( function() {
 
@@ -207,12 +208,13 @@
                         </div>
                     </form>`);
 
-                    $('#body').summernote({
-                        height: 150,
-                        toolbar: [
-                            ['style', ['bold', 'italic', 'underline']],
-                        ]
-                    });
+            tinymce.init({
+                selector: 'textarea#body',
+                menubar: false,
+                plugins: 'anchor autolink charmap emoticons link lists searchreplace table visualblocks wordcount checklist casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
+                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+                tinycomments_mode: 'embedded',
+            });       
                     
         });
 
@@ -222,9 +224,17 @@
         })
 
         $('body').on('click','#send-respone',function(){
-             var formdata = $('#bid-compose-form').serialize();
+            var editorContent = tinymce.get('body').getContent();
+            var formData = new FormData();
+            var serializedData = $('#bid-compose-form').serializeArray();
+            $.each(serializedData, function(index, field) {
+                formData.append(field.name, field.value);
+            });
+            formData.delete('body');
+            formData.append('body', editorContent);
+
              var sendBidAction = "{{ route('sales.sendBid') }}";
-             axios.post(sendBidAction, formdata)
+             axios.post(sendBidAction, formData)
                     .then((response) => {
                         // Handle success response
                         Swal.fire({

@@ -20,6 +20,7 @@ class EnquiryReplyResource extends JsonResource
             'enquiry_id' => $this->enquiry_id,
             'sender' => $this->sender,
             'sender_company' => $this->sender->company,
+            'short_body' => $this->shortBody($this->body),
             'body' => $this->body,
             'created_at' => Carbon::parse($this->created_at)->format('d F, Y'),
             'created_time' => Carbon::parse($this->created_at)->diffForHumans(),
@@ -31,6 +32,17 @@ class EnquiryReplyResource extends JsonResource
             'is_selected' => $this->is_selected,
             'attachments' => $this->attachments  
         ];
+    }
+
+    function shortBody($content, $limit = 200, $stripTags = true, $ellipsis = true) 
+    {
+        if ($content && $limit) {
+            $content  = ($stripTags ? strip_tags($content) : $content);
+            $ellipsis = ($ellipsis ? "..." : $ellipsis);
+            $content  = mb_strimwidth($content, 0, $limit, $ellipsis);
+            $content  = preg_replace('/(&nbsp;|\s)+/', ' ', $content); // Remove white spaces and &nbsp; entities
+        }
+        return $content;
     }
 
     public function status_text($status,$is_selected){

@@ -841,7 +841,7 @@
                                     <div class="row all-bid-list d-flex align-items-center justify-content-center">
                                         <div class="col-md-6">
                                             <a href="#" class="bid-detail" data-reply_id="${all_reply.id}">${all_reply.sender_company.name}</a>
-                                            <p>${all_reply.body}</p>
+                                            <p>${all_reply.short_body}</p>
                                         </div>
                                         <div class="col-md-3 d-flex align-items-center justify-content-center"><span
                                                 class="date">${all_reply.created_at}</span></div>
@@ -858,7 +858,7 @@
                                     <div class="row all-bid-list d-flex align-items-center justify-content-center">
                                         <div class="col-md-6">
                                             <a href="#" class="bid-detail" data-reply_id="${shortlist.id}">${shortlist.sender_company.name}</a>
-                                            <p>${shortlist.body}</p>
+                                            <p>${shortlist.short_body}</p>
                                         </div>
                                         <div class="col-md-3 d-flex align-items-center justify-content-center"><span
                                                 class="date">${shortlist.created_at}</span></div>

@@ -12,17 +12,14 @@
                 <section class="reg-content-main">
                     <div class="reg-navigation-main">
                         <ul class="d-flex align-items-center">
-
                             <li class="d-flex align-items-center active-first-noradius">
                                 <small class="reg-nav-count-active d-flex align-items-center justify-content-center">1</small>
                                 Signup
                             </li>
-
                             <li class="d-flex align-items-center active-noradius">
                                 <small class="reg-nav-count-active d-flex align-items-center justify-content-center">2</small>
                                 Company<br>Information
                             </li>
-
                             <li class="d-flex align-items-center active-noradius">
                                 <small class="reg-nav-count-active d-flex align-items-center justify-content-center">3</small>
                                 Business<br>Category
@@ -47,9 +44,7 @@
                                 <small class="reg-nav-count d-flex align-items-center justify-content-center">6</small>
                                 Completion
                             </li>
-
                         </ul>
-                        
                     </div>
                     
                     <section class="reg-content-sec">
@@ -123,7 +118,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label>Mobile <span class="mandatory">*</span></label>
+                                                            <label>Mobile </label>
                                                             <div class="d-flex">
                                                                 <input type="text" value="+974" placeholder="+974" class="form-control mobile-code" readonly>
                                                                 <input id="mobile" type="text" name="mobile" value="{{ old('mobile') ?? $procurement->mobile ?? '' }}" placeholder="Mobile" class="form-control mobile-number @error('mobile') red-border @enderror">
@@ -143,7 +138,6 @@
                                                             <input id="extension" type="text" name="extension" value="{{ old('extension') ?? $procurement->extension ?? '' }}" placeholder="Extension" class="form-control @error('extension') red-border @enderror">
                                                             <div class="invalid-msg2">@error('extension'){{ $message }}@enderror</div>
                                                         </div>
-
                                                         <div class="d-flex justify-content-end">
                                                             <button type="submit" class="save-continue-btn">Save and Continue</button>
                                                         </div>
@@ -172,24 +166,19 @@
                                             </div>
                                         </li>
                                     </ul>
-
                                     <span class="accnt-note">Note:  All your account holders should verify and activate their respective accounts to complete the registration</span>
                                 </div>
                             </div>
                         </div>
-
                         <div class="d-flex justify-content-between justify-content-center">
                             <div class="already-signup">
                                 <span class="need-help">Need help?</span> <span class="call-expert">Call an expert</span> <span class="expert-number">+974 123456</span>
                             </div>
-
                             <div class="form-group proceed-btn">
                                 
                             </div>
-
                         </div>
                     </section>
-
                 </section>
             </div>
         </section>
